@@ -1,0 +1,3972 @@
+{
+  "took": 15,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 18,
+      "relation": "eq"
+    },
+    "max_score": 67.444695,
+    "hits": [
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "2244902",
+        "_score": 67.444695,
+        "_source": {
+          "attribute_set_id": 20,
+          "created_at": "2021-01-18 07:49:08",
+          "updated_at": "2025-08-06 23:28:04",
+          "type_id": "simple",
+          "sku": "1266065       ",
+          "id": 2244902,
+          "name": "Державець",
+          "image": "/3/6/362_1_1.jpg",
+          "small_image": "/3/6/362_1_1.jpg",
+          "thumbnail": "/3/6/362_1_1.jpg",
+          "url_key": "derzhavec-2244902",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_binding_type_label": [
+            {
+              "option_id": "332270",
+              "attribute_id": "2945",
+              "attribute_label": "Тип обкладинки",
+              "label": "М'яка",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Mjagkij"
+            }
+          ],
+          "book_binding_type": [332270],
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_page_count_label": [
+            {
+              "attribute_label": "Кількість сторінок",
+              "label": "88"
+            }
+          ],
+          "book_page_count": "88",
+          "book_publisher_label": [
+            {
+              "option_id": "866852",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "Андронум",
+              "url_path": "book_publisher/view/Andronum",
+              "sort_order": "100",
+              "option_code": "Andronum"
+            }
+          ],
+          "book_publisher": [866852],
+          "book_translator_label": [
+            {
+              "option_id": "360679",
+              "attribute_id": "2965",
+              "attribute_label": "Перекладач",
+              "label": "Ярослав Мишанич",
+              "url_path": "book_translator/view/Jaroslav_Mishanich",
+              "sort_order": "100",
+              "option_code": "Jaroslav_Mishanich"
+            }
+          ],
+          "book_translator": [360679],
+          "barcode": "9780880000444",
+          "book_binding_label": [
+            {
+              "attribute_label": "Формат",
+              "label": "145х205 мм"
+            }
+          ],
+          "book_binding": "145х205 мм",
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "978-088-0000-44-4"
+            }
+          ],
+          "book_isbn": "978-088-0000-44-4",
+          "book_print_label": [
+            {
+              "option_id": "733264",
+              "attribute_id": "3987",
+              "attribute_label": "Папір",
+              "label": "Офсетний",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Ofsetnaja"
+            }
+          ],
+          "book_print": [733264],
+          "book_illustration_label": [
+            {
+              "option_id": "733254",
+              "attribute_id": "3988",
+              "attribute_label": "Ілюстрації",
+              "label": "Немає ілюстрацій",
+              "url_path": "book_illustration/view/Net_illjustracij",
+              "sort_order": "0",
+              "option_code": "Net_illjustracij"
+            }
+          ],
+          "book_illustration": [733254],
+          "for_filter_is_in_stock": [740596],
+          "marketplace_id": "yakaboo",
+          "book_publication_label": [
+            {
+              "option_id": "781497",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Паперова",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Bumazhnaja"
+            }
+          ],
+          "book_publication": [781497],
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 1349,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2020
+            }
+          ],
+          "book_year": 2020,
+          "is_top_sale": true,
+          "is_top_sale_count": 80,
+          "description": "<p style=\"text-align: justify;\"><span>Італійський політик, філософ, історик, письменник, поет і комедіограф Нікколо Мак&rsquo;явеллі (1469&ndash;1527) особливої слави зажив своїм знаменитим твором &laquo;Державець&raquo; (1513), в якому він зробив спробу сформулювати загальні закони політичного життя, викласти суть &laquo;ремесла політика&raquo;, а також визначити роль і місце державця в Європі та Італії ХVІ століття. У наші дні ці питання набули надзвичайної гостроти та актуальності.</span></p>",
+          "short_description": "Італійський політик, філософ, історик, письменник, поет і комедіограф Нікколо Мак’явеллі (1469–1527) особливої слави зажив своїм знаменитим твором «Державець» (1513), в якому він зробив спробу сформулювати загальні закони політичного життя, викласти суть «ремесла політика», а також визначити роль і місце державця в Європі та Італії ХVІ століття. У наші дні ці питання набули надзвичайної гостроти та актуальності.",
+          "quote": "{{DELIMETER}}",
+          "keywords": "государь трактат философия политика италия Никколо Макиавелли",
+          "price": 156,
+          "special_price": 156,
+          "weight": 5,
+          "special_from_date": "2021-01-18 00:00:00",
+          "published_at": "2021-01-18 00:00:00",
+          "url_path_1": "derzhavec-2244902.html",
+          "url_path_2": "derzhavec-2244902.html",
+          "url_path": "derzhavec-2244902.html",
+          "url_path_3": "derzhavec-2244902.html",
+          "another_link": [
+            "1237494",
+            "1568011",
+            "1580148",
+            "1876465",
+            "1886653",
+            "1906984",
+            "1906985",
+            "1906986",
+            "1926653",
+            "1935633",
+            "1938906",
+            "1940985",
+            "1948915",
+            "2036815",
+            "2137132",
+            "2137133",
+            "2156699",
+            "2157494",
+            "2210484",
+            "2244364",
+            "2254704",
+            "2301847",
+            "2385744",
+            "2389144",
+            "2569314",
+            "2778291",
+            "2790790",
+            "2798960",
+            "2799139",
+            "2800346",
+            "2843801",
+            "2851075",
+            "2978872",
+            "2982611",
+            "3131282",
+            "3238092",
+            "3352471",
+            "3369198"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10001,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10001,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10001,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10001,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 1,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5671, 5672],
+          "filterable_category_ids": [5658],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 156,
+          "regular_price": 165,
+          "discount_percent": 6,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/3/6/362_1_1.jpg",
+              "lab": "",
+              "pos": 0
+            },
+            {
+              "typ": "image",
+              "image": "/3/6/362_2_1.jpg",
+              "lab": "",
+              "pos": 1
+            },
+            {
+              "typ": "image",
+              "image": "/3/6/362_5_1.jpg",
+              "lab": "",
+              "pos": 2
+            },
+            {
+              "typ": "image",
+              "image": "/3/6/362_6_1.jpg",
+              "lab": "",
+              "pos": 3
+            },
+            {
+              "typ": "image",
+              "image": "/3/6/362_3_1.jpg",
+              "lab": "",
+              "pos": 4
+            },
+            {
+              "typ": "image",
+              "image": "/3/6/362_4_2.jpg",
+              "lab": "",
+              "pos": 5
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/0/1/01_6358.png",
+              "sort_order": "1",
+              "entity_id": "2244902",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/0/1/01_6358.png"
+            },
+            {
+              "file": "/0/2/02_6277.png",
+              "sort_order": "2",
+              "entity_id": "2244902",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/0/2/02_6277.png"
+            },
+            {
+              "file": "/0/3/03_6166.png",
+              "sort_order": "3",
+              "entity_id": "2244902",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/0/3/03_6166.png"
+            },
+            {
+              "file": "/0/4/04_6083.png",
+              "sort_order": "4",
+              "entity_id": "2244902",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/0/4/04_6083.png"
+            },
+            {
+              "file": "/0/5/05_5855.png",
+              "sort_order": "5",
+              "entity_id": "2244902",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/0/5/05_5855.png"
+            },
+            {
+              "file": "/0/6/06_5293.png",
+              "sort_order": "6",
+              "entity_id": "2244902",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/0/6/06_5293.png"
+            },
+            {
+              "file": "/0/7/07_4863.png",
+              "sort_order": "7",
+              "entity_id": "2244902",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/0/7/07_4863.png"
+            },
+            {
+              "file": "/0/8/08_4771.png",
+              "sort_order": "8",
+              "entity_id": "2244902",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/0/8/08_4771.png"
+            },
+            {
+              "file": "/0/9/09_4691.png",
+              "sort_order": "9",
+              "entity_id": "2244902",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/0/9/09_4691.png"
+            }
+          ],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 2244902,
+              "qty": 32,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            },
+            {
+              "source_code": "yakaboo_kyiv",
+              "product_id": 2244902,
+              "qty": 0,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids": [1409, 550, 1273, 1326],
+          "promotion_promo_type": "1",
+          "promotions": [
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "garjachi-litni-znizhki-do-70.html"
+            },
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "knigi-na-front.html"
+            },
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "zamovlennja-eknigi-na-yakaboo-z-bezplatnoju-dostavkoju.html"
+            },
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "bezplatna-dostavka-meest-dlja-zamovlen-vid-600.html"
+            }
+          ],
+          "promotion_ids_visible": [
+            102, 444, 474, 488, 550, 589, 614, 742, 764, 773, 836, 898, 928,
+            1126, 1172, 1198, 1255, 1272, 1273, 1326, 1409, 1421
+          ],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Книга Державець",
+          "meta_description": "ᐉ Купити книгу «Державець», автор – Нікколо Макіавеллі, в інтернет-магазині YAKABOO 👈. Замовте книгу за найкращою ціною 156 грн. Відгуки та рецензії ✍.",
+          "meta_title": "Книга «Державець» – Нікколо Макіавеллі, купити за ціною 156 на YAKABOO: 978-088-0000-44-4",
+          "free_shipping": 1,
+          "tsk": 1754579527,
+          "original_price": 165,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 165,
+          "original_special_price": 156,
+          "original_final_price": 156,
+          "price_tax": 0,
+          "price_incl_tax": 156,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 156
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "3131282",
+        "_score": 66.875465,
+        "_source": {
+          "attribute_set_id": 20,
+          "created_at": "2024-10-16 15:11:10",
+          "updated_at": "2025-08-06 20:47:04",
+          "type_id": "simple",
+          "sku": "1496096",
+          "id": 3131282,
+          "name": "Державець",
+          "image": "/c/1/c17c3df5ad4048762b802e8f0366fb98.jpg",
+          "small_image": "/c/1/c17c3df5ad4048762b802e8f0366fb98.jpg",
+          "thumbnail": "/c/1/c17c3df5ad4048762b802e8f0366fb98.jpg",
+          "url_key": "derzhavec-3131282",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_binding_type_label": [
+            {
+              "option_id": "332541",
+              "attribute_id": "2945",
+              "attribute_label": "Тип обкладинки",
+              "label": "Тверда",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Tverdyj"
+            }
+          ],
+          "book_binding_type": [332541],
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_page_count_label": [
+            {
+              "attribute_label": "Кількість сторінок",
+              "label": "112"
+            }
+          ],
+          "book_page_count": "112",
+          "book_publisher_label": [
+            {
+              "option_id": "740838",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "BookChef",
+              "url_path": "book_publisher/view/bookchef",
+              "sort_order": "0",
+              "option_code": "BookChef"
+            }
+          ],
+          "book_publisher": [740838],
+          "book_translator_label": [
+            {
+              "option_id": "875506",
+              "attribute_id": "2965",
+              "attribute_label": "Перекладач",
+              "label": "Вікторія Черненко",
+              "url_path": "book_translator/view/Viktorija_Chernenko",
+              "sort_order": "100",
+              "option_code": "Viktorija_Chernenko"
+            }
+          ],
+          "book_translator": [875506],
+          "barcode": "9786175483244",
+          "book_binding_label": [
+            {
+              "attribute_label": "Формат",
+              "label": "135х207х13 мм"
+            }
+          ],
+          "book_binding": "135х207х13 мм",
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "978-617-548-324-4 "
+            }
+          ],
+          "book_isbn": "978-617-548-324-4 ",
+          "book_print_label": [
+            {
+              "option_id": "733264",
+              "attribute_id": "3987",
+              "attribute_label": "Папір",
+              "label": "Офсетний",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Ofsetnaja"
+            }
+          ],
+          "book_print": [733264],
+          "book_illustration_label": [
+            {
+              "option_id": "733254",
+              "attribute_id": "3988",
+              "attribute_label": "Ілюстрації",
+              "label": "Немає ілюстрацій",
+              "url_path": "book_illustration/view/Net_illjustracij",
+              "sort_order": "0",
+              "option_code": "Net_illjustracij"
+            }
+          ],
+          "book_illustration": [733254],
+          "for_filter_is_in_stock": [740596],
+          "book_publication_label": [
+            {
+              "option_id": "781497",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Паперова",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Bumazhnaja"
+            }
+          ],
+          "book_publication": [781497],
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 363,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2024
+            }
+          ],
+          "book_year": 2024,
+          "is_top_sale": true,
+          "is_top_sale_count": 41,
+          "description": "<p>Твір «Державця» вважають маленьким шедевром Мак’явеллі, своєрідним керівництвом для державотворців, обплутаним безліччю легенд і наповненим цитатами, хибно приписаними великим правителям. Та поза сумнівом цей маніфест із правління та устрою держави є\\xa0своєрідним вододілом між середньовічною і сучасною політичною думкою. Його написано в найбуремніші часи історії Італії, коли величезні держави ставали на прю за багаті, але слабкі регіональні автономії, намагаючись їх загарбати.</p>\r\n<p>У трактаті Нікколо Мак’явеллі підсумовує свої досягнення впродовж 15-річного перебування державним секретарем Флоренції. Тож із власного досвіду він окреслює риси й чесноти ідеального правителя, аналізує причини людських учинків, уперше відокремлюючи при цьому політику від моралі. Книгу «Державець» 1599 року заборонили у Франції, звинувативши автора у поширенні ідей політичної корупції.<br /><br /><br /></p>",
+          "keywords": "макиавелли, классика, политика, макіавеллі, класика, політика,",
+          "price": 171,
+          "special_price": 171,
+          "book_weight_label": [
+            {
+              "attribute_label": "Вага",
+              "label": 193
+            }
+          ],
+          "book_weight": 193,
+          "special_from_date": "2024-10-16 00:00:00",
+          "published_at": "2024-10-16 00:00:00",
+          "url_path_1": "derzhavec-3131282.html",
+          "url_path_2": "derzhavec-3131282.html",
+          "url_path": "derzhavec-3131282.html",
+          "url_path_3": "derzhavec-3131282.html",
+          "another_link": [
+            "1580148",
+            "1876465",
+            "1886653",
+            "2244364",
+            "2244902",
+            "2385744",
+            "2389144",
+            "3352471",
+            "3369198"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10000,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10000,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10000,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10000,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 0,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            },
+            {
+              "category_id": 6323,
+              "name": "Художня література",
+              "position": 10000,
+              "parent_id": "4723",
+              "breadcrumb": 0,
+              "url_path": "knigi/hudozhestvennaja-literatura.html",
+              "level": "3"
+            },
+            {
+              "category_id": 6361,
+              "name": "Класична проза",
+              "position": 0,
+              "parent_id": "6323",
+              "breadcrumb": 0,
+              "url_path": "knigi/hudozhestvennaja-literatura/klassicheskaja-proza.html",
+              "level": "4"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5671, 5672, 6323, 6361],
+          "filterable_category_ids": [5658, 6323],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 171,
+          "regular_price": 180,
+          "discount_percent": 5,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/c/1/c17c3df5ad4048762b802e8f0366fb98.jpg",
+              "lab": "",
+              "pos": 1
+            },
+            {
+              "typ": "image",
+              "image": "/d/2/d2526ae024768637343f0f8b6127334f.jpg",
+              "lab": "",
+              "pos": 2
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/i/m/image00002_vaxow4ldkw.jpg",
+              "sort_order": "1",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00002_vaxow4ldkw.jpg"
+            },
+            {
+              "file": "/i/m/image00003_6p1fueambo.jpg",
+              "sort_order": "2",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00003_6p1fueambo.jpg"
+            },
+            {
+              "file": "/i/m/image00004_zdy3vqvxf4.jpg",
+              "sort_order": "3",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00004_zdy3vqvxf4.jpg"
+            },
+            {
+              "file": "/i/m/image00006_hwoqvdblna.jpg",
+              "sort_order": "4",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00006_hwoqvdblna.jpg"
+            },
+            {
+              "file": "/i/m/image00007_c5uschjpkb.jpg",
+              "sort_order": "5",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00007_c5uschjpkb.jpg"
+            },
+            {
+              "file": "/i/m/image00008_2cdpoxo9t6.jpg",
+              "sort_order": "6",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00008_2cdpoxo9t6.jpg"
+            },
+            {
+              "file": "/i/m/image00009_rmj2yrn050.jpg",
+              "sort_order": "7",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00009_rmj2yrn050.jpg"
+            },
+            {
+              "file": "/i/m/image00010_hotjxq7wcl.jpg",
+              "sort_order": "8",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00010_hotjxq7wcl.jpg"
+            },
+            {
+              "file": "/i/m/image00011_wrlp81uwkg.jpg",
+              "sort_order": "9",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00011_wrlp81uwkg.jpg"
+            },
+            {
+              "file": "/i/m/image00012_uwprpv4wrj.jpg",
+              "sort_order": "10",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00012_uwprpv4wrj.jpg"
+            },
+            {
+              "file": "/i/m/image00013_w187bhrbqb.jpg",
+              "sort_order": "11",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00013_w187bhrbqb.jpg"
+            },
+            {
+              "file": "/i/m/image00014_nvqm8zlh3p.jpg",
+              "sort_order": "12",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00014_nvqm8zlh3p.jpg"
+            },
+            {
+              "file": "/i/m/image00015_b8ie5rmylw.jpg",
+              "sort_order": "13",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00015_b8ie5rmylw.jpg"
+            },
+            {
+              "file": "/i/m/image00016_hfndfm0pmi.jpg",
+              "sort_order": "14",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00016_hfndfm0pmi.jpg"
+            },
+            {
+              "file": "/i/m/image00017_m9z16gahjl.jpg",
+              "sort_order": "15",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00017_m9z16gahjl.jpg"
+            },
+            {
+              "file": "/i/m/image00018_u9sfili3xs.jpg",
+              "sort_order": "16",
+              "entity_id": "3131282",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/i/m/image00018_u9sfili3xs.jpg"
+            }
+          ],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 3131282,
+              "qty": 20,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            },
+            {
+              "source_code": "yakaboo_kyiv",
+              "product_id": 3131282,
+              "qty": 0,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids": [1239, 1266, 1273],
+          "promotion_promo_type": "2",
+          "promotions": [
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "nacional-nij-keshbek.html"
+            },
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "zimova-epidtrimka.html"
+            },
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "zamovlennja-eknigi-na-yakaboo-z-bezplatnoju-dostavkoju.html"
+            }
+          ],
+          "promotion_ids_visible": [1239, 1253, 1266, 1273, 1352],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Книга Державець",
+          "meta_description": "ᐉ Купити книгу «Державець», автор – Нікколо Макіавеллі, в інтернет-магазині YAKABOO 👈. Замовте книгу за найкращою ціною 171 грн. Відгуки та рецензії ✍.",
+          "meta_title": "Книга «Державець» – Нікколо Макіавеллі, купити за ціною 171 на YAKABOO: 978-617-548-324-4",
+          "free_shipping": 1,
+          "tsk": 1754516011,
+          "original_price": 180,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 180,
+          "original_special_price": 171,
+          "original_final_price": 171,
+          "price_tax": 0,
+          "price_incl_tax": 171,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 171
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "2385744",
+        "_score": 66.75369,
+        "_source": {
+          "attribute_set_id": 20,
+          "created_at": "2023-05-01 12:19:27",
+          "updated_at": "2025-06-08 21:33:07",
+          "type_id": "simple",
+          "sku": "1443955",
+          "id": 2385744,
+          "name": "Державець",
+          "image": "/5/1/518_1_2.jpg",
+          "small_image": "/5/1/518_1_2.jpg",
+          "thumbnail": "/5/1/518_1_2.jpg",
+          "url_key": "derzhavec-2385744",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_binding_type_label": [
+            {
+              "option_id": "332541",
+              "attribute_id": "2945",
+              "attribute_label": "Тип обкладинки",
+              "label": "Тверда",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Tverdyj"
+            }
+          ],
+          "book_binding_type": [332541],
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_page_count_label": [
+            {
+              "attribute_label": "Кількість сторінок",
+              "label": "192"
+            }
+          ],
+          "book_page_count": "192",
+          "book_publisher_label": [
+            {
+              "option_id": "334499",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "Фоліо",
+              "url_path": "book_publisher/view/Folio",
+              "sort_order": "100",
+              "option_code": "Folio"
+            }
+          ],
+          "book_publisher": [334499],
+          "book_series_label": [
+            {
+              "option_id": "898116",
+              "attribute_id": "2964",
+              "attribute_label": "Серія книг",
+              "label": "Дитячі подарункові міні",
+              "url_path": "book_series/view/ditjachi_podarunkovi_mini",
+              "sort_order": "100",
+              "option_code": "ditjachi_podarunkovi_mini"
+            }
+          ],
+          "book_series": [898116],
+          "book_translator_label": [
+            {
+              "option_id": "767715",
+              "attribute_id": "2965",
+              "attribute_label": "Перекладач",
+              "label": "Євген Тарнавський",
+              "url_path": "book_translator/view/Evgenij_Tarnavskij",
+              "sort_order": "100",
+              "option_code": "Evgenij_Tarnavskij"
+            }
+          ],
+          "book_translator": [767715],
+          "barcode": "9786175513002",
+          "book_binding_label": [
+            {
+              "attribute_label": "Формат",
+              "label": "100х120 мм"
+            }
+          ],
+          "book_binding": "100х120 мм",
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "978-617-551-300-2"
+            }
+          ],
+          "book_isbn": "978-617-551-300-2",
+          "book_illustration_label": [
+            {
+              "option_id": "733256",
+              "attribute_id": "3988",
+              "attribute_label": "Ілюстрації",
+              "label": "Чорно-білі",
+              "url_path": "book_illustration/view/Cherno_belye",
+              "sort_order": "100",
+              "option_code": "Cherno_belye"
+            }
+          ],
+          "book_illustration": [733256],
+          "book_publication_label": [
+            {
+              "option_id": "781497",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Паперова",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Bumazhnaja"
+            }
+          ],
+          "book_publication": [781497],
+          "description": "<p>Нікколо Мак'яве́ллі (1469–1527) — видатний італійський політичний діяч і мислитель, який розкрив закономірності суспільно-політичних явищ, з'ясував чому одна форма держави змінюється на іншу, визначив найкращу з форм державного устрою і розглянув співвідношення влади правителя і народу.\\xa0Фахівці завважують, що історична заслуга Нікколо Мак'яве́ллі \\xa0— погляд на державу як на природне утворення, що досягається на основі домовленості людей в інтересах захисту й цілісності країни. Серед форм правління він віддавав перевагу республіці, бо вона найбільше відповідає вимогам рівності й свободи, а тиранію, олігархію та охлократію вважав спотворенням.</p>",
+          "keywords": "класика, філософія, держава",
+          "price": 210,
+          "special_from_date": "2023-12-22 00:00:00",
+          "published_at": "2023-05-02 00:00:00",
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 274,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2023
+            }
+          ],
+          "book_year": 2023,
+          "is_top_sale": true,
+          "is_top_sale_count": 14,
+          "url_path_1": "derzhavec-2385744.html",
+          "url_path_2": "derzhavec-2385744.html",
+          "url_path": "derzhavec-2385744.html",
+          "url_path_3": "derzhavec-2385744.html",
+          "another_link": [
+            "1237494",
+            "1568011",
+            "1580148",
+            "1876465",
+            "1886653",
+            "1906984",
+            "1906985",
+            "1906986",
+            "1926653",
+            "1935633",
+            "1938906",
+            "1940985",
+            "1948915",
+            "2036815",
+            "2137132",
+            "2137133",
+            "2156699",
+            "2157494",
+            "2210484",
+            "2244364",
+            "2244902",
+            "2254704",
+            "2301847",
+            "2389144",
+            "2569314",
+            "2778291",
+            "2790790",
+            "2798960",
+            "2799139",
+            "2800346",
+            "2843801",
+            "2851075",
+            "2978872",
+            "2982611",
+            "3131282",
+            "3238092",
+            "3352471",
+            "3369198"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10000,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10000,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10000,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10000,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 0,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            },
+            {
+              "category_id": 5685,
+              "name": "Соціологія",
+              "position": 10000,
+              "parent_id": "5658",
+              "breadcrumb": 0,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/sociologija.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5687,
+              "name": "Соціологія розвитку суспільства",
+              "position": 0,
+              "parent_id": "5685",
+              "breadcrumb": 0,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/sociologija/sociologija-razvitija-obschestva.html",
+              "level": "5"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5671, 5672, 5685, 5687],
+          "filterable_category_ids": [5658],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 210,
+          "regular_price": 210,
+          "discount_percent": 0,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/5/1/518_1_2.jpg",
+              "lab": "",
+              "pos": 0
+            },
+            {
+              "typ": "image",
+              "image": "/5/1/518_2.jpg",
+              "lab": "",
+              "pos": 1
+            },
+            {
+              "typ": "image",
+              "image": "/5/1/518_5_1.jpg",
+              "lab": "",
+              "pos": 2
+            },
+            {
+              "typ": "image",
+              "image": "/5/1/518_6.jpg",
+              "lab": "",
+              "pos": 3
+            },
+            {
+              "typ": "image",
+              "image": "/5/1/518_3_1.jpg",
+              "lab": "",
+              "pos": 4
+            },
+            {
+              "typ": "image",
+              "image": "/5/1/518_4.jpg",
+              "lab": "",
+              "pos": 5
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/_/_/_____-21_2.jpg",
+              "sort_order": "0",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-21_2.jpg"
+            },
+            {
+              "file": "/_/_/_____-22_2.jpg",
+              "sort_order": "1",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-22_2.jpg"
+            },
+            {
+              "file": "/_/_/_____-23_2.jpg",
+              "sort_order": "2",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-23_2.jpg"
+            },
+            {
+              "file": "/_/_/_____-02_8.jpg",
+              "sort_order": "3",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-02_8.jpg"
+            },
+            {
+              "file": "/_/_/_____-03_9.jpg",
+              "sort_order": "4",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-03_9.jpg"
+            },
+            {
+              "file": "/_/_/_____-04_10.jpg",
+              "sort_order": "5",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-04_10.jpg"
+            },
+            {
+              "file": "/_/_/_____-05_10.jpg",
+              "sort_order": "6",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-05_10.jpg"
+            },
+            {
+              "file": "/_/_/_____-06_10.jpg",
+              "sort_order": "7",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-06_10.jpg"
+            },
+            {
+              "file": "/_/_/_____-07_10.jpg",
+              "sort_order": "8",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-07_10.jpg"
+            },
+            {
+              "file": "/_/_/_____-08_9.jpg",
+              "sort_order": "9",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-08_9.jpg"
+            },
+            {
+              "file": "/_/_/_____-09_10.jpg",
+              "sort_order": "10",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-09_10.jpg"
+            },
+            {
+              "file": "/_/_/_____-10_10.jpg",
+              "sort_order": "11",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-10_10.jpg"
+            },
+            {
+              "file": "/_/_/_____-11_8.jpg",
+              "sort_order": "12",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-11_8.jpg"
+            },
+            {
+              "file": "/_/_/_____-12_7.jpg",
+              "sort_order": "13",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-12_7.jpg"
+            },
+            {
+              "file": "/_/_/_____-13_7.jpg",
+              "sort_order": "14",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-13_7.jpg"
+            },
+            {
+              "file": "/_/_/_____-14_6.jpg",
+              "sort_order": "15",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-14_6.jpg"
+            },
+            {
+              "file": "/_/_/_____-15_6.jpg",
+              "sort_order": "16",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-15_6.jpg"
+            },
+            {
+              "file": "/_/_/_____-16_5.jpg",
+              "sort_order": "17",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-16_5.jpg"
+            },
+            {
+              "file": "/_/_/_____-17_5.jpg",
+              "sort_order": "18",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-17_5.jpg"
+            },
+            {
+              "file": "/_/_/_____-18_5.jpg",
+              "sort_order": "19",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-18_5.jpg"
+            },
+            {
+              "file": "/_/_/_____-19_3.jpg",
+              "sort_order": "20",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-19_3.jpg"
+            },
+            {
+              "file": "/_/_/_____-20_2.jpg",
+              "sort_order": "21",
+              "entity_id": "2385744",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/_____-20_2.jpg"
+            }
+          ],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 2385744,
+              "qty": 0,
+              "stock_status": 0,
+              "is_in_stock": false,
+              "is_europe": false
+            },
+            {
+              "source_code": "yakaboo_kyiv",
+              "product_id": 2385744,
+              "qty": 0,
+              "stock_status": 0,
+              "is_in_stock": false,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids": [550, 1273],
+          "promotion_promo_type": "1",
+          "promotions": [
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "knigi-na-front.html"
+            },
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "zamovlennja-eknigi-na-yakaboo-z-bezplatnoju-dostavkoju.html"
+            }
+          ],
+          "promotion_ids_visible": [
+            440, 462, 488, 550, 589, 614, 637, 690, 742, 764, 773, 788, 815,
+            898, 1273
+          ],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Книга Державець",
+          "meta_description": "ᐉ Купити книгу «Державець», автор – Нікколо Макіавеллі, в інтернет-магазині YAKABOO 👈. Замовте книгу за найкращою ціною 210 грн. Відгуки та рецензії ✍.",
+          "meta_title": "Книга «Державець» – Нікколо Макіавеллі, купити за ціною 210 на YAKABOO: 978-617-551-300-2",
+          "free_shipping": 1,
+          "tsk": 1754433729,
+          "original_price": 210,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 210,
+          "original_final_price": 210,
+          "price_tax": 0,
+          "price_incl_tax": 210,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 210,
+          "special_price": 0,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "1886653",
+        "_score": 66.529205,
+        "_source": {
+          "attribute_set_id": 211,
+          "created_at": "2019-07-02 09:50:55",
+          "updated_at": "2025-08-06 15:02:45",
+          "type_id": "downloadable",
+          "sku": "965768",
+          "id": 1886653,
+          "name": "Державець",
+          "meta_title": "Електронна книга «Державець» – Нікколо Макіавеллі – купити за ціною 28 грн. на YAKABOO",
+          "meta_description": "ᐉ Купити та скачати електронну книгу «Державець», автор – Нікколо Макіавеллі &#x26a1;, в інтернет-магазині YAKABOO &#x1f448;. Купити електронну книжку у форматі: epub, fb2, mobi, pdf за ціною 28 грн. &",
+          "image": "/c/o/cover_160_187.jpg",
+          "small_image": "/c/o/cover_160_187.jpg",
+          "thumbnail": "/c/o/cover_160_187.jpg",
+          "url_key": "derzhavec",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_page_count_label": [
+            {
+              "attribute_label": "Кількість сторінок",
+              "label": "121"
+            }
+          ],
+          "book_page_count": "121",
+          "book_publisher_label": [
+            {
+              "option_id": "334499",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "Фоліо",
+              "url_path": "book_publisher/view/Folio",
+              "sort_order": "100",
+              "option_code": "Folio"
+            }
+          ],
+          "book_publisher": [334499],
+          "book_series_label": [
+            {
+              "option_id": "773727",
+              "attribute_id": "2964",
+              "attribute_label": "Серія книг",
+              "label": "Істини",
+              "url_path": "book_series/view/Istini",
+              "sort_order": "100",
+              "option_code": "Istini"
+            }
+          ],
+          "book_series": [773727],
+          "media_gallery_pdf": "/1/1/111_4541.pdf",
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "978-966-03-8619-8"
+            }
+          ],
+          "book_isbn": "978-966-03-8619-8",
+          "for_filter_is_in_stock": [740596],
+          "marketplace_id": "yakaboo",
+          "book_publication_label": [
+            {
+              "option_id": "781498",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Електронна",
+              "url_path": "None",
+              "sort_order": "99",
+              "option_code": "Jelektronnaja"
+            }
+          ],
+          "book_publication": [781498],
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 163,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2019
+            }
+          ],
+          "book_year": 2019,
+          "is_top_sale": true,
+          "is_top_sale_count": 36,
+          "description": "<p>Все життя Нікколо Мак&rsquo;явеллі (1469&mdash;1527), видатного італійського мислителя, історика, письменника і&nbsp;комедіографа, було пов&rsquo;язано з&nbsp;політикою. У&nbsp;29&nbsp;років його обрали другим канцлером Флорентійської республіки, і&nbsp;він впродовж 14&nbsp;років займався її внутрішніми справами.</p>\r\n<p>А коли його позбавили можливості бути політиком-практиком, став політиком-теоретиком&nbsp;&mdash; так з&rsquo;явився його знаменитий &laquo;Державець&raquo; (1513). Ця книжка стала своєрідною програмою з управління державою, в&nbsp;ній Мак&rsquo;явеллі сформулював загальні політичні закони, а&nbsp;також визначив роль і&nbsp;місце правителя в житті держави.</p>",
+          "short_description": "Все життя Нікколо Мак’явеллі (1469—1527), видатного італійського мислителя, історика, письменника і\\xa0комедіографа, було пов’язано з\\xa0політикою. У\\xa029\\xa0років його обрали другим канцлером Флорентійської республіки, і\\xa0він впродовж 14\\xa0років займався її внутрішніми справами.\r\nА коли його позбавили можливості бути політиком-практиком, став політиком-теоретиком\\xa0— так з’явився його знаменитий «Державець» (1513). Ця книжка стала своєрідною програмою з управління державою, в\\xa0ній Мак’явеллі сформулював загальні політичні закони, а\\xa0також визначив роль і\\xa0місце",
+          "quote": "{{DELIMETER}}",
+          "price": 28,
+          "special_from_date": "2019-11-08 00:00:00",
+          "published_at": "2019-11-08 14:35:44",
+          "url_path_1": "derzhavec-1886653.html",
+          "url_path_2": "derzhavec-1886653.html",
+          "url_path": "derzhavec-1886653.html",
+          "url_path_3": "derzhavec-1886653.html",
+          "reviews": {
+            "reviews_count": "1",
+            "rating_summary": "100"
+          },
+          "another_link": [
+            "1237494",
+            "1568011",
+            "1580148",
+            "1876465",
+            "1906984",
+            "1906985",
+            "1906986",
+            "1926653",
+            "1935633",
+            "1938906",
+            "1940985",
+            "1948915",
+            "2036815",
+            "2137132",
+            "2137133",
+            "2156699",
+            "2157494",
+            "2210484",
+            "2244364",
+            "2244902",
+            "2254704",
+            "2301847",
+            "2385744",
+            "2389144",
+            "2569314",
+            "2778291",
+            "2790790",
+            "2798960",
+            "2799139",
+            "2800346",
+            "2843801",
+            "2851075",
+            "2978872",
+            "2982611",
+            "3131282",
+            "3238092",
+            "3352471",
+            "3369198"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10001,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10001,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10001,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10001,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 1,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            },
+            {
+              "category_id": 11053,
+              "name": "Часто шукають",
+              "position": 10000,
+              "parent_id": "2",
+              "breadcrumb": 0,
+              "url_path": "chasto-ischut.html",
+              "level": "2"
+            },
+            {
+              "category_id": 13469,
+              "name": "Харкове, ми з тобою",
+              "position": 0,
+              "parent_id": "11053",
+              "breadcrumb": 0,
+              "url_path": "chasto-ischut/harkiv-mi-z-toboju.html",
+              "level": "3"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5671, 5672, 11053, 13469],
+          "filterable_category_ids": [5658],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 28,
+          "regular_price": 28,
+          "discount_percent": 0,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/c/o/cover_160_187.jpg",
+              "lab": "",
+              "pos": 1
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/1/1/111_4713-0.png",
+              "sort_order": "1",
+              "entity_id": "1886653",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_4713-0.png"
+            },
+            {
+              "file": "/1/1/111_4713-1.png",
+              "sort_order": "2",
+              "entity_id": "1886653",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_4713-1.png"
+            },
+            {
+              "file": "/1/1/111_4713-2.png",
+              "sort_order": "3",
+              "entity_id": "1886653",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_4713-2.png"
+            },
+            {
+              "file": "/1/1/111_4713-3.png",
+              "sort_order": "4",
+              "entity_id": "1886653",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_4713-3.png"
+            },
+            {
+              "file": "/1/1/111_4713-4.png",
+              "sort_order": "5",
+              "entity_id": "1886653",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_4713-4.png"
+            },
+            {
+              "file": "/1/1/111_4713-5.png",
+              "sort_order": "6",
+              "entity_id": "1886653",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_4713-5.png"
+            }
+          ],
+          "downloadable_product_format": ["epub", "fb2", "mobi", "pdf"],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 1886653,
+              "qty": 10000,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            },
+            {
+              "source_code": "yakaboo_kyiv",
+              "product_id": 1886653,
+              "qty": 0,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids": [1273],
+          "promotion_promo_type": "4",
+          "promotions": [
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "zamovlennja-eknigi-na-yakaboo-z-bezplatnoju-dostavkoju.html"
+            }
+          ],
+          "promotion_ids_visible": [26, 240, 773, 1273],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Електронна книга Державець",
+          "free_shipping": 0,
+          "tsk": 1754516011,
+          "original_price": 28,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 28,
+          "original_final_price": 28,
+          "price_tax": 0,
+          "price_incl_tax": 28,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 28,
+          "special_price": 0,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "1580148",
+        "_score": 66.14687,
+        "_source": {
+          "attribute_set_id": 211,
+          "created_at": "2017-09-14 12:58:01",
+          "updated_at": "2025-06-23 04:03:11",
+          "type_id": "downloadable",
+          "sku": "803705",
+          "id": 1580148,
+          "name": "Державець",
+          "meta_title": "Електронна книга «Державець» – Нікколо Макіавеллі – купити за ціною 75 грн. на YAKABOO",
+          "meta_description": "ᐉ Купити та скачати електронну книгу «Державець», автор – Нікколо Макіавеллі &#x26a1;, в інтернет-магазині YAKABOO &#x1f448;. Купити електронну книжку у форматі: epub, fb2, mobi, pdf за ціною 75 грн. &",
+          "image": "/c/o/cover_83_68.jpg",
+          "small_image": "/c/o/cover_83_68.jpg",
+          "thumbnail": "/c/o/cover_83_68.jpg",
+          "url_key": "derzhavec",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_publisher_label": [
+            {
+              "option_id": "334499",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "Фоліо",
+              "url_path": "book_publisher/view/Folio",
+              "sort_order": "100",
+              "option_code": "Folio"
+            }
+          ],
+          "book_publisher": [334499],
+          "book_translator_label": [
+            {
+              "option_id": "467536",
+              "attribute_id": "2965",
+              "attribute_label": "Перекладач",
+              "label": "Анатоль Перепадя",
+              "url_path": "book_translator/view/Anatol_Perepadja",
+              "sort_order": "100",
+              "option_code": "Anatol_Perepadja"
+            }
+          ],
+          "book_translator": [467536],
+          "media_gallery_pdf": "/1/1/111_861.pdf",
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "978-966-03-7758-5"
+            }
+          ],
+          "book_isbn": "978-966-03-7758-5",
+          "book_country": [715192],
+          "book_period_label": [
+            {
+              "option_id": "715201",
+              "attribute_id": "3567",
+              "attribute_label": "Література за періодами",
+              "label": "Середньовічна література. Відродження",
+              "url_path": "book_period/view/Srednevekovaja_literatura_Vozrozhdenie_",
+              "sort_order": "100",
+              "option_code": "Srednevekovaja_literatura_Vozrozhdenie_"
+            }
+          ],
+          "book_period": [715201],
+          "for_filter_is_in_stock": [740596],
+          "marketplace_id": "yakaboo",
+          "book_publication_label": [
+            {
+              "option_id": "781498",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Електронна",
+              "url_path": "None",
+              "sort_order": "99",
+              "option_code": "Jelektronnaja"
+            }
+          ],
+          "book_publication": [781498],
+          "description": "<p>Італійський політик, філософ, історик, письменник, поет і ко&shy;медіограф Нікколо Мак&rsquo;явеллі (1469&mdash;1527) особливої слави зажив своїм знаменитим твором &laquo;Державець&raquo; (1513), в якому він зробив спробу сформулювати загальні закони політичного життя, викласти суть &laquo;ремесла політика&raquo;, а також визначити роль і місце державця в Європі та Італії ХVІ століття. У наші дні ці питання набули над&shy;звичайної гостроти та актуальності.</p>\r\n<p>Також до видання увійшли &laquo;Флорентійські хроніки&raquo; (1520&mdash;1525), в яких відтворено історію Флоренції від Давнього Риму і до встановлення синьйорії Медічі 1434 року.</p>",
+          "short_description": "Італійський політик, філософ, історик, письменник, поет і ко\\xadмедіограф Нікколо Мак’явеллі (1469—1527) особливої слави зажив своїм знаменитим твором «Державець» (1513), в якому він зробив спробу сформулювати загальні закони політичного життя, викласти суть «ремесла політика», а також визначити роль і місце державця в Європі та Італії ХVІ століття. У наші дні ці питання набули над\\xadзвичайної гостроти та актуальності.\r\nТакож до видання увійшли «Флорентійські хроніки» (1520—1525), в яких відтворено історію Флоренції від Давнього Риму і до",
+          "quote": "{{DELIMETER}}",
+          "price": 75,
+          "special_from_date": "2017-10-31 00:00:00",
+          "published_at": "2017-10-31 15:20:34",
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 67,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2016
+            }
+          ],
+          "book_year": 2016,
+          "url_path_1": "derzhavec.html",
+          "url_path_2": "derzhavec.html",
+          "url_path": "derzhavec.html",
+          "url_path_3": "derzhavec.html",
+          "another_link": [
+            "1237494",
+            "1568011",
+            "1876465",
+            "1886653",
+            "1906984",
+            "1906985",
+            "1906986",
+            "1926653",
+            "1935633",
+            "1938906",
+            "1940985",
+            "1948915",
+            "2036815",
+            "2137132",
+            "2137133",
+            "2156699",
+            "2157494",
+            "2210484",
+            "2244364",
+            "2244902",
+            "2254704",
+            "2301847",
+            "2385744",
+            "2389144",
+            "2569314",
+            "2778291",
+            "2790790",
+            "2798960",
+            "2799139",
+            "2800346",
+            "2843801",
+            "2851075",
+            "2978872",
+            "2982611",
+            "3131282",
+            "3238092",
+            "3352471",
+            "3369198"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10001,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10001,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10001,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5659,
+              "name": "Філософія",
+              "position": 10001,
+              "parent_id": "5658",
+              "breadcrumb": 0,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/filosofija.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5660,
+              "name": "Окремі проблеми і категорії філософії",
+              "position": 1,
+              "parent_id": "5659",
+              "breadcrumb": 0,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/filosofija/otdel-nye-problemy-i-kategorii-filosofii.html",
+              "level": "5"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10001,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 1,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            },
+            {
+              "category_id": 11053,
+              "name": "Часто шукають",
+              "position": 10000,
+              "parent_id": "2",
+              "breadcrumb": 0,
+              "url_path": "chasto-ischut.html",
+              "level": "2"
+            },
+            {
+              "category_id": 13469,
+              "name": "Харкове, ми з тобою",
+              "position": 0,
+              "parent_id": "11053",
+              "breadcrumb": 0,
+              "url_path": "chasto-ischut/harkiv-mi-z-toboju.html",
+              "level": "3"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5659, 5660, 5671, 5672, 11053, 13469],
+          "filterable_category_ids": [5658],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 75,
+          "regular_price": 75,
+          "discount_percent": 0,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/c/o/cover_83_68.jpg",
+              "lab": "",
+              "pos": 1
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/1/1/111_894-0.png",
+              "sort_order": "1",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-0.png"
+            },
+            {
+              "file": "/1/1/111_894-1.png",
+              "sort_order": "2",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-1.png"
+            },
+            {
+              "file": "/1/1/111_894-2.png",
+              "sort_order": "3",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-2.png"
+            },
+            {
+              "file": "/1/1/111_894-3.png",
+              "sort_order": "4",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-3.png"
+            },
+            {
+              "file": "/1/1/111_894-4.png",
+              "sort_order": "5",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-4.png"
+            },
+            {
+              "file": "/1/1/111_894-5.png",
+              "sort_order": "6",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-5.png"
+            },
+            {
+              "file": "/1/1/111_894-6.png",
+              "sort_order": "7",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-6.png"
+            },
+            {
+              "file": "/1/1/111_894-7.png",
+              "sort_order": "8",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-7.png"
+            },
+            {
+              "file": "/1/1/111_894-8.png",
+              "sort_order": "9",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-8.png"
+            },
+            {
+              "file": "/1/1/111_894-9.png",
+              "sort_order": "10",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-9.png"
+            },
+            {
+              "file": "/1/1/111_894-10.png",
+              "sort_order": "11",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-10.png"
+            },
+            {
+              "file": "/1/1/111_894-11.png",
+              "sort_order": "12",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-11.png"
+            },
+            {
+              "file": "/1/1/111_894-12.png",
+              "sort_order": "13",
+              "entity_id": "1580148",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/1/1/111_894-12.png"
+            }
+          ],
+          "downloadable_product_format": ["epub", "fb2", "mobi", "pdf"],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 1580148,
+              "qty": 10000,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            },
+            {
+              "source_code": "yakaboo_kyiv",
+              "product_id": 1580148,
+              "qty": 0,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids": [1273],
+          "promotion_promo_type": "4",
+          "promotions": [
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "zamovlennja-eknigi-na-yakaboo-z-bezplatnoju-dostavkoju.html"
+            }
+          ],
+          "promotion_ids_visible": [26, 240, 695, 773, 1273],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Електронна книга Державець",
+          "free_shipping": 0,
+          "tsk": 1754433729,
+          "original_price": 75,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 75,
+          "original_final_price": 75,
+          "price_tax": 0,
+          "price_incl_tax": 75,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 75,
+          "special_price": 0,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "2389144",
+        "_score": 65.84584,
+        "_source": {
+          "attribute_set_id": 211,
+          "created_at": "2023-06-15 06:47:06",
+          "updated_at": "2025-08-04 04:51:16",
+          "type_id": "downloadable",
+          "sku": "1451592",
+          "id": 2389144,
+          "name": "Державець",
+          "image": "/c/o/cover_225_2.jpg",
+          "small_image": "/c/o/cover_225_2.jpg",
+          "thumbnail": "/c/o/cover_225_2.jpg",
+          "url_key": "derzhavets",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_page_count_label": [
+            {
+              "attribute_label": "Кількість сторінок",
+              "label": "189"
+            }
+          ],
+          "book_page_count": "189",
+          "book_publisher_label": [
+            {
+              "option_id": "334499",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "Фоліо",
+              "url_path": "book_publisher/view/Folio",
+              "sort_order": "100",
+              "option_code": "Folio"
+            }
+          ],
+          "book_publisher": [334499],
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "978-617-551-300-2"
+            }
+          ],
+          "book_isbn": "978-617-551-300-2",
+          "for_filter_is_in_stock": [740596],
+          "book_publication_label": [
+            {
+              "option_id": "781498",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Електронна",
+              "url_path": "None",
+              "sort_order": "99",
+              "option_code": "Jelektronnaja"
+            }
+          ],
+          "book_publication": [781498],
+          "description": "<p>Нікколо Мак’явeллі (1469–1527) — видатний італійський політичний діяч і мислитель, який розкрив закономірності суспільно-політичних явищ, з’ясував чому одна форма держави змінюється на іншу, визначив найкращу з форм державного устрою і розглянув співвідношення влади правителя і народу. Фахівці завважують, що історична заслуга Нікколо Мак’явeллі — погляд на державу як на природне утворення, що досягається на основі домовленості людей в інтересах захисту й цілісності країни. Серед форм правління він віддавав перевагу республіці, бо вона найбільше відповідає вимогам рівності й свободи, а тиранію, олігархію та охлократію вважав спотворенням.</p>\r\n",
+          "short_description": "<p>Нікколо Мак’явeллі (1469–1527) — видатний італійський політичний діяч і мислитель, який розкрив закономірності суспільно-політичних явищ, з’ясував чому одна форма держави змінюється на іншу, визначив найкращу з форм державного устрою і розглянув співвідношення влади правителя і народу. Фахівці завважують, що історична заслуга Нікколо Мак’явeллі — погляд на державу як на природне утворення, що досягається на основі домовленості людей в інтересах захисту й цілісності країни. Серед форм правління він віддавав перевагу республіці, бо вона найбільше відповідає вимогам рівності й свободи, а тиранію, олігархію та охлократію вважав спотворенням.</p>\r\n",
+          "price": 105,
+          "special_from_date": "2023-07-10 00:00:00",
+          "published_at": "2023-07-10 00:00:00",
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 33,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2023
+            }
+          ],
+          "book_year": 2023,
+          "is_top_sale": true,
+          "is_top_sale_count": 10,
+          "url_path_1": "derzhavets.html",
+          "url_path_2": "derzhavets.html",
+          "url_path": "derzhavets.html",
+          "url_path_3": "derzhavets.html",
+          "another_link": [
+            "1237494",
+            "1568011",
+            "1580148",
+            "1876465",
+            "1886653",
+            "1906984",
+            "1906985",
+            "1906986",
+            "1926653",
+            "1935633",
+            "1938906",
+            "1940985",
+            "1948915",
+            "2036815",
+            "2137132",
+            "2137133",
+            "2156699",
+            "2157494",
+            "2210484",
+            "2244364",
+            "2244902",
+            "2254704",
+            "2301847",
+            "2385744",
+            "2569314",
+            "2778291",
+            "2790790",
+            "2798960",
+            "2799139",
+            "2800346",
+            "2843801",
+            "2851075",
+            "2978872",
+            "2982611",
+            "3131282",
+            "3238092",
+            "3352471",
+            "3369198"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10000,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10000,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10000,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10000,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 0,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            },
+            {
+              "category_id": 11053,
+              "name": "Часто шукають",
+              "position": 10000,
+              "parent_id": "2",
+              "breadcrumb": 0,
+              "url_path": "chasto-ischut.html",
+              "level": "2"
+            },
+            {
+              "category_id": 13469,
+              "name": "Харкове, ми з тобою",
+              "position": 0,
+              "parent_id": "11053",
+              "breadcrumb": 0,
+              "url_path": "chasto-ischut/harkiv-mi-z-toboju.html",
+              "level": "3"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5671, 5672, 11053, 13469],
+          "filterable_category_ids": [5658],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 105,
+          "regular_price": 105,
+          "discount_percent": 0,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/c/o/cover_225_2.jpg",
+              "lab": "",
+              "pos": 2
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/d/_/d_page_10_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_10_3.jpg"
+            },
+            {
+              "file": "/d/_/d_page_08_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_08_3.jpg"
+            },
+            {
+              "file": "/d/_/d_page_09_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_09_3.jpg"
+            },
+            {
+              "file": "/d/_/d_page_06_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_06_3.jpg"
+            },
+            {
+              "file": "/d/_/d_page_07_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_07_3.jpg"
+            },
+            {
+              "file": "/d/_/d_page_05_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_05_3.jpg"
+            },
+            {
+              "file": "/d/_/d_page_04_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_04_3.jpg"
+            },
+            {
+              "file": "/d/_/d_page_03_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_03_3.jpg"
+            },
+            {
+              "file": "/d/_/d_page_02_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_02_3.jpg"
+            },
+            {
+              "file": "/d/_/d_page_01_3.jpg",
+              "sort_order": "0",
+              "entity_id": "2389144",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/_/d_page_01_3.jpg"
+            }
+          ],
+          "downloadable_product_format": ["epub", "fb2", "mobi", "pdf"],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 2389144,
+              "qty": 10000,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            },
+            {
+              "source_code": "yakaboo_kyiv",
+              "product_id": 2389144,
+              "qty": 0,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids": [1273],
+          "promotion_promo_type": "4",
+          "promotions": [
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "zamovlennja-eknigi-na-yakaboo-z-bezplatnoju-dostavkoju.html"
+            }
+          ],
+          "promotion_ids_visible": [773, 1273],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Електронна книга Державець",
+          "meta_description": "ᐉ Купити та скачати електронну книгу «Державець», автор – Нікколо Макіавеллі ⚡, в інтернет-магазині YAKABOO 👈. Купити електронну книжку у форматі: epub, fb2, mobi, pdf за ціною 105 грн. ☝️",
+          "meta_title": "Електронна книга «Державець» – Нікколо Макіавеллі – купити за ціною 105 грн. на YAKABOO",
+          "free_shipping": 1,
+          "tsk": 1754433729,
+          "original_price": 105,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 105,
+          "original_final_price": 105,
+          "price_tax": 0,
+          "price_incl_tax": 105,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 105,
+          "special_price": 0,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "2244364",
+        "_score": 65.67609,
+        "_source": {
+          "attribute_set_id": 211,
+          "created_at": "2021-01-08 10:53:11",
+          "updated_at": "2025-05-28 04:32:49",
+          "type_id": "downloadable",
+          "sku": "1265414",
+          "id": 2244364,
+          "name": "Державець",
+          "meta_title": "Електронна книга «Державець» – Нікколо Макіавеллі – купити за ціною 69 грн. на YAKABOO",
+          "meta_description": "ᐉ Купити та скачати електронну книгу «Державець», автор – Нікколо Макіавеллі &#x26a1;, в інтернет-магазині YAKABOO &#x1f448;. Купити електронну книжку у форматі: epub, fb2, pdf, rtf за ціною 69 грн. &",
+          "image": "/c/o/cover_347_1.jpg",
+          "small_image": "/c/o/cover_347_1.jpg",
+          "thumbnail": "/c/o/cover_347_1.jpg",
+          "url_key": "derzhavec",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_publisher_label": [
+            {
+              "option_id": "770934",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "Мультимедійне видавництво Стрельбицького",
+              "url_path": "book_publisher/view/Mul_timedijnoe_izdatel_stvo_Strel_bickogo",
+              "sort_order": "100",
+              "option_code": "Mul_timedijnoe_izdatel_stvo_Strel_bickogo"
+            }
+          ],
+          "book_publisher": [770934],
+          "book_translator_label": [
+            {
+              "option_id": "360679",
+              "attribute_id": "2965",
+              "attribute_label": "Перекладач",
+              "label": "Ярослав Мишанич",
+              "url_path": "book_translator/view/Jaroslav_Mishanich",
+              "sort_order": "100",
+              "option_code": "Jaroslav_Mishanich"
+            }
+          ],
+          "book_translator": [360679],
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "SMP2300000141474"
+            }
+          ],
+          "book_isbn": "SMP2300000141474",
+          "for_filter_is_in_stock": [740596],
+          "marketplace_id": "yakaboo",
+          "book_publication_label": [
+            {
+              "option_id": "781498",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Електронна",
+              "url_path": "None",
+              "sort_order": "99",
+              "option_code": "Jelektronnaja"
+            }
+          ],
+          "book_publication": [781498],
+          "description": "<p style=\"text-align: justify;\">&laquo;Державець&raquo; (іноді перекладають як &laquo;Володар&raquo;) - найвідоміший трактат флорентійського мислителя, дипломата, чиновника епохи пізнього Середньовіччя &ndash; початку Відродження Ніколо Макіавеллі.</p>\r\n<p style=\"text-align: justify;\">У книзі детально описано цілі і методи правління, відомі на той час форми правління, особисті якості та світогляд, якими має володіти ідеальний лідер держави. Детально досліджено методи та способи захоплення і утримання влади.</p>\r\n<p style=\"text-align: justify;\">Книга являла собою фундаментальну працю свого часу щодо систематизації відомостей про державний устрій та управління державою.</p>\r\n<p style=\"text-align: justify;\">Трактат &laquo;Володар&raquo; був внесений католицькою церквою до списку заборонених книг.</p>\r\n<p style=\"text-align: justify;\">Переклад українською Ярослава Мишанича.</p>",
+          "short_description": "«Державець» (іноді перекладають як «Володар») - найвідоміший трактат флорентійського мислителя, дипломата, чиновника епохи пізнього Середньовіччя – початку Відродження Ніколо Макіавеллі.\r\nУ книзі детально описано цілі і методи правління, відомі на той час форми правління, особисті якості та світогляд, якими має володіти ідеальний лідер держави. Детально досліджено методи та способи захоплення і утримання влади.\r\nКнига являла собою фундаментальну працю свого часу щодо систематизації відомостей про державний устрій та управління",
+          "quote": "{{DELIMETER}}",
+          "price": 69,
+          "special_from_date": "2021-01-27 00:00:00",
+          "published_at": "2021-01-27 13:03:23",
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 22,
+          "book_first_year_label": [
+            {
+              "attribute_label": "Рік першого видання",
+              "label": 1532
+            }
+          ],
+          "book_first_year": 1532,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2020
+            }
+          ],
+          "book_year": 2020,
+          "url_path_1": "derzhavec-2244364.html",
+          "url_path_2": "derzhavec-2244364.html",
+          "url_path": "derzhavec-2244364.html",
+          "url_path_3": "derzhavec-2244364.html",
+          "another_link": [
+            "1237494",
+            "1568011",
+            "1580148",
+            "1876465",
+            "1886653",
+            "1906984",
+            "1906985",
+            "1906986",
+            "1926653",
+            "1935633",
+            "1938906",
+            "1940985",
+            "1948915",
+            "2036815",
+            "2137132",
+            "2137133",
+            "2156699",
+            "2157494",
+            "2210484",
+            "2244902",
+            "2254704",
+            "2301847",
+            "2385744",
+            "2389144",
+            "2569314",
+            "2778291",
+            "2790790",
+            "2798960",
+            "2799139",
+            "2800346",
+            "2843801",
+            "2851075",
+            "2978872",
+            "2982611",
+            "3131282",
+            "3238092",
+            "3352471",
+            "3369198"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10001,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10001,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10001,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10001,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 1,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5671, 5672],
+          "filterable_category_ids": [5658],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 69,
+          "regular_price": 69,
+          "discount_percent": 0,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/c/o/cover_347_1.jpg",
+              "lab": "",
+              "pos": 2
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/c/h/chtivo_2033-0.png",
+              "sort_order": "1",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-0.png"
+            },
+            {
+              "file": "/c/h/chtivo_2033-1.png",
+              "sort_order": "2",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-1.png"
+            },
+            {
+              "file": "/c/h/chtivo_2033-2.png",
+              "sort_order": "3",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-2.png"
+            },
+            {
+              "file": "/c/h/chtivo_2033-3.png",
+              "sort_order": "4",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-3.png"
+            },
+            {
+              "file": "/c/h/chtivo_2033-4.png",
+              "sort_order": "5",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-4.png"
+            },
+            {
+              "file": "/c/h/chtivo_2033-5.png",
+              "sort_order": "6",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-5.png"
+            },
+            {
+              "file": "/c/h/chtivo_2033-6.png",
+              "sort_order": "7",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-6.png"
+            },
+            {
+              "file": "/c/h/chtivo_2033-7.png",
+              "sort_order": "8",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-7.png"
+            },
+            {
+              "file": "/c/h/chtivo_2033-8.png",
+              "sort_order": "9",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-8.png"
+            },
+            {
+              "file": "/c/h/chtivo_2033-9.png",
+              "sort_order": "10",
+              "entity_id": "2244364",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/c/h/chtivo_2033-9.png"
+            }
+          ],
+          "downloadable_product_format": ["epub", "fb2", "pdf", "rtf"],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 2244364,
+              "qty": 10000,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            },
+            {
+              "source_code": "yakaboo_kyiv",
+              "product_id": 2244364,
+              "qty": 0,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids_visible": [773],
+          "promotion_ids": [],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Електронна книга Державець",
+          "free_shipping": 0,
+          "tsk": 1754433729,
+          "original_price": 69,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 69,
+          "original_final_price": 69,
+          "price_tax": 0,
+          "price_incl_tax": 69,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 69,
+          "special_price": 0,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "1876465",
+        "_score": 65.59312,
+        "_source": {
+          "attribute_set_id": 20,
+          "created_at": "2019-05-21 06:24:08",
+          "updated_at": "2025-05-14 08:28:10",
+          "type_id": "simple",
+          "sku": "935887",
+          "id": 1876465,
+          "name": "Державець",
+          "image": "/1/7/1717.jpg",
+          "small_image": "/1/7/1717.jpg",
+          "thumbnail": "/1/7/1717.jpg",
+          "url_key": "derzhavec",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_binding_type_label": [
+            {
+              "option_id": "332270",
+              "attribute_id": "2945",
+              "attribute_label": "Тип обкладинки",
+              "label": "М'яка",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Mjagkij"
+            }
+          ],
+          "book_binding_type": [332270],
+          "book_circulation_label": [
+            {
+              "attribute_label": "Тираж",
+              "label": "1500"
+            }
+          ],
+          "book_circulation": "1500",
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_page_count_label": [
+            {
+              "attribute_label": "Кількість сторінок",
+              "label": "121"
+            }
+          ],
+          "book_page_count": "121",
+          "book_publisher_label": [
+            {
+              "option_id": "334499",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "Фоліо",
+              "url_path": "book_publisher/view/Folio",
+              "sort_order": "100",
+              "option_code": "Folio"
+            }
+          ],
+          "book_publisher": [334499],
+          "book_series_label": [
+            {
+              "option_id": "773727",
+              "attribute_id": "2964",
+              "attribute_label": "Серія книг",
+              "label": "Істини",
+              "url_path": "book_series/view/Istini",
+              "sort_order": "100",
+              "option_code": "Istini"
+            }
+          ],
+          "book_series": [773727],
+          "book_translator_label": [
+            {
+              "option_id": "767715",
+              "attribute_id": "2965",
+              "attribute_label": "Перекладач",
+              "label": "Євген Тарнавський",
+              "url_path": "book_translator/view/Evgenij_Tarnavskij",
+              "sort_order": "100",
+              "option_code": "Evgenij_Tarnavskij"
+            }
+          ],
+          "book_translator": [767715],
+          "barcode": "9789660386198",
+          "book_binding_label": [
+            {
+              "attribute_label": "Формат",
+              "label": "120х165 мм"
+            }
+          ],
+          "book_binding": "120х165 мм",
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "978-966-03-8619-8"
+            }
+          ],
+          "book_isbn": "978-966-03-8619-8",
+          "book_print_label": [
+            {
+              "option_id": "733265",
+              "attribute_id": "3987",
+              "attribute_label": "Папір",
+              "label": "Газетний",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Gazetnaja"
+            }
+          ],
+          "book_print": [733265],
+          "book_illustration_label": [
+            {
+              "option_id": "733254",
+              "attribute_id": "3988",
+              "attribute_label": "Ілюстрації",
+              "label": "Немає ілюстрацій",
+              "url_path": "book_illustration/view/Net_illjustracij",
+              "sort_order": "0",
+              "option_code": "Net_illjustracij"
+            }
+          ],
+          "book_illustration": [733254],
+          "marketplace_id": "yakaboo",
+          "book_publication_label": [
+            {
+              "option_id": "781497",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Паперова",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Bumazhnaja"
+            }
+          ],
+          "book_publication": [781497],
+          "description": "<p style=\"text-align: justify;\">Все життя Нікколо Мак&rsquo;явеллі (1469&mdash;1527), видатного італійського мислителя, історика, письменника і комедіографа, було пов&rsquo;язано з політикою. У 29 років його обрали другим канцлером Флорентійської республіки, і він впродовж 14 років займався її внутрішніми справами.</p>\n<p style=\"text-align: justify;\">А коли його позбавили можливості бути політиком-практиком, став політиком-теоретиком &mdash; так з&rsquo;явився його знаменитий &laquo;Державець&raquo; (1513). Ця книжка стала своєрідною програмою з управління державою, в ній Мак&rsquo;явеллі сформулював загальні політичні закони, а також визначив роль і місце правителя в житті держави.</p>",
+          "short_description": "Все життя Нікколо Мак’явеллі (1469—1527), видатного італійського мислителя, історика, письменника і комедіографа, було пов’язано з політикою. У 29 років його обрали другим канцлером Флорентійської республіки, і він впродовж 14 років займався її внутрішніми справами.\nА коли його позбавили можливості бути політиком-практиком, став політиком-теоретиком — так з’явився його знаменитий «Державець» (1513). Ця книжка стала своєрідною програмою з управління державою, в ній Мак’явеллі сформулював загальні політичні закони, а також визначив роль і місце",
+          "keywords": "політологія мемуари влада управління ",
+          "price": 60,
+          "weight": 110,
+          "special_from_date": "2019-05-22 00:00:00",
+          "published_at": "2019-05-22 00:00:00",
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 18,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2019
+            }
+          ],
+          "book_year": 2019,
+          "url_path_1": "derzhavec-1876465.html",
+          "url_path_2": "derzhavec-1876465.html",
+          "url_path": "derzhavec-1876465.html",
+          "url_path_3": "derzhavec-1876465.html",
+          "reviews": {
+            "reviews_count": "1",
+            "rating_summary": "60"
+          },
+          "another_link": [
+            "1580148",
+            "1886653",
+            "2244364",
+            "2244902",
+            "2385744",
+            "2389144",
+            "3131282",
+            "3352471",
+            "3369198"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10001,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10001,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10001,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10001,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 1,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            },
+            {
+              "category_id": 11847,
+              "name": "Вибір читачів",
+              "position": 10000,
+              "parent_id": "4723",
+              "breadcrumb": 0,
+              "url_path": "knigi/vibir-chitachiv.html",
+              "level": "3"
+            },
+            {
+              "category_id": 11854,
+              "name": "Книги про саморозвиток і мотивацію за вибором читачів",
+              "position": 0,
+              "parent_id": "11847",
+              "breadcrumb": 0,
+              "url_path": "knigi/vibir-chitachiv/samorazvitie-i-motivacija.html",
+              "level": "4"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5671, 5672, 11847, 11854],
+          "filterable_category_ids": [5658, 11847],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 60,
+          "regular_price": 60,
+          "discount_percent": 0,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/1/7/1717.jpg",
+              "lab": "",
+              "pos": 1
+            },
+            {
+              "typ": "image",
+              "image": "/1/7/1717.jpg",
+              "lab": "",
+              "pos": 1
+            },
+            {
+              "typ": "image",
+              "image": "/1/7/1718.jpg",
+              "lab": "",
+              "pos": 2
+            },
+            {
+              "typ": "image",
+              "image": "/1/7/1718.jpg",
+              "lab": "",
+              "pos": 2
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/_/_/____-_____1-1.png",
+              "sort_order": "2",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-1.png"
+            },
+            {
+              "file": "/_/_/____-_____1-2.png",
+              "sort_order": "3",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-2.png"
+            },
+            {
+              "file": "/_/_/____-_____1-3.png",
+              "sort_order": "4",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-3.png"
+            },
+            {
+              "file": "/_/_/____-_____1-4.png",
+              "sort_order": "5",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-4.png"
+            },
+            {
+              "file": "/_/_/____-_____1-5.png",
+              "sort_order": "6",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-5.png"
+            },
+            {
+              "file": "/_/_/____-_____1-6.png",
+              "sort_order": "7",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-6.png"
+            },
+            {
+              "file": "/_/_/____-_____1-7.png",
+              "sort_order": "8",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-7.png"
+            },
+            {
+              "file": "/_/_/____-_____1-8.png",
+              "sort_order": "9",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-8.png"
+            },
+            {
+              "file": "/_/_/____-_____1-9.png",
+              "sort_order": "10",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-9.png"
+            },
+            {
+              "file": "/_/_/____-_____1-10.png",
+              "sort_order": "11",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-10.png"
+            },
+            {
+              "file": "/_/_/____-_____1-11.png",
+              "sort_order": "12",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-11.png"
+            },
+            {
+              "file": "/_/_/____-_____1-12.png",
+              "sort_order": "13",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-12.png"
+            },
+            {
+              "file": "/_/_/____-_____1-13.png",
+              "sort_order": "14",
+              "entity_id": "1876465",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/____-_____1-13.png"
+            }
+          ],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 1876465,
+              "qty": 0,
+              "stock_status": 0,
+              "is_in_stock": false,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids": [],
+          "promotion_ids_visible": [],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Книга Державець",
+          "meta_description": "ᐉ Купити книгу «Державець», автор – Нікколо Макіавеллі, в інтернет-магазині YAKABOO 👈. Замовте книгу за найкращою ціною 60 грн. Відгуки та рецензії ✍.",
+          "meta_title": "Книга «Державець» – Нікколо Макіавеллі, купити за ціною 60 на YAKABOO: 978-966-03-8619-8",
+          "free_shipping": 0,
+          "tsk": 1754433729,
+          "original_price": 60,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 60,
+          "original_final_price": 60,
+          "price_tax": 0,
+          "price_incl_tax": 60,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 60,
+          "special_price": 0,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "3352471",
+        "_score": 65.21745,
+        "_source": {
+          "attribute_set_id": 20,
+          "created_at": "2025-04-09 03:56:15",
+          "updated_at": "2025-08-03 21:18:08",
+          "type_id": "simple",
+          "sku": "1500886",
+          "id": 3352471,
+          "name": "Державець",
+          "image": "/_/_/____cr_54.jpg",
+          "small_image": "/_/_/____cr_54.jpg",
+          "thumbnail": "/_/_/____cr_54.jpg",
+          "url_key": "derzhavec-3352471",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_binding_type_label": [
+            {
+              "option_id": "332270",
+              "attribute_id": "2945",
+              "attribute_label": "Тип обкладинки",
+              "label": "М'яка",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Mjagkij"
+            }
+          ],
+          "book_binding_type": [332270],
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_page_count_label": [
+            {
+              "attribute_label": "Кількість сторінок",
+              "label": "128"
+            }
+          ],
+          "book_page_count": "128",
+          "book_publisher_label": [
+            {
+              "option_id": "334499",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "Фоліо",
+              "url_path": "book_publisher/view/Folio",
+              "sort_order": "100",
+              "option_code": "Folio"
+            }
+          ],
+          "book_publisher": [334499],
+          "book_series_label": [
+            {
+              "option_id": "883887",
+              "attribute_id": "2964",
+              "attribute_label": "Серія книг",
+              "label": "Folio. Світова класика",
+              "url_path": "book_series/view/Folio_Svitova_klasika",
+              "sort_order": "100",
+              "option_code": "Folio_Svitova_klasika"
+            }
+          ],
+          "book_series": [883887],
+          "book_translator_label": [
+            {
+              "option_id": "767715",
+              "attribute_id": "2965",
+              "attribute_label": "Перекладач",
+              "label": "Євген Тарнавський",
+              "url_path": "book_translator/view/Evgenij_Tarnavskij",
+              "sort_order": "100",
+              "option_code": "Evgenij_Tarnavskij"
+            }
+          ],
+          "book_translator": [767715],
+          "film_name_en_label": [
+            {
+              "attribute_label": "Оригінальна назва",
+              "label": "Il Principe"
+            }
+          ],
+          "film_name_en": "Il Principe",
+          "barcode": "9786178493035",
+          "book_binding_label": [
+            {
+              "attribute_label": "Формат",
+              "label": "130х200 мм"
+            }
+          ],
+          "book_binding": "130х200 мм",
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "978-617-8493-03-5"
+            }
+          ],
+          "book_isbn": "978-617-8493-03-5",
+          "book_illustration_label": [
+            {
+              "option_id": "733254",
+              "attribute_id": "3988",
+              "attribute_label": "Ілюстрації",
+              "label": "Немає ілюстрацій",
+              "url_path": "book_illustration/view/Net_illjustracij",
+              "sort_order": "0",
+              "option_code": "Net_illjustracij"
+            }
+          ],
+          "book_illustration": [733254],
+          "for_filter_is_in_stock": [740596],
+          "book_publication_label": [
+            {
+              "option_id": "781497",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Паперова",
+              "url_path": "None",
+              "sort_order": "0",
+              "option_code": "Bumazhnaja"
+            }
+          ],
+          "book_publication": [781497],
+          "description": "<p><span style=\"font-size: 16px;\">Історико-політичний трактат «Державець» став\\xa0 найвідомішим творінням видатного італійського політичного діяча, мислителя, письменника Нікколо Мак\\'явеллі (1469–1527). У ньому автор розкрив закономірності суспільно-політичних явищ, максимально відверто виклав свої думки щодо методів здобуття й утримання влади. </span></p>\r\n<p><span style=\"font-size: 16px;\">Мак\\'явеллі аналізує діяння Александра Македонського, Карла VII, Людовика XI, біблійного Давида та багатьох інших відомих правителів, виокремлює правильні стратегії й докладно зупиняється на помилках, пропонуючи рішення, які могли б усе виправити.\\xa0Часи змінюються, а\\xa0 праця Мак’явеллі незмінно актуальна для посадовців усіх рівнів управління та владних інститутів.</span></p>",
+          "keywords": "Історико-політичний трактат",
+          "price": 118,
+          "published_at": "2025-04-09 00:00:00",
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 7,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2025
+            }
+          ],
+          "book_year": 2025,
+          "is_top_sale": true,
+          "is_top_sale_count": 21,
+          "url_path_1": "derzhavec-3352471.html",
+          "url_path_2": "derzhavec-3352471.html",
+          "url_path": "derzhavec-3352471.html",
+          "url_path_3": "derzhavec-3352471.html",
+          "another_link": [
+            "1237494",
+            "1568011",
+            "1580148",
+            "1871531",
+            "1876465",
+            "1879395",
+            "1886653",
+            "1906984",
+            "1906985",
+            "1906986",
+            "1926653",
+            "1935633",
+            "1938906",
+            "1940985",
+            "1948915",
+            "2036815",
+            "2067897",
+            "2137132",
+            "2137133",
+            "2156699",
+            "2157494",
+            "2210484",
+            "2244364",
+            "2244902",
+            "2254704",
+            "2271415",
+            "2301847",
+            "2385744",
+            "2389144",
+            "2569314",
+            "2778291",
+            "2790790",
+            "2798960",
+            "2799139",
+            "2800346",
+            "2843801",
+            "2851075",
+            "2978872",
+            "2982611",
+            "3131282",
+            "3238092",
+            "3369198"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10000,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10000,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10000,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10000,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 0,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            },
+            {
+              "category_id": 5685,
+              "name": "Соціологія",
+              "position": 10000,
+              "parent_id": "5658",
+              "breadcrumb": 0,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/sociologija.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5687,
+              "name": "Соціологія розвитку суспільства",
+              "position": 0,
+              "parent_id": "5685",
+              "breadcrumb": 0,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/sociologija/sociologija-razvitija-obschestva.html",
+              "level": "5"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5671, 5672, 5685, 5687],
+          "filterable_category_ids": [5658],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 118,
+          "regular_price": 118,
+          "discount_percent": 0,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/_/_/____cr_54.jpg",
+              "lab": "",
+              "pos": 1
+            },
+            {
+              "typ": "image",
+              "image": "/_/_/____cr_54.jpg",
+              "lab": "",
+              "pos": 1
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/_/_/______-16_bsjdnocu4i.jpg",
+              "sort_order": "1",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-16_bsjdnocu4i.jpg"
+            },
+            {
+              "file": "/_/_/______-17_lxq08bhimp.jpg",
+              "sort_order": "2",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-17_lxq08bhimp.jpg"
+            },
+            {
+              "file": "/_/_/______-02_fhx1lj9zhx.jpg",
+              "sort_order": "3",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-02_fhx1lj9zhx.jpg"
+            },
+            {
+              "file": "/_/_/______-03_gbsdrkxeid.jpg",
+              "sort_order": "4",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-03_gbsdrkxeid.jpg"
+            },
+            {
+              "file": "/_/_/______-04_47irm1sf8b.jpg",
+              "sort_order": "5",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-04_47irm1sf8b.jpg"
+            },
+            {
+              "file": "/_/_/______-05_wshng338wd.jpg",
+              "sort_order": "6",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-05_wshng338wd.jpg"
+            },
+            {
+              "file": "/_/_/______-06_hbwmm6xnzb.jpg",
+              "sort_order": "7",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-06_hbwmm6xnzb.jpg"
+            },
+            {
+              "file": "/_/_/______-07_pqapkqzm0v.jpg",
+              "sort_order": "8",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-07_pqapkqzm0v.jpg"
+            },
+            {
+              "file": "/_/_/______-08_qggy18ituy.jpg",
+              "sort_order": "9",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-08_qggy18ituy.jpg"
+            },
+            {
+              "file": "/_/_/______-09_jp20hmkcgj.jpg",
+              "sort_order": "10",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-09_jp20hmkcgj.jpg"
+            },
+            {
+              "file": "/_/_/______-10_rbwpnhai7k.jpg",
+              "sort_order": "11",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-10_rbwpnhai7k.jpg"
+            },
+            {
+              "file": "/_/_/______-11_wmgypdzrjm.jpg",
+              "sort_order": "12",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-11_wmgypdzrjm.jpg"
+            },
+            {
+              "file": "/_/_/______-12_prlusoexz2.jpg",
+              "sort_order": "13",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-12_prlusoexz2.jpg"
+            },
+            {
+              "file": "/_/_/______-13_bvuqyni2j7.jpg",
+              "sort_order": "14",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-13_bvuqyni2j7.jpg"
+            },
+            {
+              "file": "/_/_/______-14_nk1ixyetvy.jpg",
+              "sort_order": "15",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-14_nk1ixyetvy.jpg"
+            },
+            {
+              "file": "/_/_/______-15_fk2iwf4vu0.jpg",
+              "sort_order": "16",
+              "entity_id": "3352471",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/_/_/______-15_fk2iwf4vu0.jpg"
+            }
+          ],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 3352471,
+              "qty": 28,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            },
+            {
+              "source_code": "yakaboo_kyiv",
+              "product_id": 3352471,
+              "qty": 0,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids": [1273],
+          "promotion_promo_type": "4",
+          "promotions": [
+            {
+              "name": "None",
+              "color": "None",
+              "background": "None",
+              "sort": 0,
+              "url_key": "zamovlennja-eknigi-na-yakaboo-z-bezplatnoju-dostavkoju.html"
+            }
+          ],
+          "promotion_ids_visible": [1273],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Книга Державець",
+          "meta_description": "ᐉ Купити книгу «Державець», автор – Нікколо Макіавеллі, в інтернет-магазині YAKABOO 👈. Замовте книгу за найкращою ціною 120 грн. Відгуки та рецензії ✍.",
+          "meta_title": "Книга «Державець» – Нікколо Макіавеллі, купити за ціною 120 на YAKABOO: 978-617-8493-03-5",
+          "free_shipping": 1,
+          "tsk": 1754433729,
+          "original_price": 118,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 118,
+          "original_final_price": 118,
+          "price_tax": 0,
+          "price_incl_tax": 118,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 118,
+          "special_price": 0,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0
+        }
+      },
+      {
+        "_index": "vue_storefront_catalog_2_product_1750401964",
+        "_type": "product",
+        "_id": "3369198",
+        "_score": 64.79148,
+        "_source": {
+          "attribute_set_id": 211,
+          "created_at": "2025-06-24 06:32:05",
+          "updated_at": "2025-07-16 13:44:05",
+          "type_id": "downloadable",
+          "sku": "1502957",
+          "id": 3369198,
+          "name": "Державець",
+          "image": "/c/o/cover_2356.jpg",
+          "small_image": "/c/o/cover_2356.jpg",
+          "thumbnail": "/c/o/cover_2356.jpg",
+          "url_key": "derzhavec-3369198",
+          "author_label": [
+            {
+              "option_id": "375596",
+              "attribute_id": "2942",
+              "attribute_label": "Автор",
+              "label": "Нікколо Макіавеллі",
+              "url_path": "author/view/Nikkolo_Makiavelli",
+              "sort_order": "0",
+              "option_code": "Nikkolo_Makiavelli"
+            }
+          ],
+          "author": [375596],
+          "book_lang_label": [
+            {
+              "option_id": "332272",
+              "attribute_id": "2957",
+              "attribute_label": "Мова",
+              "label": "Українська",
+              "url_path": "None",
+              "sort_order": "1",
+              "option_code": "Ukrainskij"
+            }
+          ],
+          "book_lang": [332272],
+          "book_page_count_label": [
+            {
+              "attribute_label": "Кількість сторінок",
+              "label": "126"
+            }
+          ],
+          "book_page_count": "126",
+          "book_publisher_label": [
+            {
+              "option_id": "334499",
+              "attribute_id": "2961",
+              "attribute_label": "Видавництво",
+              "label": "Фоліо",
+              "url_path": "book_publisher/view/Folio",
+              "sort_order": "100",
+              "option_code": "Folio"
+            }
+          ],
+          "book_publisher": [334499],
+          "book_series_label": [
+            {
+              "option_id": "883887",
+              "attribute_id": "2964",
+              "attribute_label": "Серія книг",
+              "label": "Folio. Світова класика",
+              "url_path": "book_series/view/Folio_Svitova_klasika",
+              "sort_order": "100",
+              "option_code": "Folio_Svitova_klasika"
+            }
+          ],
+          "book_series": [883887],
+          "book_isbn_label": [
+            {
+              "attribute_label": "ISBN",
+              "label": "978-617-8493-03-5"
+            }
+          ],
+          "book_isbn": "978-617-8493-03-5",
+          "for_filter_is_in_stock": [740596],
+          "book_publication_label": [
+            {
+              "option_id": "781498",
+              "attribute_id": "4153",
+              "attribute_label": "Тип",
+              "label": "Електронна",
+              "url_path": "None",
+              "sort_order": "99",
+              "option_code": "Jelektronnaja"
+            }
+          ],
+          "book_publication": [781498],
+          "description": "<p>Історико-політичний трактат «Державець» став найвідомішим творінням видатного італійського політичного діяча, мислителя, письменника Нікколо Мак’явеллі (1469–1527). У ньому автор розкрив закономірності суспільно-політичних явищ, максимально відверто виклав свої думки щодо методів здобуття й утримання влади. Мак’явеллі аналізує діяння Александра Македонського, Карла VII, Людовика XI, біблійного Давида та багатьох інших відомих правителів, виокремлює правильні стратегії й докладно зупиняється на помилках, пропонуючи рішення, які могли б усе виправити. Часи змінюються, а праця Мак’явеллі незмінно актуальна для посадовців усіх рівнів управління та владних інститутів.</p>",
+          "short_description": "<p>Історико-політичний трактат «Державець» став найвідомішим творінням видатного італійського політичного діяча, мислителя, письменника Нікколо Мак’явеллі (1469–1527). У ньому автор розкрив закономірності суспільно-політичних явищ, максимально відверто виклав свої думки щодо методів здобуття й утримання влади. Мак’явеллі аналізує діяння Александра Македонського, Карла VII, Людовика XI, біблійного Давида та багатьох інших відомих правителів, виокремлює правильні стратегії й докладно зупиняється на помилках, пропонуючи рішення, які могли б усе виправити. Часи змінюються, а праця Мак’явеллі незмінно актуальна для посадовців усіх рівнів управління та владних інститутів.</p>",
+          "keywords": "політика",
+          "price": 60,
+          "published_at": "2025-07-16 00:00:00",
+          "status": 1,
+          "visibility": 4,
+          "statistics_visits": 2,
+          "book_year_label": [
+            {
+              "attribute_label": "Рік видання",
+              "label": 2025
+            }
+          ],
+          "book_year": 2025,
+          "url_path_1": "derzhavec-3369198.html",
+          "url_path_2": "derzhavec-3369198.html",
+          "url_path": "derzhavec-3369198.html",
+          "url_path_3": "derzhavec-3369198.html",
+          "another_link": [
+            "1580148",
+            "1876465",
+            "1886653",
+            "2244364",
+            "2244902",
+            "2385744",
+            "2389144",
+            "3131282",
+            "3352471"
+          ],
+          "category": [
+            {
+              "category_id": 2,
+              "name": "Default Category",
+              "position": 10000,
+              "parent_id": "1",
+              "breadcrumb": 0,
+              "url_path": "",
+              "level": "1"
+            },
+            {
+              "category_id": 4723,
+              "name": "Книжки",
+              "position": 10000,
+              "parent_id": "2",
+              "breadcrumb": 1,
+              "url_path": "knigi.html",
+              "level": "2"
+            },
+            {
+              "category_id": 5658,
+              "name": "Суспільство. Держава. Філософія",
+              "position": 10000,
+              "parent_id": "4723",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija.html",
+              "level": "3"
+            },
+            {
+              "category_id": 5671,
+              "name": "Політика. Держава",
+              "position": 10000,
+              "parent_id": "5658",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo.html",
+              "level": "4"
+            },
+            {
+              "category_id": 5672,
+              "name": "Політологія. Політичні мемуари",
+              "position": 0,
+              "parent_id": "5671",
+              "breadcrumb": 1,
+              "url_path": "knigi/obschestvo-gosudarstvo-filosofija/politika-gosudarstvo/politologija-politicheskie-memuary.html",
+              "level": "5"
+            }
+          ],
+          "category_ids": [2, 4723, 5658, 5671, 5672],
+          "filterable_category_ids": [5658],
+          "default_category": ["4723", "5658", "5671", "5672"],
+          "final_price": 60,
+          "regular_price": 60,
+          "discount_percent": 0,
+          "media_gallery": [
+            {
+              "typ": "image",
+              "image": "/c/o/cover_2356.jpg",
+              "lab": "",
+              "pos": 2
+            }
+          ],
+          "mediagallery_image": [
+            {
+              "file": "/d/m/dm_page_01_trbtxkafaq.jpg",
+              "sort_order": "1",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_01_trbtxkafaq.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_02_9slkdho0j1.jpg",
+              "sort_order": "2",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_02_9slkdho0j1.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_03_xz8bgd0f68.jpg",
+              "sort_order": "3",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_03_xz8bgd0f68.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_04_kigxqcplq6.jpg",
+              "sort_order": "4",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_04_kigxqcplq6.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_05_olahskfaro.jpg",
+              "sort_order": "5",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_05_olahskfaro.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_06_blggn9a6xt.jpg",
+              "sort_order": "6",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_06_blggn9a6xt.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_07_49kesvoucz.jpg",
+              "sort_order": "7",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_07_49kesvoucz.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_08_jnmlz8fucr.jpg",
+              "sort_order": "8",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_08_jnmlz8fucr.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_09_cvu3yuup6g.jpg",
+              "sort_order": "9",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_09_cvu3yuup6g.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_10_snkmmegdep.jpg",
+              "sort_order": "10",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_10_snkmmegdep.jpg"
+            },
+            {
+              "file": "/d/m/dm_page_11_coorf0svsz.jpg",
+              "sort_order": "11",
+              "entity_id": "3369198",
+              "image_url": "https://static.yakaboo.ua/media/mediagallery/image/d/m/dm_page_11_coorf0svsz.jpg"
+            }
+          ],
+          "downloadable_product_format": ["epub", "fb2", "mobi", "pdf"],
+          "product_links": [],
+          "stock": [
+            {
+              "source_code": "default_yakaboo",
+              "product_id": 3369198,
+              "qty": 10000,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            },
+            {
+              "source_code": "yakaboo_kyiv",
+              "product_id": 3369198,
+              "qty": 0,
+              "stock_status": 1,
+              "is_in_stock": true,
+              "is_europe": false
+            }
+          ],
+          "promotion_ids": [],
+          "promotion_ids_visible": [],
+          "reward_bonus": [
+            {
+              "customer_group_id": 0,
+              "percent": 50,
+              "is_extra_bonus": 0
+            },
+            {
+              "customer_group_id": 1,
+              "percent": 50,
+              "is_extra_bonus": 0
+            }
+          ],
+          "h1": "Електронна книга Державець",
+          "meta_description": "ᐉ Купити та скачати електронну книгу «Державець», автор – Нікколо Макіавеллі ⚡, в інтернет-магазині YAKABOO 👈. Купити електронну книжку у форматі: epub, fb2, mobi, pdf за ціною 60 грн. ☝️",
+          "meta_title": "Електронна книга «Державець» – Нікколо Макіавеллі – купити за ціною 60 грн. на YAKABOO",
+          "free_shipping": 0,
+          "tsk": 1754433729,
+          "original_price": 60,
+          "original_price_tax": 0,
+          "original_price_incl_tax": 60,
+          "original_final_price": 60,
+          "price_tax": 0,
+          "price_incl_tax": 60,
+          "final_price_tax": 0,
+          "final_price_incl_tax": 60,
+          "special_price": 0,
+          "special_price_tax": 0,
+          "special_price_incl_tax": 0
+        }
+      }
+    ]
+  }
+}
