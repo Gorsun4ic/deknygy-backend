@@ -14,66 +14,73 @@ Yakaboo does not provide a simple GET request endpoint as more of the other APIs
 
 ```
 {
-    "query": {
-        "bool": {
-            "must": {
-                "function_score": {
-                    "query": {
-                        "bool": {
-                            "should": [
-                                {
-                                     "multi_match": {
-                                        "fields": [
-                                            "name^4",
-                                            "sku^5",
-                                            "category.name^1",
-                                            "author_label.label^2",
-                                            "book_publisher_label.label^2",
-                                            "gift_brand_label.label^2",
-                                            "keywords^3",
-                                            "children_brand_label.label^2"
-                                        ],
-                                        "query": query,
-                                        "fuzziness": 1.5,
-                                        "minimum_should_match": "75%"
-                                    }
-                                }
-                                ]
-                        }
-                    },
-                    "functions": [
-                        {
-                            "field_value_factor": {
-                                "field": "statistics_visits",
-                                "modifier": "log1p",
-                                "missing": 1
-                            }
-                        }
+  "query":{
+    "bool":{
+      "must":{
+        "function_score":{
+          "query":{
+            "bool":{
+              "should":[
+                {
+                  "multi_match":{
+                    "fields":[
+                      "name^4",
+                      "sku^5",
+                      "category.name^1",
+                      "author_label.label^2",
+                      "book_publisher_label.label^2",
+                      "gift_brand_label.label^2",
+                      "keywords^3",
+            ///          "children_brand_label.label^2"
                     ],
-                    "boost_mode": "sum",
-                    "score_mode": "sum"
+                    "query":"query",
+                    "fuzziness":1.5,
+                    "minimum_should_match":"75%"
+                  }
                 }
-            },
-            "filter": {
-                "bool": {
-                     "must": [
-                        {
-                            "terms": {
-                                "visibility": [2, 3, 4]
-                            }
-                        },
-                        {
-                            "terms": {
-                                "status": [0, 1]
-                            }
-                        }
-                    ]
-                }
+              ]
             }
+          },
+          "functions":[
+            {
+              "field_value_factor":{
+                "field":"statistics_visits",
+                "modifier":"log1p",
+                "missing":1
+              }
+            }
+          ],
+          "boost_mode":"sum",
+          "score_mode":"sum"
         }
-    },
-    "track_total_hits": True,
-    "size": 10
+      },
+      "filter":{
+        "bool":{
+          "must":[
+            {
+              "terms":{
+                "visibility":[
+                  2,
+                  3,
+                  4
+                ]
+              }
+            },
+            {
+              "terms":{
+                "status":[
+                  0,
+                  1
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "track_total_hits":true,
+  "size":10
 }
 ```
 
@@ -615,7 +622,7 @@ Usage: Add this string to yakaboo base url;
 
 ### Price key
 
-The `_source.final_price` is the price the customer pays, which may be lower than the ``_source.regular_price`` if a discount is greater than 0.
+The `_source.final_price` is the price the customer pays, which may be lower than the `_source.regular_price` if a discount is greater than 0.
 Source: `_source.final_price`
 Type: number
 Example: 60
@@ -703,6 +710,11 @@ Example:
     }
 ]
 ```
+
+We can get format by getting `option_id`. 
+Source: `array[0].option_id`
+Type: `"781497"`(Phyical) | `"781498"`(E-book) | `"781519"`(Audio)
+Example: `"781497"`
 
 Usually, this array contains only 1 element, so we can access it with array[0].
 Source: `array[0].label`

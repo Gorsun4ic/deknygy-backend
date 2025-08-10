@@ -14,6 +14,11 @@ The purpose of this API is to get query (book's name) and return as result an ar
 - ? ISBN
 - ? Publisher
 
+Format may be 1 | 2 | 3.
+1 - Physical
+2 - E-book
+3 - Audio
+
 Some APIs have all of mentioned info, some less. Optional (that not all APIs have) parameters are marked with question character.
 
 Each API has docs for it which include payload, output structure etc.
