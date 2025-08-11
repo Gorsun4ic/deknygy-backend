@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { BooksService } from './books.service';
+import { formatQuery } from '../common/utils/formatQuery';
 
 @Controller('book')
 export class BooksController {
@@ -7,6 +8,6 @@ export class BooksController {
 
   @Get()
   async searchBook(@Query('query') query: string): Promise<any> {
-    return this.bookService.searchBook(query);
+    return this.bookService.searchBook(formatQuery(query));
   }
 }

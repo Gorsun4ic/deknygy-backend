@@ -3,11 +3,11 @@
  * 2 - E-book
  * 3 - Audio
  */
-type FormatType = 1 | 2 | 3;
+export type FormatType = 1 | 2 | 3;
 
 export interface IBookInfo {
   title: string;
-  author: string;
+  author: string | null;
   price: number;
   link: string;
   store: string;
