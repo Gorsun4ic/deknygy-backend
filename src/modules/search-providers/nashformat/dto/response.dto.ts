@@ -53,6 +53,7 @@ export class NashformatProductDto {
   @Expose()
   @IsString()
   value: string;
+
   @Expose()
   @Type(() => NashformatBookDataDto)
   data: NashformatBookDataDto;
@@ -64,6 +65,6 @@ export class NashformatProductDto {
     return plainToInstance(NashformatProductDto, rawData, {
       excludeExtraneousValues: true,
       exposeUnsetFields: false,
-    }) as NashformatProductDto[];
+    });
   }
 }
