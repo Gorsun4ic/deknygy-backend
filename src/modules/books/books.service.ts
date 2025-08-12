@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { YakabooApiService } from '../search-providers/yakaboo-api/yakaboo-api.service';
 import { NashformatApiService } from '../search-providers/nashformat/nashformat-api.service';
 import { AprioriApiService } from '../search-providers/apriori/apriori-api.service';
+import { VivatApiService } from '../search-providers/vivat/vivat-api.service';
 import { IBookInfo } from '../common/interfaces/api/book.info';
 import { formatQuery } from '../common/utils/formatQuery';
 
@@ -11,16 +12,27 @@ export class BooksService {
     private readonly yakabooApiService: YakabooApiService,
     private readonly nashformatApiService: NashformatApiService,
     private readonly aprioriApiService: AprioriApiService,
+    private readonly vivatApiService: VivatApiService,
   ) {}
 
   async searchBook(query: string): Promise<IBookInfo[]> {
     const formattedQuery = formatQuery(query);
+    const startTime = Date.now();
     const yakabooResult: IBookInfo[] =
       await this.yakabooApiService.search(formattedQuery);
     const nashformatResult: IBookInfo[] =
       await this.nashformatApiService.search(formattedQuery);
     const aprioriResult: IBookInfo[] =
       await this.aprioriApiService.search(formattedQuery);
-    return [...yakabooResult, ...nashformatResult, ...aprioriResult];
+    const vivatResult: IBookInfo[] =
+      await this.vivatApiService.search(formattedQuery);
+    const endTime = Date.now();
+    console.log(`Time taken: ${endTime - startTime}ms`);
+    return [
+      ...yakabooResult,
+      ...nashformatResult,
+      ...aprioriResult,
+      ...vivatResult,
+    ];
   }
 }
