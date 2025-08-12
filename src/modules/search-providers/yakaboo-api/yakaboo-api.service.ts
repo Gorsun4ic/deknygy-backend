@@ -10,12 +10,13 @@ import { createYakabooSearchPayload } from './yakaboo-api.factory';
 import { YakabooResponseDto } from './dto/reponse.dto';
 import { mapYakabooResponseToBookInfo } from './lib/formatApiResponse';
 import { firstValueFrom } from 'rxjs';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 
 @Injectable()
 export class YakabooApiService {
   constructor(private readonly httpService: HttpService) {}
 
-  async search(query: string): Promise<any> {
+  async search(query: string): Promise<IBookInfo[]> {
     const payload = createYakabooSearchPayload(
       query,
       API_FUZZINESS,

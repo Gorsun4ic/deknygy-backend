@@ -2,6 +2,9 @@ export const API_URL: string =
   process.env.YAKABOO_API_URL ||
   'https://api2.yakaboo.ua/api/catalog/vue_storefront_catalog_2/product/_search';
 
+export const BASE_URL: string =
+  process.env.YAKABOO_BASE_URL || 'https://yakaboo.ua/';
+
 export const API_FUZZINESS: number = Number(
   process.env.YAKABOO_API_FUZZINESS || 1.5,
 );
