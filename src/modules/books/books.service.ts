@@ -18,21 +18,32 @@ export class BooksService {
   async searchBook(query: string): Promise<IBookInfo[]> {
     const formattedQuery = formatQuery(query);
     const startTime = Date.now();
-    const yakabooResult: IBookInfo[] =
-      await this.yakabooApiService.search(formattedQuery);
-    const nashformatResult: IBookInfo[] =
-      await this.nashformatApiService.search(formattedQuery);
-    const aprioriResult: IBookInfo[] =
-      await this.aprioriApiService.search(formattedQuery);
-    const vivatResult: IBookInfo[] =
-      await this.vivatApiService.search(formattedQuery);
+
+    // Search all APIs with error handling
+    const apiCalls = [
+      { name: 'Yakaboo', service: this.yakabooApiService },
+      { name: 'Nashformat', service: this.nashformatApiService },
+      { name: 'Apriori', service: this.aprioriApiService },
+      { name: 'Vivat', service: this.vivatApiService },
+    ];
+
+    const results = await Promise.allSettled(
+      apiCalls.map(({ service }) => service.search(formattedQuery)),
+    );
+
     const endTime = Date.now();
     console.log(`Time taken: ${endTime - startTime}ms`);
-    return [
-      ...yakabooResult,
-      ...nashformatResult,
-      ...aprioriResult,
-      ...vivatResult,
-    ];
+
+    // Collect results, handling failed APIs gracefully
+    return results
+      .map((result, index) => {
+        if (result.status === 'fulfilled') {
+          return result.value;
+        } else {
+          console.error(`${apiCalls[index].name} API failed:`, result.reason);
+          return [];
+        }
+      })
+      .flat();
   }
 }
