@@ -3,24 +3,23 @@ import { YakabooBookSourceDto } from '../dto/reponse.dto';
 import { clearIsbn } from 'src/modules/common/utils/clearIsbn';
 import { FormatType } from '../interfaces/format.types';
 import { YakabooResponseDto } from '../dto/reponse.dto';
-
-const YAKABOO_BASE_URL = process.env.YAKABOO_BASE_URL || 'https://yakaboo.ua/';
+import { BASE_URL } from '../constants/api.params';
 
 /**
  * Maps a single Yakaboo book source DTO to the standard IBookInfo interface.
  * @param source The YakabooBookSourceDto to map.
  * @returns The mapped IBookInfo object.
  */
-function mapYakabooSourceToBookInfo(source: YakabooBookSourceDto): IBookInfo {
+function formatYakabooResponse(source: YakabooBookSourceDto): IBookInfo {
   const author =
     source.author_label && source.author_label.length > 0
       ? source.author_label[0].label
-      : 'Unknown Author';
+      : null;
 
   const publisher =
     source.book_publisher_label && source.book_publisher_label.length > 0
       ? source.book_publisher_label[0].label
-      : 'Unknown Publisher';
+      : null;
 
   const isbn =
     source.book_isbn_label && source.book_isbn_label.length > 0
@@ -50,11 +49,13 @@ function mapYakabooSourceToBookInfo(source: YakabooBookSourceDto): IBookInfo {
       format = undefined;
   }
 
+  const link = `${BASE_URL}${source.slug}.html`;
+
   return {
     title: source.name,
     author: author,
     price: source.price,
-    link: `${YAKABOO_BASE_URL}${source.slug}.html`,
+    link,
     store: 'Yakaboo',
     availability: availability,
     format: format,
@@ -75,7 +76,5 @@ export function mapYakabooResponseToBookInfo(
     return [];
   }
 
-  return response.hits.hits.map((hit) =>
-    mapYakabooSourceToBookInfo(hit.source),
-  );
+  return response.hits.hits.map((hit) => formatYakabooResponse(hit.source));
 }

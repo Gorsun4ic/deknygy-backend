@@ -572,7 +572,7 @@ So, as we see, to get books we need to get hits.hits from response.
 
 /// Inside hits.hits
 
-### Title key
+### Title 
 
 Source: `_source.name`
 Type: Name is just a string as it is
