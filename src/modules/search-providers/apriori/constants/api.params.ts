@@ -3,7 +3,7 @@ export const API_URL: string =
   'https://apriori-publishing.com/backend/products';
 
 export const BASE_URL: string =
-  process.env.APRIORI_BASE_URL || 'https://apriori-publishing.com/';
+  process.env.APRIORI_BASE_URL || 'https://apriori-publishing.com';
 
 export const STORE_NAME: string = process.env.APRIORI_STORE_NAME || 'Апріорі';
 
