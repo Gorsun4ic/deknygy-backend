@@ -2,7 +2,7 @@
 
 Nashformat API can be reached by a simple endpoint with `GET` request
 
-# Request
+## Request
 
 **Endpoint**
 `https://nashformat.ua/ajax/search?term={query}`

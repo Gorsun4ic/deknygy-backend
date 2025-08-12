@@ -14,12 +14,12 @@ function formatYakabooResponse(source: YakabooBookSourceDto): IBookInfo {
   const author =
     source.author_label && source.author_label.length > 0
       ? source.author_label[0].label
-      : 'Unknown Author';
+      : null;
 
   const publisher =
     source.book_publisher_label && source.book_publisher_label.length > 0
       ? source.book_publisher_label[0].label
-      : 'Unknown Publisher';
+      : null;
 
   const isbn =
     source.book_isbn_label && source.book_isbn_label.length > 0
