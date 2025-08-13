@@ -3,6 +3,7 @@ import { YakabooApiService } from '../search-providers/yakaboo-api/yakaboo-api.s
 import { NashformatApiService } from '../search-providers/nashformat/nashformat-api.service';
 import { AprioriApiService } from '../search-providers/apriori/apriori-api.service';
 import { VivatApiService } from '../search-providers/vivat/vivat-api.service';
+import { StaryLevApiService } from '../search-providers/stary-lev/stary-lev-api.service';
 import { IBookInfo } from '../common/interfaces/api/book.info';
 import { formatQuery } from '../common/utils/formatQuery';
 
@@ -13,9 +14,10 @@ export class BooksService {
     private readonly nashformatApiService: NashformatApiService,
     private readonly aprioriApiService: AprioriApiService,
     private readonly vivatApiService: VivatApiService,
+    private readonly staryLevApiService: StaryLevApiService,
   ) {}
 
-  async searchBook(query: string): Promise<IBookInfo[]> {
+  async searchBook(query: string) {
     const formattedQuery = formatQuery(query);
     const startTime = Date.now();
 
@@ -25,6 +27,7 @@ export class BooksService {
       { name: 'Nashformat', service: this.nashformatApiService },
       { name: 'Apriori', service: this.aprioriApiService },
       { name: 'Vivat', service: this.vivatApiService },
+      { name: 'Stary Lev', service: this.staryLevApiService },
     ];
 
     const results = await Promise.allSettled(

@@ -5,6 +5,7 @@ import { YakabooApiModule } from '../search-providers/yakaboo-api/yakaboo-api.mo
 import { NashformatApiModule } from '../search-providers/nashformat/nashformat-api.module';
 import { AprioriApiModule } from '../search-providers/apriori/apriori-api-module';
 import { VivatApiModule } from '../search-providers/vivat/vivat-api.module';
+import { StaryLevModule } from '../search-providers/stary-lev/stary-lev.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { VivatApiModule } from '../search-providers/vivat/vivat-api.module';
     NashformatApiModule,
     AprioriApiModule,
     VivatApiModule,
+    StaryLevModule,
   ],
   controllers: [BooksController],
   providers: [BooksService],
