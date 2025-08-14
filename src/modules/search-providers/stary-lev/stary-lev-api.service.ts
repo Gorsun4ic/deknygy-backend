@@ -34,10 +34,10 @@ export class StaryLevApiService {
               q: query,
             },
           })
-          .pipe(map((res) => res.data)),
+          .pipe(map((res) => res.data.data)),
       );
 
-      const apiResponse = StaryLevResponseDto.fromPlainArray(response.data);
+      const apiResponse = StaryLevResponseDto.fromPlainArray(response);
       const bookSlugs = apiResponse.map((book) => book.link);
 
       if (bookSlugs.length === 0) {

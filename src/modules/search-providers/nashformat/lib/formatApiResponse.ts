@@ -18,28 +18,21 @@ export function formatNashformatResponse(
   book: NashformatBookDataDto,
 ): IBookInfo {
   try {
-    const title = book?.name ?? undefined;
-
     const author =
       book?.author && book?.author.length > 0 ? book?.author : null;
 
     const price = formatPrice(book?.price);
 
-    // Determine availability based on stock status
-    const availability = book?.stock ?? false;
-
-    const link = `${BASE_URL}${book?.url}.html`;
-
-    const format = book?.type as FormatType;
+    const link = `${BASE_URL}${book?.link}.html`;
 
     return {
-      title,
+      title: book?.title,
       author,
       price,
       link,
       store: STORE_NAME,
-      availability,
-      format,
+      available: book?.available,
+      format: (book?.format as FormatType) || 1,
       isbn: undefined,
       publisher: undefined,
     };
@@ -58,7 +51,5 @@ export function mapNashformatResponseToBookInfo(
 ): IBookInfo[] | [] {
   if (!response) return [];
 
-  return response
-    .filter((book) => book.type === 'product')
-    .map((book) => formatNashformatResponse(book?.data));
+  return response.map((book) => formatNashformatResponse(book?.data));
 }
