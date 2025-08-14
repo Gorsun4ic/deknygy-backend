@@ -4,7 +4,7 @@ import { NashformatApiService } from '../search-providers/nashformat/nashformat-
 import { AprioriApiService } from '../search-providers/apriori/apriori-api.service';
 import { VivatApiService } from '../search-providers/vivat/vivat-api.service';
 import { StaryLevApiService } from '../search-providers/stary-lev/stary-lev-api.service';
-import { IBookInfo } from '../common/interfaces/api/book.info';
+import { MegogoApiService } from '../search-providers/megogo/megogo-api.service';
 import { formatQuery } from '../common/utils/formatQuery';
 
 @Injectable()
@@ -15,6 +15,7 @@ export class BooksService {
     private readonly aprioriApiService: AprioriApiService,
     private readonly vivatApiService: VivatApiService,
     private readonly staryLevApiService: StaryLevApiService,
+    private readonly megogoApiService: MegogoApiService,
   ) {}
 
   async searchBook(query: string) {
@@ -28,6 +29,7 @@ export class BooksService {
       { name: 'Apriori', service: this.aprioriApiService },
       { name: 'Vivat', service: this.vivatApiService },
       { name: 'Stary Lev', service: this.staryLevApiService },
+      { name: 'Megogo', service: this.megogoApiService },
     ];
 
     const results = await Promise.allSettled(

@@ -6,6 +6,7 @@ import { NashformatApiModule } from '../search-providers/nashformat/nashformat-a
 import { AprioriApiModule } from '../search-providers/apriori/apriori-api-module';
 import { VivatApiModule } from '../search-providers/vivat/vivat-api.module';
 import { StaryLevModule } from '../search-providers/stary-lev/stary-lev.module';
+import { MegogoApiModule } from '../search-providers/megogo/megogo-api.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { StaryLevModule } from '../search-providers/stary-lev/stary-lev.module';
     AprioriApiModule,
     VivatApiModule,
     StaryLevModule,
+    MegogoApiModule,
   ],
   controllers: [BooksController],
   providers: [BooksService],
