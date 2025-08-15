@@ -5,7 +5,9 @@ import { AprioriApiService } from '../search-providers/apriori/apriori-api.servi
 import { VivatApiService } from '../search-providers/vivat/vivat-api.service';
 import { StaryLevApiService } from '../search-providers/stary-lev/stary-lev-api.service';
 import { MegogoApiService } from '../search-providers/megogo/megogo-api.service';
+import { LaboratoryService } from '../search-providers/laboratory/laboratory.service';
 import { formatQuery } from '../common/utils/formatQuery';
+import { KSDService } from '../search-providers/ksd/ksd.service';
 
 @Injectable()
 export class BooksService {
@@ -16,9 +18,12 @@ export class BooksService {
     private readonly vivatApiService: VivatApiService,
     private readonly staryLevApiService: StaryLevApiService,
     private readonly megogoApiService: MegogoApiService,
+    private readonly laboratoryService: LaboratoryService,
+    private readonly ksdService: KSDService,
   ) {}
 
   async searchBook(query: string) {
+    const TIMEOUT = 5000;
     const formattedQuery = formatQuery(query);
     const startTime = Date.now();
 
@@ -30,25 +35,29 @@ export class BooksService {
       { name: 'Vivat', service: this.vivatApiService },
       { name: 'Stary Lev', service: this.staryLevApiService },
       { name: 'Megogo', service: this.megogoApiService },
+      { name: 'Laboratory', service: this.laboratoryService },
+      { name: 'KSD', service: this.ksdService },
     ];
 
-    const results = await Promise.allSettled(
-      apiCalls.map(({ service }) => service.search(formattedQuery)),
-    );
-
-    const endTime = Date.now();
-    console.log(`Time taken: ${endTime - startTime}ms`);
-
-    // Collect results, handling failed APIs gracefully
-    return results
-      .map((result, index) => {
-        if (result.status === 'fulfilled') {
-          return result.value;
-        } else {
-          console.error(`${apiCalls[index].name} API failed:`, result.reason);
+    const results = await Promise.all(
+      apiCalls.map(async ({ name, service }) => {
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error(`${name} API timed out`)), TIMEOUT),
+        );
+        try {
+          const result = await Promise.race([
+            service.search(formattedQuery),
+            timeoutPromise,
+          ]);
+          return result;
+        } catch (error) {
+          console.error(error.message);
           return [];
         }
-      })
-      .flat();
+      }),
+    );
+    const endTime = Date.now();
+    console.log(`Time taken: ${endTime - startTime}ms`);
+    return results.flat();
   }
 }

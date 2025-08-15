@@ -11,7 +11,7 @@ export function formatMegogoResponse(books: MegogoBookDto[]): IBookInfo[] {
       author: book.authors
         .map((author) => author.first_name + ' ' + author.last_name)
         .join(', '),
-      price: book.purchases.price
+      price: book.purchases?.price
         ? formatPrice(book.purchases.price.toString())
         : 0,
       link: `${BASE_URL}/book/${book.link}`,
