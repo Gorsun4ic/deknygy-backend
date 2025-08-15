@@ -11,6 +11,7 @@ import { LaboratoryModule } from '../search-providers/laboratory/laboratory.modu
 import { KSDModule } from '../search-providers/ksd/ksd.module';
 import { ReadEatModule } from '../search-providers/readeat/readeat.module';
 import { BookYeApiModule } from '../search-providers/book-ye/book-ye.api.module';
+import { KnygolandApiModule } from '../search-providers/knygoland/knygoland.api.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { BookYeApiModule } from '../search-providers/book-ye/book-ye.api.module'
     KSDModule,
     ReadEatModule,
     BookYeApiModule,
+    KnygolandApiModule,
   ],
   controllers: [BooksController],
   providers: [BooksService],
