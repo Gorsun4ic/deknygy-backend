@@ -3,7 +3,8 @@ import { YakabooApiService } from '../search-providers/yakaboo-api/yakaboo-api.s
 import { NashformatApiService } from '../search-providers/nashformat/nashformat-api.service';
 import { AprioriApiService } from '../search-providers/apriori/apriori-api.service';
 import { VivatApiService } from '../search-providers/vivat/vivat-api.service';
-import { IBookInfo } from '../common/interfaces/api/book.info';
+import { StaryLevApiService } from '../search-providers/stary-lev/stary-lev-api.service';
+import { MegogoApiService } from '../search-providers/megogo/megogo-api.service';
 import { formatQuery } from '../common/utils/formatQuery';
 
 @Injectable()
@@ -13,26 +14,41 @@ export class BooksService {
     private readonly nashformatApiService: NashformatApiService,
     private readonly aprioriApiService: AprioriApiService,
     private readonly vivatApiService: VivatApiService,
+    private readonly staryLevApiService: StaryLevApiService,
+    private readonly megogoApiService: MegogoApiService,
   ) {}
 
-  async searchBook(query: string): Promise<IBookInfo[]> {
+  async searchBook(query: string) {
     const formattedQuery = formatQuery(query);
     const startTime = Date.now();
-    const yakabooResult: IBookInfo[] =
-      await this.yakabooApiService.search(formattedQuery);
-    const nashformatResult: IBookInfo[] =
-      await this.nashformatApiService.search(formattedQuery);
-    const aprioriResult: IBookInfo[] =
-      await this.aprioriApiService.search(formattedQuery);
-    const vivatResult: IBookInfo[] =
-      await this.vivatApiService.search(formattedQuery);
+
+    // Search all APIs with error handling
+    const apiCalls = [
+      { name: 'Yakaboo', service: this.yakabooApiService },
+      { name: 'Nashformat', service: this.nashformatApiService },
+      { name: 'Apriori', service: this.aprioriApiService },
+      { name: 'Vivat', service: this.vivatApiService },
+      { name: 'Stary Lev', service: this.staryLevApiService },
+      { name: 'Megogo', service: this.megogoApiService },
+    ];
+
+    const results = await Promise.allSettled(
+      apiCalls.map(({ service }) => service.search(formattedQuery)),
+    );
+
     const endTime = Date.now();
     console.log(`Time taken: ${endTime - startTime}ms`);
-    return [
-      ...yakabooResult,
-      ...nashformatResult,
-      ...aprioriResult,
-      ...vivatResult,
-    ];
+
+    // Collect results, handling failed APIs gracefully
+    return results
+      .map((result, index) => {
+        if (result.status === 'fulfilled') {
+          return result.value;
+        } else {
+          console.error(`${apiCalls[index].name} API failed:`, result.reason);
+          return [];
+        }
+      })
+      .flat();
   }
 }

@@ -1,8 +1,7 @@
 import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
-import { YakabooBookSourceDto } from '../dto/reponse.dto';
+import { YakabooBookSourceDto, YakabooHitDto } from '../dto/reponse.dto';
 import { clearIsbn } from 'src/modules/common/utils/clearIsbn';
 import { FormatType } from '../interfaces/format.types';
-import { YakabooResponseDto } from '../dto/reponse.dto';
 import { BASE_URL } from '../constants/api.params';
 
 /**
@@ -10,27 +9,27 @@ import { BASE_URL } from '../constants/api.params';
  * @param source The YakabooBookSourceDto to map.
  * @returns The mapped IBookInfo object.
  */
-function formatYakabooResponse(source: YakabooBookSourceDto): IBookInfo {
+function formatYakabooResponse(book: YakabooBookSourceDto): IBookInfo {
   const author =
-    source.author_label && source.author_label.length > 0
-      ? source.author_label[0].label
+    book.author_label && book.author_label.length > 0
+      ? book.author_label[0].label
       : null;
 
   const publisher =
-    source.book_publisher_label && source.book_publisher_label.length > 0
-      ? source.book_publisher_label[0].label
+    book.book_publisher_label && book.book_publisher_label.length > 0
+      ? book.book_publisher_label[0].label
       : null;
 
   const isbn =
-    source.book_isbn_label && source.book_isbn_label.length > 0
-      ? clearIsbn(source.book_isbn_label[0].label)
+    book.book_isbn_label && book.book_isbn_label.length > 0
+      ? clearIsbn(book.book_isbn_label[0].label)
       : undefined;
-  // Determine availability based on stock status
-  const availability = source.stock && source.stock.some((s) => s.isInStock);
+
+  const available = book.stock && book.stock.some((s) => s.isInStock);
 
   const optionId =
-    source.book_publication_label && source.book_publication_label.length > 0
-      ? (source.book_publication_label[0].option_id as unknown as FormatType)
+    book.book_publication_label && book.book_publication_label.length > 0
+      ? (book.book_publication_label[0].option_id as unknown as FormatType)
       : undefined;
 
   let format: 1 | 2 | 3 | undefined;
@@ -49,15 +48,15 @@ function formatYakabooResponse(source: YakabooBookSourceDto): IBookInfo {
       format = undefined;
   }
 
-  const link = `${BASE_URL}${source.slug}.html`;
+  const link = `${BASE_URL}${book.slug}.html`;
 
   return {
-    title: source.name,
+    title: book.title,
     author: author,
-    price: source.price,
+    price: book.price,
     link,
     store: 'Yakaboo',
-    availability: availability,
+    available,
     format: format,
     isbn: isbn,
     publisher: publisher,
@@ -70,11 +69,7 @@ function formatYakabooResponse(source: YakabooBookSourceDto): IBookInfo {
  * @returns An array of IBookInfo objects.
  */
 export function mapYakabooResponseToBookInfo(
-  response: YakabooResponseDto,
+  response: YakabooHitDto[],
 ): IBookInfo[] {
-  if (!response || !response.hits || !response.hits.hits) {
-    return [];
-  }
-
-  return response.hits.hits.map((hit) => formatYakabooResponse(hit.source));
+  return response.map((hit) => formatYakabooResponse(hit.source));
 }

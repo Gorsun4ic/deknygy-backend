@@ -1,118 +1,33 @@
 import { Exclude, Expose, Type, plainToInstance } from 'class-transformer';
 
-// ---- DTOs for the raw API response (remain largely the same) ----
-export class AuthorLabelDto {
-  @Expose()
-  label: string;
-}
-
-export class PublisherLabelDto {
-  @Expose()
-  label: string;
-}
-
-export class LangLabelDto {
-  @Expose()
-  label: string;
-}
-
-export class BindingLabelDto {
-  @Expose()
-  label: string;
-}
-
-export class PageCountLabelDto {
-  @Expose()
-  label: string;
-}
-
-export class YearLabelDto {
-  @Expose()
-  label: number;
-}
-
-export class BookIsbnLabelDto {
-  @Expose()
-  label: string;
-}
-
-export class PublicationLable {
-  @Expose()
-  label: string;
-
-  @Expose()
-  option_id: number;
-}
-
-export class OptionId {
-  @Expose()
-  option_id: number;
-}
-
-// DTO for the stock status, needed to determine availability
-export class StockDto {
-  @Expose({ name: 'is_in_stock' })
-  isInStock: boolean;
-}
-
 @Exclude()
 export class YakabooBookSourceDto {
-  @Expose({ name: 'id' })
-  bookId: number;
-
-  @Expose()
-  name: string;
+  @Expose({ name: 'name' })
+  title: string;
 
   @Expose({ name: 'url_key' })
   slug: string;
 
   @Expose()
-  @Type(() => AuthorLabelDto)
-  author_label: AuthorLabelDto[];
+  author_label: Array<{ label: string }>;
 
   @Expose()
-  @Type(() => PublisherLabelDto)
-  book_publisher_label: PublisherLabelDto[];
+  book_publisher_label: Array<{ label: string }>;
 
   @Expose()
-  @Type(() => LangLabelDto)
-  book_lang_label: LangLabelDto[];
+  book_publication_label: Array<{ label: string; option_id: number }>;
 
   @Expose()
-  @Type(() => BindingLabelDto)
-  book_binding_label: BindingLabelDto[];
-
-  @Expose()
-  @Type(() => PublicationLable)
-  book_publication_label: PublicationLable[];
-
-  @Expose()
-  @Type(() => OptionId)
-  book_option_id: OptionId[];
-
-  @Expose()
-  @Type(() => PageCountLabelDto)
-  book_page_count_label: PageCountLabelDto[];
-
-  @Expose({ name: 'book_year' })
-  year: number;
-
-  @Expose()
-  description: string;
+  book_option_id: number[];
 
   @Expose()
   price: number;
 
-  @Expose({ name: 'image' })
-  imageUrl: string;
+  @Expose()
+  book_isbn_label: Array<{ label: string }>;
 
   @Expose()
-  @Type(() => BookIsbnLabelDto)
-  book_isbn_label: BookIsbnLabelDto[];
-
-  @Expose()
-  @Type(() => StockDto)
-  stock: StockDto[];
+  stock: Array<{ isInStock: boolean }>;
 }
 
 @Exclude()
@@ -155,6 +70,6 @@ export class YakabooResponseDto {
     return plainToInstance(YakabooResponseDto, rawData, {
       excludeExtraneousValues: true,
       exposeUnsetFields: false,
-    }) as YakabooResponseDto;
+    });
   }
 }
