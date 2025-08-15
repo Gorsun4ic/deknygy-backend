@@ -7,7 +7,7 @@ import { StaryLevApiService } from '../search-providers/stary-lev/stary-lev-api.
 import { MegogoApiService } from '../search-providers/megogo/megogo-api.service';
 import { LaboratoryService } from '../search-providers/laboratory/laboratory.service';
 import { formatQuery } from '../common/utils/formatQuery';
-import { timeout } from 'rxjs';
+import { KSDService } from '../search-providers/ksd/ksd.service';
 
 @Injectable()
 export class BooksService {
@@ -19,6 +19,7 @@ export class BooksService {
     private readonly staryLevApiService: StaryLevApiService,
     private readonly megogoApiService: MegogoApiService,
     private readonly laboratoryService: LaboratoryService,
+    private readonly ksdService: KSDService,
   ) {}
 
   async searchBook(query: string) {
@@ -35,6 +36,7 @@ export class BooksService {
       { name: 'Stary Lev', service: this.staryLevApiService },
       { name: 'Megogo', service: this.megogoApiService },
       { name: 'Laboratory', service: this.laboratoryService },
+      { name: 'KSD', service: this.ksdService },
     ];
 
     const results = await Promise.all(
