@@ -9,9 +9,6 @@ export function formatStaryLevResponse(
 ): IBookInfo[] {
   return books.map((book) => {
     const format = book.type === 'book' ? 1 : 2;
-    console.log(
-      `Book title: ${book.name}, author: ${book.author.map((author) => author.name).join(', ')}, price: ${book.price}, stock: ${book.qty}, link: ${book.slug}, isbn: ${book.isbn}, format: ${book.type}`,
-    );
     return {
       title: book.name,
       author: book.author.map((author) => author.name).join(', '),
