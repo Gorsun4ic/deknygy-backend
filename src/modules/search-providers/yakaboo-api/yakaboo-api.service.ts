@@ -8,8 +8,9 @@ import {
 } from './constants/api.params';
 import { createYakabooSearchPayload } from './yakaboo-api.factory';
 import { YakabooResponseDto } from './dto/reponse.dto';
+import { IYakabooResponse } from './interfaces/format.types';
 import { mapYakabooResponseToBookInfo } from './lib/formatApiResponse';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { IBookInfo } from '../../common/interfaces/api/book.info';
 
 @Injectable()
@@ -26,10 +27,12 @@ export class YakabooApiService {
 
     try {
       const response = await firstValueFrom(
-        this.httpService.post(API_URL, payload),
+        this.httpService
+          .post<IYakabooResponse>(API_URL, payload)
+          .pipe(map((res) => res.data)),
       );
-      const yakabooResponse = YakabooResponseDto.fromPlain(response.data);
-      return mapYakabooResponseToBookInfo(yakabooResponse);
+      const yakabooResponse = YakabooResponseDto.fromPlain(response);
+      return mapYakabooResponseToBookInfo(yakabooResponse.hits.hits);
     } catch (error) {
       throw new Error(`Failed to search in Yakaboo API: ${error}`);
     }

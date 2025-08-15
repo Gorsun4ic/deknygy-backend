@@ -11,7 +11,7 @@ export interface IBookInfo {
   price: number;
   link: string;
   store: string;
-  availability?: boolean;
+  available?: boolean;
   format?: FormatType;
   isbn?: string | null;
   publisher?: string | null;
