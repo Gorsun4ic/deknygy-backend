@@ -11,6 +11,7 @@ import { KSDService } from '../search-providers/ksd/ksd.service';
 import { ReadEatService } from '../search-providers/readeat/readeat.service';
 import { BookYeApiService } from '../search-providers/book-ye/book-ye.api.service';
 import { KnygolandApiService } from '../search-providers/knygoland/knygoland.api.service';
+import { RidnamovaApiService } from '../search-providers/ridnamova/ridnamova.api.service';
 
 @Injectable()
 export class BooksService {
@@ -26,6 +27,7 @@ export class BooksService {
     private readonly readEatService: ReadEatService,
     private readonly bookYeApiService: BookYeApiService,
     private readonly knygolandApiService: KnygolandApiService,
+    private readonly ridnamovaApiService: RidnamovaApiService,
   ) {}
 
   async searchBook(query: string) {
@@ -46,6 +48,7 @@ export class BooksService {
       { name: 'ReadEat', service: this.readEatService },
       { name: 'BookYe', service: this.bookYeApiService },
       { name: 'Knygoland', service: this.knygolandApiService },
+      { name: 'Ridnamova', service: this.ridnamovaApiService },
     ];
 
     const results = await Promise.all(
