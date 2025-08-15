@@ -7,6 +7,7 @@ import { StaryLevApiService } from '../search-providers/stary-lev/stary-lev-api.
 import { MegogoApiService } from '../search-providers/megogo/megogo-api.service';
 import { LaboratoryService } from '../search-providers/laboratory/laboratory.service';
 import { formatQuery } from '../common/utils/formatQuery';
+import { timeout } from 'rxjs';
 
 @Injectable()
 export class BooksService {
@@ -21,6 +22,7 @@ export class BooksService {
   ) {}
 
   async searchBook(query: string) {
+    const TIMEOUT = 5000;
     const formattedQuery = formatQuery(query);
     const startTime = Date.now();
 
@@ -35,23 +37,25 @@ export class BooksService {
       { name: 'Laboratory', service: this.laboratoryService },
     ];
 
-    const results = await Promise.allSettled(
-      apiCalls.map(({ service }) => service.search(formattedQuery)),
-    );
-
-    const endTime = Date.now();
-    console.log(`Time taken: ${endTime - startTime}ms`);
-
-    // Collect results, handling failed APIs gracefully
-    return results
-      .map((result, index) => {
-        if (result.status === 'fulfilled') {
-          return result.value;
-        } else {
-          console.error(`${apiCalls[index].name} API failed:`, result.reason);
+    const results = await Promise.all(
+      apiCalls.map(async ({ name, service }) => {
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error(`${name} API timed out`)), TIMEOUT),
+        );
+        try {
+          const result = await Promise.race([
+            service.search(formattedQuery),
+            timeoutPromise,
+          ]);
+          return result;
+        } catch (error) {
+          console.error(error.message);
           return [];
         }
-      })
-      .flat();
+      }),
+    );
+    const endTime = Date.now();
+    console.log(`Time taken: ${endTime - startTime}ms`);
+    return results.flat();
   }
 }
