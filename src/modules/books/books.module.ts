@@ -13,6 +13,7 @@ import { ReadEatModule } from '../search-providers/readeat/readeat.module';
 import { BookYeApiModule } from '../search-providers/book-ye/book-ye.api.module';
 import { KnygolandApiModule } from '../search-providers/knygoland/knygoland.api.module';
 import { RidnamovaApiModule } from '../search-providers/ridnamova/ridnamova.module';
+import { ArthussApiModule } from '../search-providers/arthuss/arthuss.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { RidnamovaApiModule } from '../search-providers/ridnamova/ridnamova.modu
     BookYeApiModule,
     KnygolandApiModule,
     RidnamovaApiModule,
+    ArthussApiModule,
   ],
   controllers: [BooksController],
   providers: [BooksService],
