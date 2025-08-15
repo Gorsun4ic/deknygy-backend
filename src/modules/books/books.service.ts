@@ -5,6 +5,7 @@ import { AprioriApiService } from '../search-providers/apriori/apriori-api.servi
 import { VivatApiService } from '../search-providers/vivat/vivat-api.service';
 import { StaryLevApiService } from '../search-providers/stary-lev/stary-lev-api.service';
 import { MegogoApiService } from '../search-providers/megogo/megogo-api.service';
+import { LaboratoryService } from '../search-providers/laboratory/laboratory.service';
 import { formatQuery } from '../common/utils/formatQuery';
 
 @Injectable()
@@ -16,6 +17,7 @@ export class BooksService {
     private readonly vivatApiService: VivatApiService,
     private readonly staryLevApiService: StaryLevApiService,
     private readonly megogoApiService: MegogoApiService,
+    private readonly laboratoryService: LaboratoryService,
   ) {}
 
   async searchBook(query: string) {
@@ -30,6 +32,7 @@ export class BooksService {
       { name: 'Vivat', service: this.vivatApiService },
       { name: 'Stary Lev', service: this.staryLevApiService },
       { name: 'Megogo', service: this.megogoApiService },
+      { name: 'Laboratory', service: this.laboratoryService },
     ];
 
     const results = await Promise.allSettled(
