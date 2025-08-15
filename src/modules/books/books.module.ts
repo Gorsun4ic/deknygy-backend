@@ -9,6 +9,7 @@ import { StaryLevModule } from '../search-providers/stary-lev/stary-lev.module';
 import { MegogoApiModule } from '../search-providers/megogo/megogo-api.module';
 import { LaboratoryModule } from '../search-providers/laboratory/laboratory.module';
 import { KSDModule } from '../search-providers/ksd/ksd.module';
+import { ReadEatModule } from '../search-providers/readeat/readeat.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { KSDModule } from '../search-providers/ksd/ksd.module';
     MegogoApiModule,
     LaboratoryModule,
     KSDModule,
+    ReadEatModule,
   ],
   controllers: [BooksController],
   providers: [BooksService],

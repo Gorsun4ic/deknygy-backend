@@ -8,6 +8,7 @@ import { MegogoApiService } from '../search-providers/megogo/megogo-api.service'
 import { LaboratoryService } from '../search-providers/laboratory/laboratory.service';
 import { formatQuery } from '../common/utils/formatQuery';
 import { KSDService } from '../search-providers/ksd/ksd.service';
+import { ReadEatService } from '../search-providers/readeat/readeat.service';
 
 @Injectable()
 export class BooksService {
@@ -20,6 +21,7 @@ export class BooksService {
     private readonly megogoApiService: MegogoApiService,
     private readonly laboratoryService: LaboratoryService,
     private readonly ksdService: KSDService,
+    private readonly readEatService: ReadEatService,
   ) {}
 
   async searchBook(query: string) {
@@ -37,6 +39,7 @@ export class BooksService {
       { name: 'Megogo', service: this.megogoApiService },
       { name: 'Laboratory', service: this.laboratoryService },
       { name: 'KSD', service: this.ksdService },
+      { name: 'ReadEat', service: this.readEatService },
     ];
 
     const results = await Promise.all(
