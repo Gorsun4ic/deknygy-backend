@@ -12,6 +12,7 @@ import { KSDModule } from '../search-providers/ksd/ksd.module';
 import { ReadEatModule } from '../search-providers/readeat/readeat.module';
 import { BookYeApiModule } from '../search-providers/book-ye/book-ye.api.module';
 import { KnygolandApiModule } from '../search-providers/knygoland/knygoland.api.module';
+import { RidnamovaApiModule } from '../search-providers/ridnamova/ridnamova.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { KnygolandApiModule } from '../search-providers/knygoland/knygoland.api.
     ReadEatModule,
     BookYeApiModule,
     KnygolandApiModule,
+    RidnamovaApiModule,
   ],
   controllers: [BooksController],
   providers: [BooksService],
