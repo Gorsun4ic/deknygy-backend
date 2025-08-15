@@ -1,25 +1,20 @@
 import { Expose, plainToInstance, Type } from 'class-transformer';
 import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
 
-export class BookYeResponseDto {
+export class KnygolandResponseDto {
   query: string;
   total: number;
-  @Type(() => BookYeItemDto)
+  @Type(() => KnygolandBookDto)
   results: {
-    item_groups: BookYeItemDto[];
+    items: KnygolandBookDto[];
   };
 
-  public static arrayToInstance(data: BookYeBookDto[]): BookYeBookDto[] {
-    return plainToInstance(BookYeBookDto, data);
+  public static arrayToInstance(data: KnygolandBookDto[]): KnygolandBookDto[] {
+    return plainToInstance(KnygolandBookDto, data);
   }
 }
 
-export class BookYeItemDto {
-  @Type(() => BookYeBookDto)
-  items: BookYeBookDto[];
-}
-
-export class BookYeBookDto {
+export class KnygolandBookDto {
   @Expose({ name: 'url' })
   @IsString()
   @IsNotEmpty()
