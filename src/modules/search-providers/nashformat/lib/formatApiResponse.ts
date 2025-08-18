@@ -23,7 +23,7 @@ export function formatNashformatResponse(
 
     const price = formatPrice(book?.price);
 
-    const link = `${BASE_URL}${book?.link}.html`;
+    const link = `${BASE_URL}/${book?.link}`;
 
     return {
       title: book?.title,
