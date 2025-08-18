@@ -17,7 +17,7 @@ export function formatAprioriResponse(
       price: formatPrice(book.price),
       link: `${BASE_URL}/product/${book.id}`,
       store: STORE_NAME,
-      availability: book.stock > 0,
+      available: book.stock > 0,
       format: 1,
       isbn: isbn ? clearIsbn(isbn) : null,
       publisher: STORE_NAME,

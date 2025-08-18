@@ -13,7 +13,7 @@ export function formatStaryLevResponse(
       title: book.name,
       author: book.author.map((author) => author.name).join(', '),
       price: formatPrice(book.price.toString()),
-      availability: book.qty > 0,
+      available: book.qty > 0,
       link: `${BASE_URL}/${book.slug}`,
       store: STORE_NAME,
       isbn: book.isbn ? clearIsbn(book.isbn) : null,
