@@ -24,8 +24,6 @@ export class StaryLevApiService {
         Accept: 'application/json',
       };
 
-      this.logger.log(`Searching Stary Lev API for: ${query}`);
-
       const response = await firstValueFrom(
         this.httpService
           .get<IStaryLevResponse>(API_URL, {

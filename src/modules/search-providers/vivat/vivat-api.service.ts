@@ -25,8 +25,6 @@ export class VivatApiService {
         Accept: 'application/json',
       };
 
-      this.logger.log(`Searching Vivat API for: ${query}`);
-
       const response = await firstValueFrom(
         this.httpService.get(API_URL, {
           headers,
@@ -36,8 +34,6 @@ export class VivatApiService {
           },
         }),
       );
-
-      this.logger.log(`Vivat search response status: ${response.status}`);
 
       const apiResponse = VivatResponseDto.fromPlainArray([response.data]);
       const books = apiResponse[0]?.results || [];

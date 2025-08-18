@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { YakabooApiService } from '../search-providers/yakaboo-api/yakaboo-api.service';
 import { NashformatApiService } from '../search-providers/nashformat/nashformat-api.service';
 import { AprioriApiService } from '../search-providers/apriori/apriori-api.service';
@@ -13,6 +13,8 @@ import { BookYeApiService } from '../search-providers/book-ye/book-ye.api.servic
 import { KnygolandApiService } from '../search-providers/knygoland/knygoland.api.service';
 import { RidnamovaApiService } from '../search-providers/ridnamova/ridnamova.api.service';
 import { ArthussApiService } from '../search-providers/arthuss/arthuss.api.service';
+import { unifyBooks } from './lib/unuiqifyBooks';
+import { IBookInfo } from '../common/interfaces/api/book.info';
 
 @Injectable()
 export class BooksService {
@@ -30,6 +32,7 @@ export class BooksService {
     private readonly knygolandApiService: KnygolandApiService,
     private readonly ridnamovaApiService: RidnamovaApiService,
     private readonly arthussApiService: ArthussApiService,
+    private readonly logger: Logger,
   ) {}
 
   async searchBook(query: string) {
@@ -66,13 +69,18 @@ export class BooksService {
           ]);
           return result;
         } catch (error) {
-          console.error(error.message);
+          this.logger.error(`Error calling ${name} API:`, error);
           return [];
         }
       }),
     );
     const endTime = Date.now();
-    console.log(`Time taken: ${endTime - startTime}ms`);
-    return results.flat();
+    this.logger.log(`Time taken: ${endTime - startTime}ms asda`);
+
+    const allBooks = results
+      .filter((result) => Array.isArray(result))
+      .flat() as IBookInfo[];
+    const unifiedBooks = unifyBooks(allBooks);
+    return unifiedBooks;
   }
 }

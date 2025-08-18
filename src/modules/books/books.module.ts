@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Logger } from '@nestjs/common';
 import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
 import { YakabooApiModule } from '../search-providers/yakaboo-api/yakaboo-api.module';
@@ -32,6 +32,6 @@ import { ArthussApiModule } from '../search-providers/arthuss/arthuss.module';
     ArthussApiModule,
   ],
   controllers: [BooksController],
-  providers: [BooksService],
+  providers: [BooksService, Logger],
 })
 export class BooksModule {}
