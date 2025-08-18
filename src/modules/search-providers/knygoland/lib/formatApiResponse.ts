@@ -6,6 +6,7 @@ import { formatPrice } from 'src/modules/common/utils/formatPrice';
 export function formatKnygolandResponse(
   response: KnygolandBookDto[],
 ): IBookInfo[] {
+  console.log(response);
   return response.map((book) => ({
     title: book.title,
     link: book.link,

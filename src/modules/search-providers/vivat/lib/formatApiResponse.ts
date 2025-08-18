@@ -38,7 +38,7 @@ export function formatVivatResponse(
       price: detail ? +formatPrice(detail.price.priceRebate.toString()) : 0,
       link: book.url,
       store: STORE_NAME,
-      availability: book.is_presence,
+      available: book.is_presence,
       format: format,
       isbn: isbn ? clearIsbn(isbn) : null,
       publisher: publisher,

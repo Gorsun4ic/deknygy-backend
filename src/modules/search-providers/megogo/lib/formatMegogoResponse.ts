@@ -16,7 +16,7 @@ export function formatMegogoResponse(books: MegogoBookDto[]): IBookInfo[] {
         : 0,
       link: `${BASE_URL}/book/${book.link}`,
       store: STORE_NAME,
-      availability: book.available === 'ready_for_order',
+      available: book.available === 'ready_for_order',
       format: 1,
       isbn: null,
       publisher: null,
