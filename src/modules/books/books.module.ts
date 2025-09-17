@@ -15,6 +15,7 @@ import { KnygolandApiModule } from '../search-providers/knygoland/knygoland.api.
 import { RidnamovaApiModule } from '../search-providers/ridnamova/ridnamova.module';
 import { ArthussApiModule } from '../search-providers/arthuss/arthuss.module';
 import { ConfigModule } from '@nestjs/config';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ConfigModule } from '@nestjs/config';
     RidnamovaApiModule,
     ArthussApiModule,
     ConfigModule,
+    RedisModule,
   ],
   controllers: [BooksController],
   providers: [BooksService, Logger],
