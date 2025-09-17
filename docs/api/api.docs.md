@@ -19,7 +19,7 @@ Format may be 1 | 2 | 3.
 2 - E-book
 3 - Audio
 
-DeKnygy API for searching books can be reached by going to `http://localhost:3000/book?querh=`
+DeKnygy API for searching books can be reached by going to `http://localhost:3000/book?query=`
 
 Some APIs have all of mentioned info, some less. Optional (that not all APIs have) parameters are marked with question character.
 
