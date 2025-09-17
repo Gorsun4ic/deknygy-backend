@@ -56,8 +56,8 @@ export class StaryLevApiService {
       const result = formatStaryLevResponse(detailedResponse);
 
       return result;
-    } catch (error) {
-      this.logger.error('Stary Lev API Error:', error);
+    } catch (error: any) {
+      this.logger.error('Stary Lev API Error:', error?.message);
 
       if (error instanceof AxiosError) {
         throw new HttpException(
