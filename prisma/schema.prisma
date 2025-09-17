@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id          Int            @id @default(autoincrement())
+  title       String
+  link        String
+  available   Boolean        @default(false)
+  query_id    Int
+  store_id    Int
+  format_id   Int
+  query       Query          @relation(fields: [query_id], references: [id])
+  store       Store          @relation(fields: [store_id], references: [id])
+  format      Format         @relation(fields: [format_id], references: [id])
+  prices      BookPrice[]
+  
+  @@index([store_id])
+  @@index([format_id])
+}
+
+model Format {
+  id    Int     @id @default(autoincrement())
+  title String
+  // This is the correct representation: a Format can have many Books, but your schema didn't explicitly name the field.
+  // Prisma will create this field for you.
+  books Book[]
+}
+
+model Store {
+  id                 Int                 @id @default(autoincrement())
+  title              String
+  books              Book[]
+  store_statistics   StoreStatistic?
+}
+
+model Feedback {
+  id          Int       @id @default(autoincrement())
+  user_id     BigInt
+  message     String
+  created_at  DateTime  @default(now())
+  user        User      @relation(fields: [user_id], references: [id])
+}
+
+model SearchLog {
+  id             Int       @id @default(autoincrement())
+  query_id       Int
+  user_id        BigInt
+  searched_at    DateTime  @default(now())
+  query          Query     @relation(fields: [query_id], references: [id])
+  user           User      @relation(fields: [user_id], references: [id])
+  
+  @@index([query_id])
+  @@index([user_id])
+  @@index([user_id, query_id])
+}
+
+model SentMessage {
+  id        Int       @id @default(autoincrement())
+  user_id   BigInt
+  sent_at   DateTime  @default(now())
+  group_id  String
+  user      User      @relation(fields: [user_id], references: [id])
+  
+  @@index([user_id], name: "sent_messages_user_id_idx")
+}
+
+model StoreStatistic {
+  id              Int       @id @default(autoincrement())
+  store_id        Int       @unique
+  books_found     Int       @default(0)
+  last_scraped_at DateTime  @default(now())
+  store           Store     @relation(fields: [store_id], references: [id])
+}
+
+model UnsuccessfulSearch {
+  id           Int       @id @default(autoincrement())
+  query_id     Int
+  user_id      BigInt
+  searched_at  DateTime  @default(now())
+  query        Query     @relation(fields: [query_id], references: [id])
+  user         User      @relation(fields: [user_id], references: [id])
+  
+  @@index([query_id])
+  @@index([user_id])
+  @@index([user_id, query_id])
+}
+
+model User {
+  id                    BigInt                 @id @default(autoincrement())
+  username              String
+  first_seen            DateTime               @default(now())
+  last_active           DateTime               @default(now())
+  session_count         Int                    @default(1)
+  last_weekly_top       DateTime?
+  feedbacks             Feedback[]
+  search_logs           SearchLog[]
+  sent_messages         SentMessage[]
+  unsuccessful_searches UnsuccessfulSearch[]
+  weekly_broadcasts     WeeklyBroadcast[]
+}
+
+model Query {
+  id                    Int                     @id @default(autoincrement())
+  query                 String                  @unique
+  first_seen            DateTime                @default(now())
+  books                 Book[]
+  search_logs           SearchLog[]
+  unsuccessful_searches UnsuccessfulSearch[]
+}
+
+model WeeklyBroadcast {
+  id          Int       @id @default(autoincrement())
+  user_id     BigInt
+  group_name  String
+  sent_at     DateTime  @default(now())
+  user        User      @relation(fields: [user_id], references: [id])
+  
+  @@unique([user_id, group_name], name: "weekly_broadcasts_user_id_group_name_key")
+}
+
+model BookPrice {
+  id           Int       @id @default(autoincrement())
+  book_id      Int
+  price        Decimal   @db.Decimal(10, 2)
+  recorded_at  DateTime  @default(now())
+  book         Book      @relation(fields: [book_id], references: [id])
+}
