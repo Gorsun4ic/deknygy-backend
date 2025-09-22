@@ -103,7 +103,7 @@ export class VivatApiService {
       this.logger.log(`Formatted result count: ${result.length}`);
       return result;
     } catch (error) {
-      this.logger.error('Vivat API Error:', error);
+      this.logger.error('Vivat API Error:', error?.statusMessage);
 
       if (error instanceof AxiosError) {
         throw new HttpException(

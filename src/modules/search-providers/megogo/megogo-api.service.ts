@@ -29,7 +29,7 @@ export class MegogoApiService {
       );
       return formatMegogoResponse(apiResponse);
     } catch (error) {
-      this.logger.error(`Error searching Megogo API: ${error}`);
+      this.logger.error(`Error searching Megogo API: ${error?.statusMessage}`);
       throw error;
     }
   }
