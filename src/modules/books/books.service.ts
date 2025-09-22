@@ -78,7 +78,7 @@ export class BooksService {
           ]);
           return result;
         } catch (error) {
-          this.logger.error(`Error calling ${name} API:`, error);
+          this.logger.error(`Error calling ${name} API:`, error?.message);
           return [];
         }
       }),
