@@ -32,7 +32,7 @@ function formatYakabooResponse(book: YakabooBookSourceDto): IBookInfo {
       ? (book.book_publication_label[0].option_id as unknown as FormatType)
       : undefined;
 
-  let format: 1 | 2 | 3 | undefined;
+  let format: 1 | 2 | 3;
 
   switch (optionId) {
     case FormatType.PHYSICAL:
@@ -45,7 +45,7 @@ function formatYakabooResponse(book: YakabooBookSourceDto): IBookInfo {
       format = 3;
       break;
     default:
-      format = undefined;
+      format = 1;
   }
 
   const link = `${BASE_URL}${book.slug}.html`;

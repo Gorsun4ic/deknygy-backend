@@ -15,6 +15,8 @@ import { RidnamovaApiService } from '../search-providers/ridnamova/ridnamova.api
 import { ArthussApiService } from '../search-providers/arthuss/arthuss.api.service';
 import { unifyBooks } from './lib/unuiqifyBooks';
 import { IBookInfo } from '../common/interfaces/api/book.info';
+import { RedisService } from '../redis/redis.service';
+import { BooksRepository } from './books.repository';
 
 @Injectable()
 export class BooksService {
@@ -33,12 +35,21 @@ export class BooksService {
     private readonly ridnamovaApiService: RidnamovaApiService,
     private readonly arthussApiService: ArthussApiService,
     private readonly logger: Logger,
+    private readonly redisService: RedisService,
+    private readonly booksRepository: BooksRepository,
   ) {}
 
   async searchBook(query: string) {
     const TIMEOUT = 5000;
     const formattedQuery = formatQuery(query);
     const startTime = Date.now();
+    const cacheKey = `search:${formattedQuery}`;
+    const cached = await this.redisService.get(cacheKey);
+
+    if (cached) {
+      console.log('Redis cache hit');
+      return JSON.parse(cached) as IBookInfo[];
+    }
 
     // Search all APIs with error handling
     const apiCalls = [
@@ -69,18 +80,26 @@ export class BooksService {
           ]);
           return result;
         } catch (error) {
-          this.logger.error(`Error calling ${name} API:`, error);
+          this.logger.error(`Error calling ${name} API:`, error?.message);
           return [];
         }
       }),
     );
     const endTime = Date.now();
-    this.logger.log(`Time taken: ${endTime - startTime}ms asda`);
+    this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
     const allBooks = results
       .filter((result) => Array.isArray(result))
       .flat() as IBookInfo[];
     const unifiedBooks = unifyBooks(allBooks);
+    const queryId =
+      await this.booksRepository.getOrCreateQueryId(formattedQuery);
+    await this.booksRepository.saveBooks(unifiedBooks, queryId);
+    await this.redisService.set(
+      cacheKey,
+      JSON.stringify(unifiedBooks),
+      60 * 60 * 24,
+    );
     return unifiedBooks;
   }
 }
