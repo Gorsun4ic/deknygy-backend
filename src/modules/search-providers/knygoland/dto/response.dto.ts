@@ -25,6 +25,11 @@ export class KnygolandBookDto {
   @IsNotEmpty()
   available: boolean;
 
+  @Expose({ name: 'oldprice' })
+  @IsString()
+  @IsNotEmpty()
+  oldPrice: string;
+
   @Expose({ name: 'name' })
   @IsString()
   @IsNotEmpty()

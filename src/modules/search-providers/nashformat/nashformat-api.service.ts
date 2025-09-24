@@ -28,10 +28,8 @@ export class NashformatApiService {
             }),
           ),
       );
-
-      return mapNashformatResponseToBookInfo(
-        NashformatProductDto.fromPlainArray(response),
-      );
+      const apiResponse = NashformatProductDto.fromPlainArray(response);
+      return mapNashformatResponseToBookInfo(apiResponse);
     } catch (error) {
       throw new Error(`Failed to search in Nashformat API: ${error}`);
     }

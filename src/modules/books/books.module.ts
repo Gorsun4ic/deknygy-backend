@@ -1,6 +1,7 @@
 import { Module, Logger } from '@nestjs/common';
 import { BooksController } from './books.controller';
 import { BooksService } from './books.service';
+import { BooksRepository } from './books.repository';
 import { YakabooApiModule } from '../search-providers/yakaboo-api/yakaboo-api.module';
 import { NashformatApiModule } from '../search-providers/nashformat/nashformat-api.module';
 import { AprioriApiModule } from '../search-providers/apriori/apriori-api-module';
@@ -16,6 +17,7 @@ import { RidnamovaApiModule } from '../search-providers/ridnamova/ridnamova.modu
 import { ArthussApiModule } from '../search-providers/arthuss/arthuss.module';
 import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from '../redis/redis.module';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
   imports: [
@@ -34,8 +36,9 @@ import { RedisModule } from '../redis/redis.module';
     ArthussApiModule,
     ConfigModule,
     RedisModule,
+    PrismaModule,
   ],
   controllers: [BooksController],
-  providers: [BooksService, Logger],
+  providers: [BooksService, BooksRepository, Logger],
 })
 export class BooksModule {}
