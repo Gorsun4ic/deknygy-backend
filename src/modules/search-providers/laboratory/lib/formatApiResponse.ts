@@ -10,6 +10,7 @@ export function formatLaboratoryResponse(
     title: book.title,
     author: book.data.author,
     price: book.price ? formatPrice(book.price) : 0,
+    available: true,
     link: book.data.url,
     store: STORE_NAME,
     isbn: null,
