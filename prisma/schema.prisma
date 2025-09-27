@@ -91,7 +91,8 @@ model UnsuccessfulSearch {
 }
 
 model User {
-  id            BigInt   @id
+  id            BigInt   @id @default(autoincrement())
+  telegramId    BigInt   @unique
   username      String
   firstSeen     DateTime @default(now())
   lastActive    DateTime @default(now())
