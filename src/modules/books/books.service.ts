@@ -16,6 +16,7 @@ import { ArthussApiService } from '../search-providers/arthuss/arthuss.api.servi
 import { unifyBooks } from './lib/unuiqifyBooks';
 import { IBookInfo } from '../common/interfaces/api/book.info';
 import { RedisService } from '../redis/redis.service';
+import { BooksRepository } from './books.repository';
 
 @Injectable()
 export class BooksService {
@@ -35,6 +36,7 @@ export class BooksService {
     private readonly arthussApiService: ArthussApiService,
     private readonly logger: Logger,
     private readonly redisService: RedisService,
+    private readonly booksRepository: BooksRepository,
   ) {}
 
   async searchBook(query: string) {
@@ -90,6 +92,9 @@ export class BooksService {
       .filter((result) => Array.isArray(result))
       .flat() as IBookInfo[];
     const unifiedBooks = unifyBooks(allBooks);
+    const queryId =
+      await this.booksRepository.getOrCreateQueryId(formattedQuery);
+    await this.booksRepository.saveBooks(unifiedBooks, queryId);
     await this.redisService.set(
       cacheKey,
       JSON.stringify(unifiedBooks),

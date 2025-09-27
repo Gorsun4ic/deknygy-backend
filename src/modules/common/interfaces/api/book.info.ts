@@ -12,7 +12,7 @@ export interface IBookInfo {
   link: string;
   store: string;
   available?: boolean;
-  format?: FormatType;
+  format: FormatType;
   isbn?: string | null;
   publisher?: string | null;
   optionId?: number;
