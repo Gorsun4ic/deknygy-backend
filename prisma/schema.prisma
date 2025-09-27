@@ -1,0 +1,133 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql" // or "mysql" depending on your DB
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id        Int       @id @default(autoincrement())
+  title     String
+  link      String    @unique
+  available Boolean   @default(false)
+  query     Query?    @relation(fields: [queryId], references: [id])
+  queryId   Int?
+  store     Store     @relation(fields: [storeId], references: [id])
+  storeId   Int
+  format    Format    @relation(fields: [formatId], references: [id])
+  formatId  Int
+  prices    BookPrice[]
+
+  @@index([storeId])
+  @@index([formatId])
+}
+
+model Format {
+  id    Int    @id @default(autoincrement())
+  title String @unique
+  books Book[]
+}
+
+model Store {
+  id    Int    @id @default(autoincrement())
+  title String @unique
+  books Book[]
+  statistics StoreStatistic?
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    BigInt
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model SearchLog {
+  id        Int      @id @default(autoincrement())
+  query     Query    @relation(fields: [queryId], references: [id])
+  queryId   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    BigInt
+  searchedAt DateTime @default(now())
+
+  @@index([queryId])
+  @@index([userId])
+  @@index([userId, queryId])
+}
+
+model SentMessage {
+  id      Int      @id @default(autoincrement())
+  user    User     @relation(fields: [userId], references: [id])
+  userId  BigInt
+  sentAt  DateTime @default(now())
+  groupId String
+
+  @@index([userId])
+}
+
+model StoreStatistic {
+  id           Int      @id @default(autoincrement())
+  store        Store    @relation(fields: [storeId], references: [id])
+  storeId      Int      @unique
+  booksFound   Int      @default(0)
+  lastScrapedAt DateTime @default(now())
+}
+
+model UnsuccessfulSearch {
+  id        Int      @id @default(autoincrement())
+  query     Query    @relation(fields: [queryId], references: [id])
+  queryId   Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    BigInt
+  searchedAt DateTime @default(now())
+
+  @@index([queryId])
+  @@index([userId])
+  @@index([userId, queryId])
+}
+
+model User {
+  id            BigInt   @id @default(autoincrement())
+  telegramId    BigInt   @unique
+  username      String
+  firstSeen     DateTime @default(now())
+  lastActive    DateTime @default(now())
+  sessionCount  Int      @default(1)
+  lastWeeklyTop DateTime?
+  feedbacks     Feedback[]
+  searchLogs    SearchLog[]
+  sentMessages  SentMessage[]
+  weeklyBroadcasts WeeklyBroadcast[]
+  unsuccessfulSearches UnsuccessfulSearch[]
+}
+
+model Query {
+  id        Int      @id @default(autoincrement())
+  query     String   @unique
+  firstSeen DateTime @default(now())
+  books     Book[]
+  searchLogs SearchLog[]
+  unsuccessfulSearches UnsuccessfulSearch[]
+}
+
+model WeeklyBroadcast {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    BigInt
+  groupName String
+  sentAt    DateTime @default(now())
+
+  @@unique([userId, groupName])
+}
+
+model BookPrice {
+  id         Int      @id @default(autoincrement())
+  book       Book     @relation(fields: [bookId], references: [id])
+  bookId     Int
+  price      Float
+  recordedAt DateTime @default(now())
+}
