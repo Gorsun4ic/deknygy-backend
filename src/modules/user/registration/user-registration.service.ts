@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { bigIntToString } from 'src/utils/bigIntToString';
 import type { IUser } from '../interfaces/user.interface';
 
 @Injectable()
@@ -11,13 +12,10 @@ export class UserRegistrationService {
 
   async registerUser(user: IUser) {
     try {
-      if (!user.telegramId || !user.username || user.username === '') {
-        this.logger.error(`Invalid user data: ${JSON.stringify(user)}`);
-        throw new Error(
-          'Invalid user data: telegramId and username are required',
-        );
+      if (!user.telegramId) {
+        this.logger.error('telegramId is required');
+        throw new Error('Invalid user data: telegramId is required');
       }
-
       this.logger.log(`Registering user: ${JSON.stringify(user)}`);
 
       // Check if user already exists
@@ -32,7 +30,7 @@ export class UserRegistrationService {
         return {
           success: true,
           message: 'User already exists',
-          user: existingUser,
+          user: bigIntToString(existingUser),
         };
       }
 
@@ -49,7 +47,7 @@ export class UserRegistrationService {
       return {
         success: true,
         message: 'User registered successfully',
-        user: newUser,
+        user: bigIntToString(newUser),
       };
     } catch (error) {
       const errorMessage =
