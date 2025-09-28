@@ -47,7 +47,7 @@ export class BooksService {
     const cached = await this.redisService.get(cacheKey);
 
     if (cached) {
-      console.log('Redis cache hit');
+      this.logger.log('Redis cache hit');
       return JSON.parse(cached) as IBookInfo[];
     }
 
