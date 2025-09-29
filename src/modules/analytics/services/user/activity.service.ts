@@ -21,7 +21,8 @@ export class UserSessionActivityService {
 
     try {
       const now = new Date();
-      const user = await this.UserAnalyticsRepository.findUserById(userId);
+      const user =
+        await this.UserAnalyticsRepository.findUserByTelegramId(userId);
       if (!user) {
         this.logger.error(`${this.SERVICE_NAME}: User not found: ${userId}`);
         throw new Error(`${this.SERVICE_NAME}: User not found`);
