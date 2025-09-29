@@ -9,13 +9,17 @@ export class UserAnalyticsRepository {
     return this.prisma.user.findUnique({ where: { id: userId } });
   }
 
+  async findUserByTelegramId(telegramId: number) {
+    return this.prisma.user.findUnique({ where: { telegramId: telegramId } });
+  }
+
   async updateUserSession(
-    userId: number,
+    userTelegramId: number,
     lastActive: Date,
     sessionCount: number,
   ) {
     return this.prisma.user.update({
-      where: { id: userId },
+      where: { telegramId: userTelegramId },
       data: { lastActive, sessionCount },
     });
   }
