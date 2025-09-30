@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { API_URL } from './constants/api.params';
 import { firstValueFrom, map } from 'rxjs';
 import { NashformatProductDto } from './dto/response.dto';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { mapNashformatResponseToBookInfo } from './lib/formatApiResponse';
 import { INashformatBook, NashformatItemTypes } from './interfaces/response';
 
