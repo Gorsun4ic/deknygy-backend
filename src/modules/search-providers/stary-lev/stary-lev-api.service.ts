@@ -6,7 +6,7 @@ import {
   StaryLevResponseDto,
   StaryLevSpecificResponseDto,
 } from './dto/response.dto';
-// import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+// import { IBookInfo } from '../../../common/interfaces/api/book.info';
 import { AxiosError } from 'axios';
 import { IStaryLevResponse } from './interfaces/response';
 import { formatStaryLevResponse } from './lib/formatApiResponse';

@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { bigIntToString } from 'src/utils/bigIntToString';
 import type { IUser } from '../interfaces/user.interface';
 
 @Injectable()
@@ -30,7 +29,7 @@ export class UserRegistrationService {
         return {
           success: true,
           message: 'User already exists',
-          user: bigIntToString(existingUser),
+          user: existingUser,
         };
       }
 
@@ -47,7 +46,7 @@ export class UserRegistrationService {
       return {
         success: true,
         message: 'User registered successfully',
-        user: bigIntToString(newUser),
+        user: newUser,
       };
     } catch (error) {
       const errorMessage =

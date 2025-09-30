@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/modules/prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 
 @Injectable()
-export class UserAnalyticsRepository {
+export class UserSessionRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async findUserById(userId: number) {

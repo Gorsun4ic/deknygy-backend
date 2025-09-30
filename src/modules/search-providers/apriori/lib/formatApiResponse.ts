@@ -1,8 +1,8 @@
 import { AprioriBookDto, AprioriSpecificBookDto } from '../dto/response.dto';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../../common/interfaces/api/book.info';
 import { BASE_URL, STORE_NAME } from '../constants/api.params';
-import { formatPrice } from 'src/modules/common/utils/formatPrice';
-import { clearIsbn } from 'src/modules/common/utils/clearIsbn';
+import { formatPrice } from '../../../common/utils/formatPrice';
+import { clearIsbn } from '../../../common/utils/clearIsbn';
 
 export function formatAprioriResponse(
   books: AprioriBookDto[],

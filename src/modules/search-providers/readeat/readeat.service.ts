@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ReadEatResponseDto } from './dto/response';
 import { API_URL } from './constants/api.params';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { firstValueFrom, map } from 'rxjs';
 import { formatReadEatResponse } from './lib/formatApiResponse';
 

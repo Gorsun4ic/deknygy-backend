@@ -1,5 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { UserSessionActivityService } from './services/user/activity.service';
+import { UserSessionActivityService } from './services/user/session.service';
 
 @Controller('analytics')
 export class AnalyticsController {
