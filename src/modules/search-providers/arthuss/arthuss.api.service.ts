@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { ArthussResponseDto } from './dto/response.dto';
 import { API_URL } from './constants/api.params';
 import { lastValueFrom } from 'rxjs';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { formatArthussResponse } from './lib/formatResponse';
 
 @Injectable()

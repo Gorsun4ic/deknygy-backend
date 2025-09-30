@@ -9,7 +9,7 @@ import {
   API_LANGUAGES,
   API_FIELDS,
 } from './constants/api.params';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { firstValueFrom, map } from 'rxjs';
 import { formatKSDResponse } from './lib/formatApiResponse';
 
