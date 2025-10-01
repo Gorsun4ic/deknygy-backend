@@ -23,7 +23,7 @@ export class AnalyticsController {
   }
 
   @Get('search-logs/:telegramId')
-  getUserSearchLogs(@Param('telegramId') telegramId: bigint) {
-    return this.searchLogService.getUserSearchLogs(telegramId);
+  getUserSearchLogs(@Param('telegramId') telegramId: string) {
+    return this.searchLogService.getUserSearchLogs(BigInt(telegramId));
   }
 }
