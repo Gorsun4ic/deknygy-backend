@@ -1,7 +1,7 @@
 import { ArthussResponseDto } from '../dto/response.dto';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../../common/interfaces/api/book.info';
 import { STORE_NAME } from '../constants/api.params';
-import { formatPrice } from 'src/modules/common/utils/formatPrice';
+import { formatPrice } from '../../../common/utils/formatPrice';
 
 export function formatArthussResponse(
   response: ArthussResponseDto[],

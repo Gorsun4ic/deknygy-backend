@@ -1,6 +1,6 @@
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../../common/interfaces/api/book.info';
 import { YakabooBookSourceDto, YakabooHitDto } from '../dto/reponse.dto';
-import { clearIsbn } from 'src/modules/common/utils/clearIsbn';
+import { clearIsbn } from '../../../common/utils/clearIsbn';
 import { FormatType } from '../interfaces/format.types';
 import { BASE_URL } from '../constants/api.params';
 
