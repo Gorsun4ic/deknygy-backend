@@ -16,4 +16,8 @@ export class SearchLogService {
   async logSearch(telegramId: bigint, query: string) {
     return await this.searchLogRepository.logSearch(telegramId, query);
   }
+
+  async getUserSearchLogs(telegramId: bigint) {
+    return await this.searchLogRepository.getUserSearchLogs(telegramId);
+  }
 }

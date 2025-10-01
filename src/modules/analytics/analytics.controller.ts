@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { UserSessionActivityService } from './services/user/session.service';
 import { SearchLogService } from './services/user/search-log.service';
 
@@ -20,5 +20,10 @@ export class AnalyticsController {
     @Body('query') query: string,
   ) {
     return this.searchLogService.logSearch(telegramId, query);
+  }
+
+  @Get('search-logs/:telegramId')
+  getUserSearchLogs(@Param('telegramId') telegramId: bigint) {
+    return this.searchLogService.getUserSearchLogs(telegramId);
   }
 }

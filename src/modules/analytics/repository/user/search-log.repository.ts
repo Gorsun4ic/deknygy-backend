@@ -25,4 +25,18 @@ export class SearchLogRepository {
       },
     });
   }
+
+  async getUserSearchLogs(telegramId: bigint) {
+    const user = await this.prisma.user.findUnique({ where: { telegramId } });
+    if (!user)
+      throw new NotFoundException(
+        `User with telegramId ${telegramId} not found`,
+      );
+
+    return this.prisma.searchLog.findMany({
+      where: { userId: user.id },
+      include: { query: true },
+      orderBy: { searchedAt: 'desc' },
+    });
+  }
 }
