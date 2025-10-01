@@ -8,7 +8,7 @@ import {
   VivatResponseDto,
   VivatDetailedResponseDto,
 } from './dto/response.dto';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { formatVivatResponse } from './lib/formatApiResponse';
 import { AxiosError } from 'axios';
 

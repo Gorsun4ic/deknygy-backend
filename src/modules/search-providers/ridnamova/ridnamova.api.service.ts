@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { RidnamovaResponseDto } from './dto/ridnamova.dto';
 import { API_URL } from './constants/api.params';
 import { firstValueFrom } from 'rxjs';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { formatRidnamovaResponse } from './lib/formatApiResponse';
 
 @Injectable()

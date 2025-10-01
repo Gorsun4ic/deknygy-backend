@@ -7,7 +7,7 @@ import {
   AprioriResponseDto,
   AprioriBookDto,
 } from './dto/response.dto';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { formatAprioriResponse } from './lib/formatApiResponse';
 import { AxiosError } from 'axios';
 
