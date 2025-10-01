@@ -1,13 +1,13 @@
 import {
   IBookInfo,
   FormatType,
-} from 'src/modules/common/interfaces/api/book.info';
+} from '../../../common/interfaces/api/book.info';
 import {
   NashformatBookDataDto,
   NashformatProductDto,
 } from '../dto/response.dto';
 import { BASE_URL, STORE_NAME } from '../constants/api.params';
-import { formatPrice } from 'src/modules/common/utils/formatPrice';
+import { formatPrice } from '../../../common/utils/formatPrice';
 
 /**
  * Maps a single Nashformat book DTO to the standard IBookInfo interface.
