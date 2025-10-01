@@ -7,7 +7,10 @@ export class BooksController {
   constructor(private readonly bookService: BooksService) {}
 
   @Get()
-  async searchBook(@Query('query') query: string): Promise<any> {
-    return this.bookService.searchBook(formatQuery(query));
+  async searchBook(
+    @Query('query') query: string,
+    @Query('telegramId') telegramId: bigint,
+  ): Promise<any> {
+    return this.bookService.searchBook(telegramId, formatQuery(query));
   }
 }

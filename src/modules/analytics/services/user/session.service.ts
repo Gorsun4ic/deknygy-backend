@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { UserAnalyticsRepository } from '../../repository/user/acitvity.repository';
+import { UserSessionRepository } from '../../repository/user/session.repository';
 
 @Injectable()
 export class UserSessionActivityService {
@@ -8,7 +8,7 @@ export class UserSessionActivityService {
 
   constructor(
     private readonly logger: Logger,
-    private readonly UserAnalyticsRepository: UserAnalyticsRepository,
+    private readonly userSessionRepository: UserSessionRepository,
   ) {}
 
   async trackUserSession(userId: number) {
@@ -22,7 +22,7 @@ export class UserSessionActivityService {
     try {
       const now = new Date();
       const user =
-        await this.UserAnalyticsRepository.findUserByTelegramId(userId);
+        await this.userSessionRepository.findUserByTelegramId(userId);
       if (!user) {
         this.logger.error(`${this.SERVICE_NAME}: User not found: ${userId}`);
         throw new Error(`${this.SERVICE_NAME}: User not found`);
@@ -30,7 +30,7 @@ export class UserSessionActivityService {
       const isNewSession =
         !user.lastActive ||
         now.getTime() - user.lastActive.getTime() > this.SESSION_TIMEOUT;
-      await this.UserAnalyticsRepository.updateUserSession(
+      await this.userSessionRepository.updateUserSession(
         userId,
         now,
         isNewSession ? user.sessionCount + 1 : user.sessionCount,

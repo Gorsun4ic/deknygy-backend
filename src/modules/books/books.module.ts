@@ -18,6 +18,8 @@ import { ArthussApiModule } from '../search-providers/arthuss/arthuss.module';
 import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from '../redis/redis.module';
 import { PrismaModule } from '../prisma/prisma.module';
+import { SearchLogService } from '../analytics/services/user/search-log.service';
+import { SearchLogRepository } from '../analytics/repository/user/search-log.repository';
 
 @Module({
   imports: [
@@ -39,6 +41,12 @@ import { PrismaModule } from '../prisma/prisma.module';
     PrismaModule,
   ],
   controllers: [BooksController],
-  providers: [BooksService, BooksRepository, Logger],
+  providers: [
+    BooksService,
+    BooksRepository,
+    Logger,
+    SearchLogService,
+    SearchLogRepository,
+  ],
 })
 export class BooksModule {}
