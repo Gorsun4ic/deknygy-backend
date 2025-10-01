@@ -17,6 +17,7 @@ import { unifyBooks } from './lib/unuiqifyBooks';
 import { IBookInfo } from '../common/interfaces/api/book.info';
 import { RedisService } from '../redis/redis.service';
 import { BooksRepository } from './books.repository';
+import { SearchLogService } from '../analytics/services/user/search-log.service';
 
 @Injectable()
 export class BooksService {
@@ -37,15 +38,40 @@ export class BooksService {
     private readonly logger: Logger,
     private readonly redisService: RedisService,
     private readonly booksRepository: BooksRepository,
+    private readonly searchLogService: SearchLogService,
   ) {}
 
-  async searchBook(query: string) {
+  async searchBook(telegramId: bigint, query: string) {
     const TIMEOUT = 5000;
     const formattedQuery = formatQuery(query);
     const startTime = Date.now();
     const cacheKey = `search:${formattedQuery}`;
-    const cached = await this.redisService.get(cacheKey);
+    const queryId =
+      await this.booksRepository.getOrCreateQueryId(formattedQuery);
+    this.logger.log(`[SEARCH START] Key: ${cacheKey}`);
 
+    let cached: string | null = null;
+
+    try {
+      cached = await this.redisService.get(cacheKey);
+    } catch (error) {
+      this.logger.error(
+        `Failed to retrieve from Redis. Proceeding without cache.`,
+        error?.message,
+      );
+    }
+
+    // 2. ATTEMPT TO LOG SEARCH (Must not crash the entire function)
+    try {
+      // This is the line that was crashing the function:
+      await this.searchLogService.logSearch(telegramId, formattedQuery);
+    } catch (error) {
+      // Log the error but DO NOT return. Let the search continue.
+      this.logger.error(`Failed to log search: ${error?.message}.`, error);
+      // We know the query is "not found", so we proceed.
+    }
+
+    // 3. CHECK CACHED RESULT
     if (cached) {
       this.logger.log('Redis cache hit');
       return JSON.parse(cached) as IBookInfo[];
@@ -67,6 +93,9 @@ export class BooksService {
       { name: 'Ridnamova', service: this.ridnamovaApiService },
       { name: 'Arthuss', service: this.arthussApiService },
     ];
+    this.logger.log(
+      `[CACHE MISS] Key: ${cacheKey}. Starting ${apiCalls.length} API calls.`,
+    );
 
     const results = await Promise.all(
       apiCalls.map(async ({ name, service }) => {
@@ -92,8 +121,6 @@ export class BooksService {
       .filter((result) => Array.isArray(result))
       .flat() as IBookInfo[];
     const unifiedBooks = unifyBooks(allBooks);
-    const queryId =
-      await this.booksRepository.getOrCreateQueryId(formattedQuery);
     await this.booksRepository.saveBooks(unifiedBooks, queryId);
     await this.redisService.set(
       cacheKey,
