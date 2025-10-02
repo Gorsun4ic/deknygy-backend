@@ -18,6 +18,7 @@ import { IBookInfo } from '../common/interfaces/api/book.info';
 import { RedisService } from '../redis/redis.service';
 import { BooksRepository } from './books.repository';
 import { SearchLogService } from '../analytics/services/user/search-log.service';
+import { UnsuccessfulSearchLogService } from '../analytics/services/user/unsuccessful-search-log.service';
 
 @Injectable()
 export class BooksService {
@@ -39,6 +40,7 @@ export class BooksService {
     private readonly redisService: RedisService,
     private readonly booksRepository: BooksRepository,
     private readonly searchLogService: SearchLogService,
+    private readonly unsuccessfulSearchLogService: UnsuccessfulSearchLogService,
   ) {}
 
   async searchBook(telegramId: bigint, query: string) {
@@ -121,6 +123,20 @@ export class BooksService {
       .filter((result) => Array.isArray(result))
       .flat() as IBookInfo[];
     const unifiedBooks = unifyBooks(allBooks);
+    this.logger.log(`Unified books count: ${unifiedBooks.length}`);
+    // If no books found, log unsuccessful search (Must not crash the entire function)
+    if (unifiedBooks.length === 0) {
+      try {
+        await this.unsuccessfulSearchLogService.logUnsuccessfulSearch(
+          telegramId,
+          formattedQuery,
+        );
+      } catch (error) {
+        this.logger.error(
+          `Failed to log unsuccessful search: ${error?.message}`,
+        );
+      }
+    }
     await this.booksRepository.saveBooks(unifiedBooks, queryId);
     await this.redisService.set(
       cacheKey,

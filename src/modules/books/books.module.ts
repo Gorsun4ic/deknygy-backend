@@ -20,6 +20,8 @@ import { RedisModule } from '../redis/redis.module';
 import { PrismaModule } from '../prisma/prisma.module';
 import { SearchLogService } from '../analytics/services/user/search-log.service';
 import { SearchLogRepository } from '../analytics/repository/user/search-log.repository';
+import { UnsuccessfulSearchLogService } from '../analytics/services/user/unsuccessful-search-log.service';
+import { UnsuccessfulSearchLogRepository } from '../analytics/repository/user/unsuccessful-search-log.repository';
 
 @Module({
   imports: [
@@ -47,6 +49,8 @@ import { SearchLogRepository } from '../analytics/repository/user/search-log.rep
     Logger,
     SearchLogService,
     SearchLogRepository,
+    UnsuccessfulSearchLogService,
+    UnsuccessfulSearchLogRepository,
   ],
 })
 export class BooksModule {}

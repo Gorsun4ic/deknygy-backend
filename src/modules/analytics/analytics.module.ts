@@ -4,6 +4,8 @@ import { UserSessionActivityService } from './services/user/session.service';
 import { UserSessionRepository } from './repository/user/session.repository';
 import { SearchLogService } from './services/user/search-log.service';
 import { SearchLogRepository } from './repository/user/search-log.repository';
+import { UnsuccessfulSearchLogService } from './services/user/unsuccessful-search-log.service';
+import { UnsuccessfulSearchLogRepository } from './repository/user/unsuccessful-search-log.repository';
 import { AnalyticsController } from './analytics.controller';
 
 @Module({
@@ -15,12 +17,16 @@ import { AnalyticsController } from './analytics.controller';
     Logger,
     SearchLogService,
     SearchLogRepository,
+    UnsuccessfulSearchLogService,
+    UnsuccessfulSearchLogRepository,
   ],
   exports: [
     UserSessionActivityService,
     UserSessionRepository,
     SearchLogService,
     SearchLogRepository,
+    UnsuccessfulSearchLogService,
+    UnsuccessfulSearchLogRepository,
   ],
 })
 export class AnalyticsModule {}
