@@ -4,26 +4,31 @@ import { type TempMap } from '../../interfaces/temp.map.type';
 import { IBookGroup } from '../../interfaces/book.group';
 import { resolveAndGroupBooks } from './resolveAndGroupBooks';
 
-const mockAddBookToGroup = jest.fn();
-const mockCreateGroupingKey = jest.fn();
-const mockMergeAuthorTypoGroups = jest.fn();
-const mockSelectDisplayTitle = jest.fn();
-
-jest.mock('../createGroupingKey', () => ({
-  createGroupingKey: mockCreateGroupingKey,
-}));
-jest.mock('../../utils/addBookToGroup', () => ({
-  addBookToGroup: mockAddBookToGroup,
-}));
-jest.mock('./authorTypo', () => ({
-  mergeAuthorTypoGroups: mockMergeAuthorTypoGroups,
-}));
-jest.mock('../../utils/selectDisplayTitle', () => ({
-  selectDisplayTitle: mockSelectDisplayTitle,
-}));
-
 // Variable to capture the map state before the merge mock modifies it
 let preMergeKeys: string[] = [];
+
+jest.mock('../createGroupingKey', () => ({
+  createGroupingKey: jest.fn(),
+}));
+jest.mock('../../utils/addBookToGroup', () => ({
+  addBookToGroup: jest.fn(),
+}));
+jest.mock('./authorTypo', () => ({
+  mergeAuthorTypoGroups: jest.fn(),
+}));
+jest.mock('../../utils/selectDisplayTitle', () => ({
+  selectDisplayTitle: jest.fn(),
+}));
+
+import { createGroupingKey } from '../createGroupingKey';
+import { addBookToGroup } from '../../utils/addBookToGroup';
+import { mergeAuthorTypoGroups } from './authorTypo';
+import { selectDisplayTitle } from '../../utils/selectDisplayTitle';
+
+const mockCreateGroupingKey = createGroupingKey as jest.Mock;
+const mockAddBookToGroup = addBookToGroup as jest.Mock;
+const mockMergeAuthorTypoGroups = mergeAuthorTypoGroups as jest.Mock;
+const mockSelectDisplayTitle = selectDisplayTitle as jest.Mock;
 
 describe('resolveAndGroupBooks', () => {
   const mockBooks: IBookInfo[] = [

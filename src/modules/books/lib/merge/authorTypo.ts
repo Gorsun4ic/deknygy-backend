@@ -43,6 +43,10 @@ export const mergeAuthorTypoGroups = (
       // --- MERGE CONDITIONS ---
       const areTitlesTheSame = sourceTitle === destTitle;
 
+      if (!areTitlesTheSame) {
+        continue; // Skip if the core titles are different
+      }
+
       const shouldMerge =
         // Condition A: Standard typo check (same title, similar authors)
         (areTitlesTheSame && authorSimilarity >= threshold) ||
