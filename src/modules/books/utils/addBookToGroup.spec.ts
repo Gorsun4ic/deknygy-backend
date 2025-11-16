@@ -2,12 +2,17 @@ import { addBookToGroup } from './addBookToGroup';
 import { pushBookToList } from './pushBookToList';
 import { type IBookGroup } from '../interfaces/book.group';
 import { type IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { cleanEbookIndicator } from 'src/modules/common/utils/cleanEbookTitle';
 
 jest.mock('./pushBookToList');
+jest.mock('src/modules/common/utils/cleanEbookTitle');
 
 describe('addBookToGroup', () => {
   const mockPushBookToList = pushBookToList as jest.MockedFunction<
     typeof pushBookToList
+  >;
+  const mockCleanEbookIndicator = cleanEbookIndicator as jest.MockedFunction<
+    typeof cleanEbookIndicator
   >;
 
   let group: IBookGroup;
@@ -34,6 +39,9 @@ describe('addBookToGroup', () => {
       store: 'example',
       format: 1,
     } as IBookInfo;
+
+    // Mock cleanEbookIndicator to return the title as-is
+    mockCleanEbookIndicator.mockImplementation((title: string) => title);
   });
 
   afterEach(() => {

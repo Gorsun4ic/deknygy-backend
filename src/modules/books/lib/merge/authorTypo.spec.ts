@@ -16,6 +16,7 @@ jest.mock('./mergeGroups');
 jest.mock('../../utils/getKeys');
 jest.mock('../../utils/getGroupLength');
 jest.mock('../../utils/normalizeString');
+jest.mock('../../../common/utils/cleanEbookTitle');
 
 // Helper: create a valid formatted container
 const emptyFormats = (): Record<Exclude<FormatType, 0>, IBookInfo[]> =>
