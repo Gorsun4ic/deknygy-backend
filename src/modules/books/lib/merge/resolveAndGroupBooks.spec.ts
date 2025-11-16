@@ -16,6 +16,12 @@ jest.mock('../../utils/addBookToGroup', () => ({
 jest.mock('./authorTypo', () => ({
   mergeAuthorTypoGroups: jest.fn(),
 }));
+jest.mock('./authorNameOverlapTitle', () => ({
+  mergeTitleAuthorOverlapGroups: jest.fn(),
+}));
+jest.mock('./titleSubstring', () => ({
+  mergeTitleSubstring: jest.fn(),
+}));
 jest.mock('../../utils/selectDisplayTitle', () => ({
   selectDisplayTitle: jest.fn(),
 }));
