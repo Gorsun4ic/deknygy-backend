@@ -1,0 +1,47 @@
+import {
+  FormatType,
+  IBookInfo,
+} from 'src/modules/common/interfaces/api/book.info';
+import { normalizeString } from '../utils/normalizeString';
+import { PREPOSITIONS } from '../constants/prepositions';
+import { TRILOGY_INDICATORS } from '../constants/trilogy';
+import { isEbook } from 'src/modules/common/utils/ebookCheck';
+import { cleanEbookIndicator } from 'src/modules/common/utils/cleanEbookTitle';
+
+// ------------------------------------------------------------------
+// Create key for grouping books
+// ------------------------------------------------------------------
+
+/**
+ * Creates a unique grouping key for a book based on its normalized title and author.
+ * This key is used for initial placement in the temporary map.
+ * @param book The book information object.
+ * @returns A composite key: [normalized_title]___[normalized_author] or just [normalized_title].
+ */
+export const createGroupingKey = (book: IBookInfo): string => {
+  // Create a normalized author key that represents all authors
+  const authorKey = book.author ? normalizeString(book.author) : '';
+  const rawTitle = book?.title.toLowerCase();
+
+  if (isEbook(rawTitle)) {
+    book.format = 2 as FormatType;
+    // Clean the ebook indicator from the actual book title
+    book.title = cleanEbookIndicator(book.title);
+  }
+
+  const ebookCleanedTitle = cleanEbookIndicator(rawTitle);
+
+  // Split the normalized title back into words (though normalization has removed non-alphanumeric, so this mainly handles remaining spaces).
+  const words = ebookCleanedTitle.split(/\s+/).filter(Boolean);
+  // Check if the title contains any volume indicators.
+  const isVolume = words.some((w) => TRILOGY_INDICATORS.has(w));
+
+  // The final title component of the key:
+  const groupingTitle = isVolume
+    ? words.join(' ') // For volumes, keep all words (to distinguish V1 from V2, etc.)
+    : words.filter((w) => !PREPOSITIONS.has(w)).join(' '); // For non-trilogies, remove prepositions for better grouping (e.g., "The Book" vs "A Book").
+
+  const normalizedTitle = normalizeString(groupingTitle);
+  // Construct the final key. Includes author if present, separated by '___'.
+  return `${normalizedTitle || 'no_title'}${authorKey ? `___${authorKey}` : ''}`;
+};

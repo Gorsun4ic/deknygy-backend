@@ -18,6 +18,7 @@ import { IBookInfo } from '../common/interfaces/api/book.info';
 import { RedisService } from '../redis/redis.service';
 import { BooksRepository } from './books.repository';
 import { SearchLogService } from '../analytics/services/user/search-log.service';
+import { resolveAndGroupBooks } from './lib/merge/resolveAndGroupBooks';
 
 @Injectable()
 export class BooksService {
@@ -74,7 +75,7 @@ export class BooksService {
     // 3. CHECK CACHED RESULT
     if (cached) {
       this.logger.log('Redis cache hit');
-      return JSON.parse(cached) as IBookInfo[];
+      return resolveAndGroupBooks(JSON.parse(cached) as IBookInfo[]);
     }
 
     // Search all APIs with error handling
@@ -127,6 +128,6 @@ export class BooksService {
       JSON.stringify(unifiedBooks),
       60 * 60 * 24,
     );
-    return unifiedBooks;
+    return resolveAndGroupBooks(unifiedBooks);
   }
 }
