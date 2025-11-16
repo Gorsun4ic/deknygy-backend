@@ -38,10 +38,10 @@ export const mergeAuthorTypoGroups = (
             normalizeString(destAuthor),
           )
         : 0; // Similarity is 0 if either is missing for standard typo checks
-
       // Step 2.1: Check if the keys should be merged
       // --- MERGE CONDITIONS ---
-      const areTitlesTheSame = sourceTitle === destTitle;
+      const areTitlesTheSame =
+        stringSimilarity(sourceTitle, destTitle) >= threshold;
 
       if (!areTitlesTheSame) {
         continue; // Skip if the core titles are different

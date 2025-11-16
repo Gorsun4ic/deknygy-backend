@@ -5,7 +5,6 @@ import { mergeGroups } from './mergeGroups';
 import { getKeys } from '../../utils/getKeys';
 import { getGroupLength } from '../../utils/getGroupLength';
 import { normalizeString } from '../../utils/normalizeString';
-import { stringSimilarity } from 'string-similarity-js';
 import { TempMap } from '../../interfaces/temp.map.type';
 import { IBookGroup } from '../../interfaces/book.group';
 import {
@@ -17,7 +16,6 @@ jest.mock('./mergeGroups');
 jest.mock('../../utils/getKeys');
 jest.mock('../../utils/getGroupLength');
 jest.mock('../../utils/normalizeString');
-jest.mock('string-similarity-js');
 
 // Helper: create a valid formatted container
 const emptyFormats = (): Record<Exclude<FormatType, 0>, IBookInfo[]> =>
@@ -54,7 +52,6 @@ describe('mergeAuthorTypoGroups', () => {
     (normalizeString as jest.Mock).mockImplementation((a: string) =>
       a.toLowerCase(),
     );
-    (stringSimilarity as jest.Mock).mockReturnValue(0.92);
 
     (getGroupLength as jest.Mock).mockReturnValue(1);
 
@@ -117,8 +114,6 @@ describe('mergeAuthorTypoGroups', () => {
       g === tempMap['Title___John Doe'] ? 1 : 5,
     );
 
-    (stringSimilarity as jest.Mock).mockReturnValue(0.9);
-
     mergeAuthorTypoGroups(tempMap);
 
     expect(mergeGroups).toHaveBeenCalledWith(
@@ -130,7 +125,6 @@ describe('mergeAuthorTypoGroups', () => {
   test('author length tiebreaker when counts equal', () => {
     (getKeys as jest.Mock).mockReturnValue(['Title___Jo', 'Title___John']);
 
-    (stringSimilarity as jest.Mock).mockReturnValue(0.9);
     (getGroupLength as jest.Mock).mockReturnValue(3);
 
     mergeAuthorTypoGroups(tempMap);

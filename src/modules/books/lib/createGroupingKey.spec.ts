@@ -13,8 +13,8 @@ describe('createGroupingKey', () => {
       format: 1,
     };
     // normalizeString('Foundation') -> 'foundation'
-    // normalizeString('Isaac Asimov') -> 'isaacasimov'
-    expect(createGroupingKey(book)).toBe('foundation___isacasimov');
+    // normalizeString('Isaac Asimov') -> 'isaac asimov'
+    expect(createGroupingKey(book)).toBe('foundation___isac asimov');
   });
 
   // Test Case 2: Handling titles with special characters and capitalization
@@ -31,7 +31,7 @@ describe('createGroupingKey', () => {
     // normalizeString('Dune: Part One (1965)') -> 'dune part one 1965'
     // words -> ['dune', 'part', 'one', '1965']
     // isVolume -> true
-    expect(createGroupingKey(book)).toBe('dunepartone1965___frankherbert');
+    expect(createGroupingKey(book)).toBe('dune part one 1965___frank herbert');
   });
 
   // Test Case 3: Title with Prepositions (Non-Volume) - Prepositions should be removed
@@ -48,7 +48,9 @@ describe('createGroupingKey', () => {
     // words -> ['a', 'tale', 'of', 'two', 'cities']
     // filtered (removing 'a') -> ['tale', 'of', 'two', 'cities']
     // Key should be 'taleoftwocities' (assuming 'of' and 'two' are not prepositions in PREPOSITIONS set, which is correct based on the prompt's definition of PREPOSITIONS)
-    expect(createGroupingKey(book)).toBe('taleoftwocities___charlesdickens');
+    expect(createGroupingKey(book)).toBe(
+      'tale of two cities___charles dickens',
+    );
   });
 
   // Test Case 4: Title is a Volume (Indicator present) - Prepositions should be kept
@@ -65,7 +67,7 @@ describe('createGroupingKey', () => {
     // isVolume -> true (due to 'book')
     // All words are joined without spaces
     expect(createGroupingKey(book)).toBe(
-      'thelordoftheringsbokone___jrrtolkien',
+      'the lord of the rings bok one___j r r tolkien',
     );
   });
 
@@ -81,7 +83,7 @@ describe('createGroupingKey', () => {
     };
     // words -> ['the', 'great', 'gatsby']
     // filtered (removing 'the') -> ['great', 'gatsby']
-    expect(createGroupingKey(book)).toBe('greatgatsby');
+    expect(createGroupingKey(book)).toBe('great gatsby');
   });
 
   // Test Case 6: Empty Title and Missing Author
@@ -127,7 +129,7 @@ describe('createGroupingKey', () => {
     // words -> ['у', 'пошуках', 'втраченого', 'часу', 'том', '1']
     // isVolume -> true (due to 'том')
     expect(createGroupingKey(book)).toBe(
-      'упошукагвтраченогочасутом1___марселпруст',
+      'у пошукаг втраченого часу том 1___марсел пруст',
     );
   });
 
@@ -142,6 +144,6 @@ describe('createGroupingKey', () => {
       format: 1,
     };
     // words -> ['державець']
-    expect(createGroupingKey(book)).toBe('державец___ніколомакйавелі');
+    expect(createGroupingKey(book)).toBe('державец___ніколо макйавелі');
   });
 });
