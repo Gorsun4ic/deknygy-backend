@@ -13,8 +13,8 @@ export const selectDisplayTitle = (group: IBookGroup): string => {
 
   for (const [variant, count] of group.variants.entries()) {
     const len = variant.trim().length;
-    // Selection preference: 1. Max length, 2. Max count
-    if (len > maxLength || (len === maxLength && count > maxCount)) {
+    // Selection preference: 1. Max count, 2. Max length
+    if (count > maxCount || (count === maxCount && len > maxLength)) {
       displayTitle = variant;
       maxLength = len;
       maxCount = count;
