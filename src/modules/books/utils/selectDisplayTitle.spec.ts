@@ -9,29 +9,26 @@ describe('selectDisplayTitle', () => {
     variants: new Map(variants),
   });
 
-  // Test Case 1: Longest title wins even if its count is lower (Length priority)
-  test('should select the longest title variant, regardless of lower count', () => {
+  // Test Case 1: Highest count wins even if title is shorter (Count priority)
+  test('should select the title variant with the highest count, regardless of length', () => {
     const group = createMockGroup([
-      ['The Great Gatsby (abbreviated edition)', 10], // Length 37 (Winner: Longest)
-      ['The Great Gatsby', 50], // Length 16 (Higher count, but shorter length)
+      ['The Great Gatsby (abbreviated edition)', 10], // Length 37, Count 10
+      ['The Great Gatsby', 50], // Length 16, Count 50 (Winner: Highest count)
     ]);
-    expect(selectDisplayTitle(group)).toBe(
-      'The Great Gatsby (abbreviated edition)',
-    );
+    expect(selectDisplayTitle(group)).toBe('The Great Gatsby');
   });
 
-  // Test Case 2: Highest count wins when lengths are equal (Count tie-breaker)
-  test('should select the title variant with the highest count when lengths are equal', () => {
-    // Note: All relevant titles must have the same length (18) to test the count tie-breaker.
+  // Test Case 2: Longest title wins when counts are equal (Length tie-breaker)
+  test('should select the longest title variant when counts are equal', () => {
     const group = createMockGroup([
-      ['The Great Gatsby V1', 10], // Length 19, Count 10
-      ['A Shorter Title', 50], // Length 17 (Shorter, ignored)
-      ['The Great Gatsby V2', 50], // Length 19, Count 50 (Expected Winner: Max length and max count)
-      ['The Great Gatsby V3', 40], // Length 19, Count 40
+      ['The Great Gatsby V1', 50], // Length 19, Count 50 (Winner: Same count, longest)
+      ['A Shorter Title', 50], // Length 17, Count 50
+      ['The Great Gatsby V2', 50], // Length 19, Count 50
+      ['The Great Gatsby V3', 50], // Length 19, Count 50
     ]);
 
-    // Expected winner: 'The Great Gatsby V2' (Max length 19, Max count 50)
-    expect(selectDisplayTitle(group)).toBe('The Great Gatsby V2');
+    // Expected winner: 'The Great Gatsby V1' (First one with max count and max length)
+    expect(selectDisplayTitle(group)).toBe('The Great Gatsby V1');
   });
 
   // Test Case 3: Handling leading/trailing whitespace
