@@ -15,10 +15,10 @@ export const normalizeString = (str: string): string => {
       .replace(/х/g, 'г') // 'х' (kh) and 'г' (h/g) are sometimes confused/used interchangeably in quick-typing/transliteration
       .replace(/я/g, 'йа') // Normalize common vowel/consonant pairs
       .replace(/є/g, 'йе')
-      .replace(/[.:,;'"()[\]—–-]/g, ' ') // Remove punctuation marks like :,;'"()[\]—–-
+      .replace(/[.:,;'"()[\]—–-]/g, '') // Remove punctuation marks like :,;'"()[\]—–-
       .replace(/ї/g, 'и')
       .replace(/(.)\1+/g, '$1') // Collapse repeated letters (e.g., 'aa' -> 'a') to handle minor typos
-      .replace(/[^a-zа-яєії0-9]/gi, '') // Remove all non-alphanumeric characters (including spaces)
+      .replace(/[^ a-zа-яєії0-9]/gi, '') // Remove all non-alphanumeric characters (including spaces)
       .toLowerCase()
       .trim()
   );

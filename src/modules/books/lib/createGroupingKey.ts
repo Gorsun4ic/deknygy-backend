@@ -25,11 +25,11 @@ export const createGroupingKey = (book: IBookInfo): string => {
 
   // The final title component of the key:
   const groupingTitle = isVolume
-    ? words.join('') // For volumes, keep all words (to distinguish V1 from V2, etc.)
-    : words.filter((w) => !PREPOSITIONS.has(w)).join(''); // For non-trilogies, remove prepositions for better grouping (e.g., "The Book" vs "A Book").
+    ? words.join(' ') // For volumes, keep all words (to distinguish V1 from V2, etc.)
+    : words.filter((w) => !PREPOSITIONS.has(w)).join(' '); // For non-trilogies, remove prepositions for better grouping (e.g., "The Book" vs "A Book").
 
-  // Apply the aggressive normalization to the cleaned title string.
-  const fullyNormalizedTitle = normalizeString(groupingTitle);
+  const normalizedTitle = normalizeString(groupingTitle);
+
   // Construct the final key. Includes author if present, separated by '___'.
-  return `${fullyNormalizedTitle || 'no_title'}${authorKey ? `___${authorKey}` : ''}`;
+  return `${normalizedTitle || 'no_title'}${authorKey ? `___${authorKey}` : ''}`;
 };
