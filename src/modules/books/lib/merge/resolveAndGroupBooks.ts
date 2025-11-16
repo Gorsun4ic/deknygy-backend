@@ -22,10 +22,6 @@ export function resolveAndGroupBooks(
 
   // 1. Initial Grouping Pass
   for (const book of books) {
-    // Use format, defaulting to 1 (Print) if missing or invalid.
-    let formatType: FormatType = book.format ?? 1;
-    if (![1, 2, 3].includes(formatType)) formatType = 1;
-
     // Create a single key for the book (using the full author string)
     const key = createGroupingKey(book);
     if (!tempMap[key]) {
@@ -34,6 +30,9 @@ export function resolveAndGroupBooks(
         formats: { 1: [], 2: [], 3: [] },
       };
     }
+    // Use format, defaulting to 1 (Print) if missing or invalid.
+    let formatType: FormatType = book.format ?? 1;
+    if (![1, 2, 3].includes(formatType)) formatType = 1;
     addBookToGroup(tempMap[key], book, formatType);
   }
 

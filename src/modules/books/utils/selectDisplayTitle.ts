@@ -1,4 +1,5 @@
 import { type IBookGroup } from '../interfaces/book.group';
+import { cleanEbookIndicator } from 'src/modules/common/utils/cleanEbookTitle';
 
 /**
  * Selects the best display title for the final group by finding the most common

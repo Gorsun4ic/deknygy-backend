@@ -1,8 +1,24 @@
 import { type IBookInfo } from 'src/modules/common/interfaces/api/book.info';
 import { type TempMap } from '../../interfaces/temp.map.type';
 import { mergeGroups } from './mergeGroups';
+import { cleanEbookIndicator } from 'src/modules/common/utils/cleanEbookTitle';
+
+jest.mock('src/modules/common/utils/cleanEbookTitle');
 
 describe('mergeGroups', () => {
+  const mockCleanEbookIndicator = cleanEbookIndicator as jest.MockedFunction<
+    typeof cleanEbookIndicator
+  >;
+
+  beforeEach(() => {
+    // Mock cleanEbookIndicator to return the title as-is
+    mockCleanEbookIndicator.mockImplementation((title: string) => title);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const book1: IBookInfo = {
     title: 'Book A',
     link: 'linkA',

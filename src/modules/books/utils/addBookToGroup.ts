@@ -2,6 +2,7 @@ import { type IBookInfo } from 'src/modules/common/interfaces/api/book.info';
 import { type IBookGroup } from '../interfaces/book.group';
 import { type FormatType } from 'src/modules/common/interfaces/api/book.info';
 import { pushBookToList } from './pushBookToList';
+import { cleanEbookIndicator } from 'src/modules/common/utils/cleanEbookTitle';
 
 export const addBookToGroup = (
   group: IBookGroup,
@@ -9,7 +10,7 @@ export const addBookToGroup = (
   formatType: FormatType,
 ) => {
   // Store original title variants for later selection of the best display title.
-  const normalizedVariantKey = book.title.trim();
+  const normalizedVariantKey = cleanEbookIndicator(book.title).trim();
 
   group.variants.set(
     normalizedVariantKey,
