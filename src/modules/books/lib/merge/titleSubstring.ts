@@ -43,9 +43,24 @@ export const mergeTitleSubstring = (
         sourceCoreTitle.length !== destCoreTitle.length &&
         longer.startsWith(shorter);
 
+      // Also check if first 2 words match (for normalized titles without punctuation)
+      // But only if one title is significantly longer (indicating subtitle/description)
+      const sourceWords = sourceCoreTitle.trim().split(/\s+/);
+      const destWords = destCoreTitle.trim().split(/\s+/);
+      const minWords = Math.min(sourceWords.length, destWords.length);
+      const maxWords = Math.max(sourceWords.length, destWords.length);
+      const hasSignificantLengthDifference = maxWords > minWords * 1.5; // One is 50% longer
+      // Check if first 2 words match (core title match)
+      const firstWordsMatch =
+        minWords >= 2 &&
+        hasSignificantLengthDifference &&
+        sourceWords[0] === destWords[0] &&
+        sourceWords[1] === destWords[1];
+
       // Calculate similarity for cases where neither is a substring
       const similarity = stringSimilarity(sourceCoreTitle, destCoreTitle);
-      const areTitlesTheSame = isSubstring || similarity >= threshold;
+      const areTitlesTheSame =
+        isSubstring || firstWordsMatch || similarity >= threshold;
 
       if (areTitlesTheSame) {
         merges.push([sourceKey, destKey]);
