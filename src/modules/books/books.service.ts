@@ -123,11 +123,9 @@ export class BooksService {
       .flat() as IBookInfo[];
     const unifiedBooks = unifyBooks(allBooks);
     await this.booksRepository.saveBooks(unifiedBooks, queryId);
-    await this.redisService.set(
-      cacheKey,
-      JSON.stringify(unifiedBooks),
-      60 * 60 * 24,
-    );
+    const cacheTTL = 60 * 60 * 24;
+    const cacheValue = resolveAndGroupBooks(unifiedBooks);
+    await this.redisService.set(cacheKey, JSON.stringify(cacheValue), cacheTTL);
     return resolveAndGroupBooks(unifiedBooks);
   }
 }
