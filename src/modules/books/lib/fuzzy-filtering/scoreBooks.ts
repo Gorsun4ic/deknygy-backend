@@ -85,15 +85,37 @@ export const scoreBooks = (
     return {
       ...r.item,
       score: finalScore,
-    } as IBookInfo & { score: number };
+      _titleSimilarity: titleSimilarity, // Store for threshold adjustment
+    } as IBookInfo & { score: number; _titleSimilarity: number };
   });
 
   // --- Final Filtering and Sorting ---
-  const threshold = queryAuthor
+  // For split queries (with author), be more lenient with books that have strong title matches
+  // even if author doesn't match well, because merge logic will group books with same title
+  // but different authors together. This ensures we don't lose relevant books during fuzzy filtering.
+  const baseThreshold = queryAuthor
     ? THRESHOLD_TITLE_ONLY_FAIR
     : THRESHOLD_TITLE_ONLY_TOP;
-  const highMatch = scored.filter((b) => b.score >= threshold);
 
-  // Sort by best score
-  return highMatch.sort((a, b) => b.score - a.score);
+  const highMatch = scored.filter((b) => {
+    const score = b.score;
+    const titleSim = b._titleSimilarity;
+
+    // If title similarity is very high (>0.7), be more lenient with threshold
+    // This accounts for cases where books have same title but different/missing authors
+    // which will be merged later in the grouping phase
+    if (queryAuthor && titleSim > 0.7) {
+      // Use a lower threshold (0.35) for high title similarity matches
+      // This ensures books with strong title matches aren't filtered out
+      // even if author doesn't match, since merge logic will handle grouping
+      return score >= 0.35;
+    }
+
+    return score >= baseThreshold;
+  });
+
+  // Sort by best score and remove temporary _titleSimilarity property
+  return highMatch
+    .sort((a, b) => b.score - a.score)
+    .map(({ _titleSimilarity, ...book }) => book);
 };

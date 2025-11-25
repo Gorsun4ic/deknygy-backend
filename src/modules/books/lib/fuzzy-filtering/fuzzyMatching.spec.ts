@@ -1,5 +1,5 @@
 import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
-import { fuzzyBooks } from './fuzzyMatching';
+import { fuzzyMatching } from './fuzzyMatching';
 
 // --- MOCKING DEPENDENCIES ---
 
@@ -35,7 +35,7 @@ const mockSplitQuery = splitQueryIntoTitleAndAuthor as jest.MockedFunction<
 const mockScoreBooks = scoreBooks as jest.MockedFunction<typeof scoreBooks>;
 const MockFuse = Fuse as jest.MockedClass<typeof Fuse>;
 
-describe('fuzzyBooks', () => {
+describe('fuzzyMatching', () => {
   const mockBooks: IBookInfo[] = [
     {
       title: 'The Martian',
@@ -80,7 +80,7 @@ describe('fuzzyBooks', () => {
     );
     mockScoreBooks.mockReturnValue([mockBooks[0]]);
 
-    fuzzyBooks(query, mockBooks);
+    fuzzyMatching(query, mockBooks);
 
     expect(mockNormalizeString).toHaveBeenCalledWith(query);
     expect(mockSplitQuery).toHaveBeenCalledWith(normalizedQuery);
@@ -104,7 +104,7 @@ describe('fuzzyBooks', () => {
     );
     mockScoreBooks.mockReturnValue([mockBooks[0]]);
 
-    const result = fuzzyBooks(query, mockBooks);
+    const result = fuzzyMatching(query, mockBooks);
 
     expect(MockFuse).toHaveBeenCalledWith(mockBooks, {
       keys: ['title', 'author'],
@@ -141,7 +141,7 @@ describe('fuzzyBooks', () => {
 
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-    const result = fuzzyBooks(query, mockBooks);
+    const result = fuzzyMatching(query, mockBooks);
 
     expect(mockFuseInstance.search).toHaveBeenCalledWith(query);
     expect(consoleSpy).toHaveBeenCalledWith(
@@ -177,7 +177,7 @@ describe('fuzzyBooks', () => {
 
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-    const result = fuzzyBooks(query, mockBooks);
+    const result = fuzzyMatching(query, mockBooks);
 
     expect(mockFuseInstance.search).toHaveBeenCalledWith(query);
     expect(consoleSpy).not.toHaveBeenCalled();
@@ -209,7 +209,7 @@ describe('fuzzyBooks', () => {
     );
     mockScoreBooks.mockReturnValue([]);
 
-    const result = fuzzyBooks(query, mockBooks);
+    const result = fuzzyMatching(query, mockBooks);
 
     expect(result).toEqual([]);
   });
@@ -231,7 +231,7 @@ describe('fuzzyBooks', () => {
     );
     mockScoreBooks.mockReturnValue([]);
 
-    const result = fuzzyBooks(query, []);
+    const result = fuzzyMatching(query, []);
 
     expect(MockFuse).toHaveBeenCalledWith([], {
       keys: ['title', 'author'],
@@ -260,7 +260,7 @@ describe('fuzzyBooks', () => {
     );
     mockScoreBooks.mockReturnValue([mockBooks[1]]);
 
-    const result = fuzzyBooks(query, mockBooks);
+    const result = fuzzyMatching(query, mockBooks);
 
     expect(mockScoreBooks).toHaveBeenCalledWith(
       fuseResults,

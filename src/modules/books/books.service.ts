@@ -19,6 +19,7 @@ import { RedisService } from '../redis/redis.service';
 import { BooksRepository } from './books.repository';
 import { SearchLogService } from '../analytics/services/user/search-log.service';
 import { resolveAndGroupBooks } from './lib/merge/resolveAndGroupBooks';
+import { fuzzyMatching } from './lib/fuzzy-filtering/fuzzyMatching';
 
 @Injectable()
 export class BooksService {
@@ -53,14 +54,14 @@ export class BooksService {
 
     let cached: string | null = null;
 
-    try {
-      cached = await this.redisService.get(cacheKey);
-    } catch (error) {
-      this.logger.error(
-        `Failed to retrieve from Redis. Proceeding without cache.`,
-        error?.message,
-      );
-    }
+    // try {
+    //   cached = await this.redisService.get(cacheKey);
+    // } catch (error) {
+    //   this.logger.error(
+    //     `Failed to retrieve from Redis. Proceeding without cache.`,
+    //     error?.message,
+    //   );
+    // }
 
     // 2. ATTEMPT TO LOG SEARCH (Must not crash the entire function)
     try {
@@ -73,10 +74,6 @@ export class BooksService {
     }
 
     // 3. CHECK CACHED RESULT
-    if (cached) {
-      this.logger.log('Redis cache hit');
-      return resolveAndGroupBooks(JSON.parse(cached) as IBookInfo[]);
-    }
 
     // Search all APIs with error handling
     const apiCalls = [
@@ -108,7 +105,7 @@ export class BooksService {
             service.search(formattedQuery),
             timeoutPromise,
           ]);
-          return result;
+          return fuzzyMatching(formattedQuery, result as IBookInfo[]);
         } catch (error) {
           this.logger.error(`Error calling ${name} API:`, error?.message);
           return [];
@@ -118,9 +115,7 @@ export class BooksService {
     const endTime = Date.now();
     this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
-    const allBooks = results
-      .filter((result) => Array.isArray(result))
-      .flat() as IBookInfo[];
+    const allBooks = results.filter((result) => Array.isArray(result)).flat();
     const unifiedBooks = unifyBooks(allBooks);
     await this.booksRepository.saveBooks(unifiedBooks, queryId);
     const cacheTTL = 60 * 60 * 24;

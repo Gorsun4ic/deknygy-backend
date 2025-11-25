@@ -5,6 +5,13 @@ import { getCoreTitle } from '../../utils/getCoreTitle';
 import { removeSalePrefix } from 'src/modules/common/utils/removeSalePrefix';
 import { mergeGroups } from './mergeGroups';
 
+/*
+ * Merges groups that share the same normalized title but have a substring match.
+ * @param tempMap The map of temporary book groups.
+ * @param threshold The threshold for the title similarity score.
+ * @default 0.85
+ * @returns void
+ */
 export const mergeTitleSubstring = (
   tempMap: TempMap,
   threshold: number = 0.85,

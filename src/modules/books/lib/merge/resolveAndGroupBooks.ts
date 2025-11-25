@@ -38,9 +38,9 @@ export function resolveAndGroupBooks(
   }
 
   // 2. Merging Passes (Addressing typos, missing data, and structural overlaps)
-  mergeTitleAuthorOverlapGroups(tempMap);
+  // mergeTitleAuthorOverlapGroups(tempMap);
   mergeAuthorTypoGroups(tempMap);
-  mergeTitleSubstring(tempMap);
+  // mergeTitleSubstring(tempMap);
 
   // 3. Final Output Generation
   const result: Record<string, Record<Exclude<FormatType, 0>, IBookInfo[]>>[] =

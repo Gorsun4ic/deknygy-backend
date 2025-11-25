@@ -1,5 +1,5 @@
 import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
-import { fuzzyBooks } from './fuzzyMatching';
+import { fuzzyMatching } from './fuzzyMatching';
 import { scoreBooks } from './scoreBooks';
 import { calculateWordMatchScore } from './calculateWordMatchScore';
 import { normalizeString } from '../../utils/normalizeString';
@@ -59,10 +59,10 @@ describe('Fuzzy Filtering Integration Tests', () => {
     },
   ];
 
-  describe('End-to-End Flow: fuzzyBooks -> scoreBooks -> calculateWordMatchScore', () => {
+  describe('End-to-End Flow: fuzzyMatching -> scoreBooks -> calculateWordMatchScore', () => {
     it('should correctly filter and score books for title-only query', () => {
       const query = 'martian';
-      const results = fuzzyBooks(query, mockBooks);
+      const results = fuzzyMatching(query, mockBooks);
 
       // Should return books with "martian" in title, sorted by score
       expect(results.length).toBeGreaterThan(0);
@@ -88,7 +88,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
 
     it('should correctly handle title + author query with semantic delimiter', () => {
       const query = 'martian by andy weir';
-      const results = fuzzyBooks(query, mockBooks);
+      const results = fuzzyMatching(query, mockBooks);
 
       // Should prioritize books by Andy Weir with "martian" in title
       expect(results.length).toBeGreaterThan(0);
@@ -99,7 +99,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
 
     it('should use calculateWordMatchScore for author matching in split queries', () => {
       const query = 'foundation isaac asimov';
-      const results = fuzzyBooks(query, mockBooks);
+      const results = fuzzyMatching(query, mockBooks);
 
       // Should find Foundation by Isaac Asimov
       const foundationBook = results.find((b) => b.title === 'Foundation');
@@ -109,7 +109,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
 
     it('should handle typos in author names using word matching', () => {
       const query = 'martian andy wir'; // Typo: "wir" instead of "weir"
-      const results = fuzzyBooks(query, mockBooks);
+      const results = fuzzyMatching(query, mockBooks);
 
       // Should still find Andy Weir books due to word matching
       const andyWeirBooks = results.filter((b) =>
@@ -180,7 +180,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
       ];
 
       const query = 'атомні звички';
-      const results = fuzzyBooks(query, ukrainianBooks);
+      const results = fuzzyMatching(query, ukrainianBooks);
 
       expect(results.length).toBeGreaterThan(0);
       results.forEach((book) => {
@@ -202,14 +202,14 @@ describe('Fuzzy Filtering Integration Tests', () => {
       ];
 
       const query = "ender's game";
-      const results = fuzzyBooks(query, booksWithPunctuation);
+      const results = fuzzyMatching(query, booksWithPunctuation);
 
       expect(results.length).toBeGreaterThan(0);
     });
 
     it('should filter out low-scoring matches using threshold', () => {
       const query = 'completely unrelated book title';
-      const results = fuzzyBooks(query, mockBooks);
+      const results = fuzzyMatching(query, mockBooks);
 
       // Should filter out all books as they don't match
       expect(results.length).toBe(0);
@@ -217,7 +217,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
 
     it('should handle case-insensitive matching', () => {
       const query = 'THE MARTIAN';
-      const results = fuzzyBooks(query, mockBooks);
+      const results = fuzzyMatching(query, mockBooks);
 
       expect(results.length).toBeGreaterThan(0);
       expect(results[0].title.toLowerCase()).toContain('martian');
@@ -225,7 +225,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
 
     it('should prioritize exact title matches over partial matches', () => {
       const query = 'martian';
-      const results = fuzzyBooks(query, mockBooks);
+      const results = fuzzyMatching(query, mockBooks);
 
       // "The Martian" (exact match) should rank higher than "The Martian Chronicles"
       const martianIndex = results.findIndex((b) => b.title === 'The Martian');
@@ -245,7 +245,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
       const query = 'xyzabc123 by testauthor456';
       const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-      const results = fuzzyBooks(query, mockBooks);
+      const results = fuzzyMatching(query, mockBooks);
 
       // Should attempt manual scoring if Fuse.js fails and author is detected
       const { author } = splitQueryIntoTitleAndAuthor(normalizeString(query));
@@ -271,7 +271,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
       };
 
       const query = 'specific book specific author';
-      const results = fuzzyBooks(query, [specificBook]);
+      const results = fuzzyMatching(query, [specificBook]);
 
       // Manual scoring should still find it
       expect(results.length).toBeGreaterThanOrEqual(0);
@@ -333,7 +333,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
 
       const query = 'book 50';
       const startTime = Date.now();
-      const results = fuzzyBooks(query, largeBookArray);
+      const results = fuzzyMatching(query, largeBookArray);
       const endTime = Date.now();
 
       expect(results.length).toBeGreaterThan(0);
@@ -341,7 +341,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
     });
 
     it('should handle empty query gracefully', () => {
-      const results = fuzzyBooks('', mockBooks);
+      const results = fuzzyMatching('', mockBooks);
       expect(Array.isArray(results)).toBe(true);
     });
 
@@ -359,7 +359,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
       ];
 
       const query = 'book without';
-      const results = fuzzyBooks(query, booksWithNullAuthor);
+      const results = fuzzyMatching(query, booksWithNullAuthor);
 
       // Should still work and score based on title only
       expect(Array.isArray(results)).toBe(true);
@@ -367,7 +367,7 @@ describe('Fuzzy Filtering Integration Tests', () => {
 
     it('should handle very long queries', () => {
       const longQuery = 'a'.repeat(1000);
-      const results = fuzzyBooks(longQuery, mockBooks);
+      const results = fuzzyMatching(longQuery, mockBooks);
 
       expect(Array.isArray(results)).toBe(true);
       // Should not crash and return empty or filtered results

@@ -1,5 +1,5 @@
 import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
-import { fuzzyBooks } from './fuzzyMatching';
+import { fuzzyMatching } from './fuzzyMatching';
 
 /**
  * Functional tests for the fuzzy-filtering system.
@@ -97,7 +97,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
   describe('User Search Scenarios', () => {
     it('should find exact title match when user searches by title only', () => {
       const query = 'the great gatsby';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       expect(results.length).toBeGreaterThan(0);
       const gatsbyBooks = results.filter((b) =>
@@ -110,7 +110,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should find books by author when user includes author name', () => {
       const query = 'gatsby f scott fitzgerald';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       expect(results.length).toBeGreaterThan(0);
       // Should prioritize books by F. Scott Fitzgerald
@@ -125,7 +125,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should handle typos in user query gracefully', () => {
       const query = 'great gatsy'; // Typo: "gatsy" instead of "gatsby"
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       // Should still find "The Great Gatsby" despite typo
       const gatsbyBooks = results.filter((b) =>
@@ -136,7 +136,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should handle partial author name matches', () => {
       const query = '1984 orwell';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       // May return empty if threshold not met, but if results exist, should be relevant
       if (results.length > 0) {
@@ -151,7 +151,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should distinguish between similar titles correctly', () => {
       const query = 'great';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       // May return empty if threshold not met, but if results exist, verify sorting
       if (results.length > 0) {
@@ -173,7 +173,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
   describe('Ukrainian Language Support', () => {
     it('should correctly search Ukrainian book titles', () => {
       const query = 'атомні звички';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       expect(results.length).toBeGreaterThan(0);
       const atomniBooks = results.filter((b) =>
@@ -184,7 +184,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should correctly search Ukrainian author names', () => {
       const query = 'величні джим коллінз';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       expect(results.length).toBeGreaterThan(0);
       const collinsBook = results.find((b) =>
@@ -196,7 +196,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should handle mixed Ukrainian and transliterated queries', () => {
       const query = 'atomni zvychky james clear';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       // Should still find the book even with mixed query
       expect(results.length).toBeGreaterThanOrEqual(0);
@@ -206,7 +206,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
   describe('Search Quality and Relevance', () => {
     it('should prioritize exact matches over partial matches', () => {
       const query = 'the great gatsby';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       // "The Great Gatsby" should rank higher than "The Great Escape" or "Great Expectations"
       const gatsbyIndex = results.findIndex((b) =>
@@ -229,7 +229,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should filter out irrelevant results using threshold', () => {
       const query = 'completely unrelated search term that matches nothing';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       // Should return empty or very few results
       expect(results.length).toBe(0);
@@ -237,7 +237,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should return results sorted by relevance score (highest first)', () => {
       const query = 'great gatsby';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       if (results.length > 0) {
         // Verify descending order
@@ -255,7 +255,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should handle queries with multiple books by same author', () => {
       const query = 'f scott fitzgerald';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       // May return empty if threshold not met, but if results exist, verify they're by Fitzgerald
       if (results.length > 0) {
@@ -272,7 +272,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
   describe('Edge Cases and Error Handling', () => {
     it('should handle very short queries', () => {
       const query = 'a';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       expect(Array.isArray(results)).toBe(true);
       // May return empty or filtered results, but shouldn't crash
@@ -280,7 +280,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should handle queries with only special characters', () => {
       const query = '!!!@@@###';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       expect(Array.isArray(results)).toBe(true);
       expect(results.length).toBe(0); // Should filter out everything
@@ -300,7 +300,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
       ];
 
       const query = 'anonymous';
-      const results = fuzzyBooks(query, booksWithoutAuthor);
+      const results = fuzzyMatching(query, booksWithoutAuthor);
 
       // Should still work and score based on title
       expect(Array.isArray(results)).toBe(true);
@@ -329,7 +329,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
       ];
 
       const query = 'same book';
-      const results = fuzzyBooks(query, duplicateBooks);
+      const results = fuzzyMatching(query, duplicateBooks);
 
       // Should return both (they're different offers)
       expect(results.length).toBeGreaterThan(0);
@@ -353,7 +353,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
       const query = 'book title 250';
       const startTime = Date.now();
-      const results = fuzzyBooks(query, mediumCatalog);
+      const results = fuzzyMatching(query, mediumCatalog);
       const endTime = Date.now();
 
       expect(endTime - startTime).toBeLessThan(2000); // Should complete in < 2 seconds
@@ -363,7 +363,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
     it('should handle concurrent searches without issues', () => {
       const queries = ['gatsby', '1984', 'pride', 'атомні', 'величні'];
       const results = queries.map((query) =>
-        fuzzyBooks(query, realisticBookCatalog),
+        fuzzyMatching(query, realisticBookCatalog),
       );
 
       // All searches should complete successfully
@@ -376,7 +376,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
   describe('Real-World Query Patterns', () => {
     it('should handle "title by author" format', () => {
       const query = 'gatsby by fitzgerald';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       expect(results.length).toBeGreaterThan(0);
       const topResult = results[0];
@@ -386,7 +386,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should handle "author title" format', () => {
       const query = 'fitzgerald gatsby';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       // May return empty if threshold not met, but if results exist, verify relevance
       if (results.length > 0) {
@@ -403,7 +403,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should handle queries with extra words', () => {
       const query = 'i want to read the great gatsby book';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       // Should still find "The Great Gatsby"
       const gatsbyBooks = results.filter((b) =>
@@ -414,7 +414,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
 
     it('should handle abbreviated author names', () => {
       const query = 'gatsby f scott';
-      const results = fuzzyBooks(query, realisticBookCatalog);
+      const results = fuzzyMatching(query, realisticBookCatalog);
 
       expect(results.length).toBeGreaterThan(0);
       const fitzgeraldBooks = results.filter((b) =>

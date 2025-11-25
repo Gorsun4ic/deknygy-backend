@@ -3,6 +3,8 @@ import { splitQueryIntoTitleAndAuthor } from '../../utils/splitQueryIntoTitleAnd
 import { normalizeString } from '../../utils/normalizeString';
 import Fuse from 'fuse.js';
 import { scoreBooks } from './scoreBooks';
+import { createGroupingKey } from '../createGroupingKey';
+
 /**
  * Performs fuzzy search on the book list and assigns a relevance score.
  * It filters the results to only include strong matches.
@@ -10,7 +12,10 @@ import { scoreBooks } from './scoreBooks';
  * @param books The flat array of book offers.
  * @returns A sorted array of relevant IBookInfo objects.
  */
-export const fuzzyBooks = (query: string, books: IBookInfo[]): IBookInfo[] => {
+export const fuzzyMatching = (
+  query: string,
+  books: IBookInfo[],
+): IBookInfo[] => {
   const normalizedQuery = normalizeString(query);
   const { title: queryTitle, author: queryAuthor } =
     splitQueryIntoTitleAndAuthor(normalizedQuery);
