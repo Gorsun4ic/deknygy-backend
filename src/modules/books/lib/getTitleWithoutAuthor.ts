@@ -1,13 +1,13 @@
 import {
   findFuzzyAuthorMatch,
-  IFindFuzzyAuthorMatchRes,
+  type IFindFuzzyAuthorMatchRes,
 } from './findFuzzyAuthorMatch';
 import { MIN_AUTHOR_WORD_MATCH_RATIO } from '../constants/fuzzy-thresholds';
 import { escapeRegExp } from '../utils/escapeRegExp';
 
 interface ITitleWithoutAuthorRes {
   title: string;
-  matchResult: IFindFuzzyAuthorMatchRes;
+  matchResult: IFindFuzzyAuthorMatchRes | null;
   author: string | null;
 }
 
@@ -21,16 +21,13 @@ export const getTitleWithoutAuthor = (
     authors,
     MIN_AUTHOR_WORD_MATCH_RATIO,
   );
-
-  if (!matchResult)
+  if (!matchResult) {
     return {
       title,
       author: null,
-      matchResult: {
-        author: null,
-        matchedTitleWords: [''],
-      },
+      matchResult: null,
     };
+  }
 
   const { author, matchedTitleWords } = matchResult;
 
@@ -38,21 +35,23 @@ export const getTitleWithoutAuthor = (
   // the regex for removal, as these might be typos (e.g., 'Sorce' instead of 'Source').
   const authorRegexParts = matchedTitleWords.map((word) => {
     const escapedWord = escapeRegExp(word);
-    // If the word ends in a non-word character (like '.'), only require a *preceding* word boundary (\b).
-    // The trailing \b would fail for tokens like 'A.' because '.' is a non-word character.
-    if (/\W$/.test(word)) {
-      return `\\b${escapedWord}`;
-    }
-    // Otherwise, use full word boundaries.
-    return `\\b${escapedWord}\\b`;
+    // Only apply a word boundary (\b) if the edge of the token is a word character (\w).
+    // If the token starts/ends with a symbol (e.g. "(by" or "-"), \b will prevent matching
+    // if the adjacent character in the text is also a symbol (like a space).
+    const startBoundary = /^\w/.test(word) ? '\\b' : '';
+    const endBoundary = /\w$/.test(word) ? '\\b' : '';
+
+    return `${startBoundary}${escapedWord}${endBoundary}`;
   });
 
   // 3. Combine the parts into the final regex
-  const authorRegex = new RegExp(`(${authorRegexParts.join('|')})`, 'gi');
-
-  // Remove the author words from the title and clean up spaces
+  const innerAuthorRegex = authorRegexParts.join('|');
+  const authorRegex = new RegExp(
+    `[\\s\\W]*(${innerAuthorRegex})[\\s\\W]*`,
+    'gi',
+  );
   const cleanedTitle = title
-    .replace(authorRegex, '')
+    .replace(authorRegex, ' ')
     .trim()
     .replace(/\s{2,}/g, ' ')
     .trim();

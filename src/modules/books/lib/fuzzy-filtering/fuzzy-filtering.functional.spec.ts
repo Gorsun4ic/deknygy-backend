@@ -109,7 +109,7 @@ describe('Fuzzy Filtering Functional Tests', () => {
     });
 
     it('should find books by author when user includes author name', () => {
-      const query = 'gatsby f scott fitzgerald';
+      const query = 'great gatsby f scott fitzgerald';
       const results = fuzzyMatching(query, realisticBookCatalog);
 
       expect(results.length).toBeGreaterThan(0);

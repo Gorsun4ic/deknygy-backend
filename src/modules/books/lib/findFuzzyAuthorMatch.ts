@@ -20,7 +20,7 @@ export interface IFindFuzzyAuthorMatchRes {
 export const findFuzzyAuthorMatch = (
   titleWords: string[],
   uniqueAuthors: string[],
-  threshold = 0.66,
+  threshold = AUTHOR_WORD_SIMILARITY_THRESHOLD,
 ) => {
   for (const potentialAuthor of uniqueAuthors) {
     const authorWords = potentialAuthor
