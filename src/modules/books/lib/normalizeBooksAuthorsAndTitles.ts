@@ -1,7 +1,7 @@
 import { type IBookInfo } from '../../common/interfaces/api/book.info';
 import { stringSimilarity } from 'string-similarity-js';
 import { getCoreTitle } from '../utils/getCoreTitle';
-import { getUniqueAuthors } from '../utils/genUqiueAuthors';
+import { getUniqueAuthors } from '../utils/genUniqueAuthors';
 import { MIN_TITLE_SIMILARITY_THRESHOLD } from '../constants/fuzzy-thresholds';
 import { getTitleWithoutAuthor } from './getTitleWithoutAuthor';
 

@@ -63,9 +63,10 @@ describe('fuzzyMatching', () => {
 
   it('should normalize query and split into title and author', () => {
     const query = 'The Martian Andy Weir';
-    const normalizedQuery = 'the martian andy weir';
     const queryTitle = 'the martian';
     const queryAuthor = 'andy weir';
+    const queryWithoutAuthor = 'The Martian';
+    const normalizedQuery = 'the martian';
 
     mockNormalizeString.mockReturnValue(normalizedQuery);
     mockSplitQuery.mockReturnValue({ title: queryTitle, author: queryAuthor });
@@ -82,7 +83,7 @@ describe('fuzzyMatching', () => {
 
     fuzzyMatching(query, mockBooks);
 
-    expect(mockNormalizeString).toHaveBeenCalledWith(query);
+    expect(mockNormalizeString).toHaveBeenCalledWith(queryWithoutAuthor);
     expect(mockSplitQuery).toHaveBeenCalledWith(normalizedQuery);
   });
 
