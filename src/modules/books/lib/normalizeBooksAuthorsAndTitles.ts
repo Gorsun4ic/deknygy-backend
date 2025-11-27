@@ -57,7 +57,6 @@ export const normalizeBookData = (arr: IBookInfo[]): IBookInfo[] => {
         author: matchingBook.author,
       };
     }
-
     // 3. Return the book unchanged if both strategies fail
     return currentBook;
   });

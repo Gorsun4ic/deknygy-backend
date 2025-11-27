@@ -7,6 +7,8 @@ import {
 } from 'src/modules/common/interfaces/api/book.info';
 import { mergeAuthorTypoGroups } from './authorTypo';
 import { selectDisplayTitle } from '../../utils/selectDisplayTitle';
+import { mergeTitleAuthorOverlapGroups } from './authorNameOverlapTitle';
+import { mergeTitleSubstring } from './titleSubstring';
 
 /**
  * Main function to process a list of book records, group them by normalized title
@@ -36,9 +38,9 @@ export function resolveAndGroupBooks(
   }
 
   // 2. Merging Passes (Addressing typos, missing data, and structural overlaps)
-  // mergeTitleAuthorOverlapGroups(tempMap);
+  mergeTitleAuthorOverlapGroups(tempMap);
   mergeAuthorTypoGroups(tempMap);
-  // mergeTitleSubstring(tempMap);
+  mergeTitleSubstring(tempMap);
 
   // 3. Final Output Generation
   const result: Record<string, Record<Exclude<FormatType, 0>, IBookInfo[]>>[] =

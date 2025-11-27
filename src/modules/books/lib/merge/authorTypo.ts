@@ -52,7 +52,9 @@ export const mergeAuthorTypoGroups = (
         (areTitlesTheSame && authorSimilarity >= threshold) ||
         // Condition B: Title-only into Author-Anchored Check
         // (Title parts are identical, AND one author is missing/empty, and the other is present)
-        (areTitlesTheSame && (sourceAuthor || destAuthor)); // Dest is title-only, Source is author-anchored
+        (areTitlesTheSame &&
+          (sourceAuthor || destAuthor) &&
+          !areAuthorsPresent); // Dest is title-only, Source is author-anchored
 
       // Step 2.2: If the keys should be merged, merge them
       if (shouldMerge) {
