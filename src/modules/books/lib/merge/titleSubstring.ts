@@ -4,6 +4,7 @@ import { stringSimilarity } from 'string-similarity-js';
 import { getCoreTitle } from '../../utils/getCoreTitle';
 import { removeSalePrefix } from 'src/modules/common/utils/removeSalePrefix';
 import { mergeGroups } from './mergeGroups';
+import { normalizeString } from '../../utils/normalizeString';
 
 /*
  * Merges groups that share the same normalized title but have a substring match.
@@ -25,12 +26,12 @@ export const mergeTitleSubstring = (
     // Step 1: Get the first key from the set and remove it from the set to prevent processing it again
     const sourceKey = [...toProcess][0]; // Get the first key from the set
     toProcess.delete(sourceKey); // Remove the key from the set to prevent processing it again
-    const [sourceTitle] = sourceKey.split('___'); // Split the key into title and author parts, sourceAuthor might be undefined
+    const [sourceTitle, sourceAuthor] = sourceKey.split('___'); // Split the key into title and author parts, sourceAuthor might be undefined
     const sourceTitleWithoutSalePrefix = removeSalePrefix(sourceTitle);
 
     // Step 2: Iterate over the remaining keys in the set to find potential matches
     for (const destKey of toProcess) {
-      const [destTitle] = destKey.split('___'); // Split the key into title and author parts, destAuthor might be undefined
+      const [destTitle, destAuthor] = destKey.split('___'); // Split the key into title and author parts, destAuthor might be undefined
       const destTitleWithoutSalePrefix = removeSalePrefix(destTitle);
 
       const sourceCoreTitle = getCoreTitle(sourceTitleWithoutSalePrefix);
@@ -68,8 +69,23 @@ export const mergeTitleSubstring = (
       const similarity = stringSimilarity(sourceCoreTitle, destCoreTitle);
       const areTitlesTheSame =
         isSubstring || firstWordsMatch || similarity >= threshold;
+      const areAuthorsPresent = sourceAuthor && destAuthor; // Check if both authors are present
+      const authorSimilarity = areAuthorsPresent
+        ? stringSimilarity(
+            normalizeString(sourceAuthor),
+            normalizeString(destAuthor),
+          )
+        : 0;
+      const shouldMerge =
+        // Condition A: Standard typo check (same title, similar authors)
+        (areTitlesTheSame && authorSimilarity >= threshold) ||
+        // Condition B: Title-only into Author-Anchored Check
+        // (Title parts are identical, AND one author is missing/empty, and the other is present)
+        (areTitlesTheSame &&
+          (sourceAuthor || destAuthor) &&
+          !areAuthorsPresent); // Dest is title-only, Source is author-anchored
 
-      if (areTitlesTheSame) {
+      if (shouldMerge) {
         merges.push([sourceKey, destKey]);
       }
     }
