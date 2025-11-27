@@ -105,7 +105,8 @@ export class BooksService {
             service.search(formattedQuery),
             timeoutPromise,
           ]);
-          return fuzzyMatching(formattedQuery, result as IBookInfo[]);
+          console.log('Result', result);
+          return result;
         } catch (error) {
           this.logger.error(`Error calling ${name} API:`, error?.message);
           return [];
@@ -116,7 +117,8 @@ export class BooksService {
     this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
     const allBooks = results.filter((result) => Array.isArray(result)).flat();
-    const unifiedBooks = unifyBooks(allBooks);
+    const fuzzyBooks = fuzzyMatching(formattedQuery, allBooks as IBookInfo[]);
+    const unifiedBooks = unifyBooks(fuzzyBooks);
     await this.booksRepository.saveBooks(unifiedBooks, queryId);
     const cacheTTL = 60 * 60 * 24;
     const cacheValue = resolveAndGroupBooks(unifiedBooks);
