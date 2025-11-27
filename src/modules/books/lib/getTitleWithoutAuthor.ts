@@ -30,29 +30,15 @@ export const getTitleWithoutAuthor = (
   }
 
   const { author, matchedTitleWords } = matchResult;
+  const authorWordsToMatch = matchedTitleWords.map(escapeRegExp).join('\\s+');
 
-  // Use the actual words found in the title (matchedTitleWords) to construct
-  // the regex for removal, as these might be typos (e.g., 'Sorce' instead of 'Source').
-  const authorRegexParts = matchedTitleWords.map((word) => {
-    const escapedWord = escapeRegExp(word);
-    // Only apply a word boundary (\b) if the edge of the token is a word character (\w).
-    // If the token starts/ends with a symbol (e.g. "(by" or "-"), \b will prevent matching
-    // if the adjacent character in the text is also a symbol (like a space).
-    const startBoundary = /^\w/.test(word) ? '\\b' : '';
-    const endBoundary = /\w$/.test(word) ? '\\b' : '';
-
-    return `${startBoundary}${escapedWord}${endBoundary}`;
-  });
-
-  // 3. Combine the parts into the final regex
-  const innerAuthorRegex = authorRegexParts.join('|');
   const authorRegex = new RegExp(
-    `[\\s\\W]*(${innerAuthorRegex})[\\s\\W]*`,
+    // Match the entire sequence, surrounded by optional whitespace/boundaries
+    `(\\s+|^)(${authorWordsToMatch})(\\s+|$)`,
     'gi',
   );
   const cleanedTitle = title
     .replace(authorRegex, ' ')
-    .trim()
     .replace(/\s{2,}/g, ' ')
     .trim();
 

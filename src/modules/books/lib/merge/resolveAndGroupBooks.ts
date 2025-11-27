@@ -7,8 +7,6 @@ import {
 } from 'src/modules/common/interfaces/api/book.info';
 import { mergeAuthorTypoGroups } from './authorTypo';
 import { selectDisplayTitle } from '../../utils/selectDisplayTitle';
-import { mergeTitleAuthorOverlapGroups } from './authorNameOverlapTitle';
-import { mergeTitleSubstring } from './titleSubstring';
 
 /**
  * Main function to process a list of book records, group them by normalized title
