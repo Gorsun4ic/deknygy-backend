@@ -2,6 +2,7 @@ import { normalizeString } from '../../utils/normalizeString';
 import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
 import { stringSimilarity } from 'string-similarity-js';
 import { calculateWordMatchScore } from './calculateWordMatchScore';
+import { getCoreTitle } from '../../utils/getCoreTitle';
 
 const THRESHOLD_TITLE_ONLY_TOP = 0.6;
 const THRESHOLD_TITLE_ONLY_FAIR = 0.5;
@@ -25,7 +26,7 @@ export const scoreBooks = (
   queryAuthor: string | null,
 ): IBookInfo[] => {
   const scored = results.map((r) => {
-    const bookTitleNorm = normalizeString(r.item.title);
+    const bookTitleNorm = normalizeString(getCoreTitle(r.item.title));
     const bookAuthorNorm = r.item.author ? normalizeString(r.item.author) : '';
     let finalScore = 0; // Renamed 'score' to 'finalScore' for clarity
 

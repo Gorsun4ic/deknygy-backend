@@ -14,7 +14,7 @@ import { getUniqueAuthors } from '../../utils/genUniqueAuthors';
  * @param books The flat array of book offers.
  * @returns A sorted array of relevant IBookInfo objects.
  */
-export const fuzzyMatching = (
+export const  fuzzyMatching = (
   query: string,
   books: IBookInfo[],
 ): IBookInfo[] => {
@@ -37,7 +37,7 @@ export const fuzzyMatching = (
     minMatchCharLength: 1, // Very permissive
   });
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-  const results = fuse.search(normalizedQuery);
+  const results = fuse.search(queryWithoutAuthor);
 
   // If Fuse.js returns no results but we have a potential split query,
   // try scoring all books manually
@@ -47,9 +47,15 @@ export const fuzzyMatching = (
       'Fuse.js returned no results, trying manual scoring for split query',
     );
     const manualResults = normalizedBooks?.map((book) => ({ item: book }));
-    return scoreBooks(manualResults, normalizedQuery, queryTitle, queryAuthor);
+    return scoreBooks(
+      manualResults,
+      queryWithoutAuthor,
+      queryTitle,
+      queryAuthor,
+    );
   }
-  const res = scoreBooks(results, normalizedQuery, queryTitle, queryAuthor);
+
+  const res = scoreBooks(results, queryWithoutAuthor, queryTitle, queryAuthor);
 
   // Use the extracted scoring function
   return res;
