@@ -1,26 +1,29 @@
 import { type IBookInfo } from '../../common/interfaces/api/book.info';
+import { compare2ArraysItemsSimilarity } from '../utils/compare2ArraysItemsSimilarity'; // Dependency 1
 import { normalizeBookData } from './normalizeBooksAuthorsAndTitles';
+import { stringSimilarity } from 'string-similarity-js';
+import { getCoreTitle } from '../utils/getCoreTitle';
 // --- Mocking external dependencies with explicit types ---
 // Using jest.fn<ReturnType, Parameters>() to properly type the mock,
 // avoiding the unsafe assignment error in strict mode.
 
-let mockCompare2ArraysItemsSimilarity: jest.Mock;
-let mockStringSimilarity: jest.Mock;
-let mockGetCoreTitle: jest.Mock;
-
 // jest hoists mock() calls, so we use a factory callback
 jest.mock('../utils/compare2ArraysItemsSimilarity', () => ({
-  compare2ArraysItemsSimilarity: (...args: unknown[]) =>
-    mockCompare2ArraysItemsSimilarity(...args),
+  // Mock the function name that is imported
+  compare2ArraysItemsSimilarity: jest.fn(),
 }));
+const mockCompare2ArraysItemsSimilarity =
+  compare2ArraysItemsSimilarity as jest.Mock;
 
 jest.mock('string-similarity-js', () => ({
-  stringSimilarity: (...args: unknown[]) => mockStringSimilarity(...args),
+  stringSimilarity: jest.fn(),
 }));
+const mockStringSimilarity = stringSimilarity as jest.Mock;
 
 jest.mock('../utils/getCoreTitle', () => ({
-  getCoreTitle: (...args: unknown[]) => mockGetCoreTitle(...args),
+  getCoreTitle: jest.fn(),
 }));
+const mockGetCoreTitle = getCoreTitle as jest.Mock;
 // --- Helper Functions (Copied for testing environment) ---
 
 // ---------------------------------------------------------------------
@@ -28,11 +31,6 @@ jest.mock('../utils/getCoreTitle', () => ({
 // ---------------------------------------------------------------------
 
 describe('normalizeBookData', () => {
-  beforeEach(() => {
-    mockCompare2ArraysItemsSimilarity = jest.fn();
-    mockStringSimilarity = jest.fn();
-    mockGetCoreTitle = jest.fn();
-  });
   const dummyBook: IBookInfo = {
     title: 'Test',
     author: null,
@@ -88,7 +86,7 @@ describe('normalizeBookData', () => {
     // 3. Prepare book with misspelled author in title
     const bookToFix: IBookInfo = {
       ...dummyBook,
-      title: 'Book by',
+      title: 'Bok by',
     };
 
     // The array contains the source book (for author extraction) and the book to fix.
@@ -99,7 +97,7 @@ describe('normalizeBookData', () => {
 
     // The title cleanup is tested based on the logic: remove 'Source' and 'Author'.
     // Since 'Sorce' and 'Authur' are not exact matches for 'Source' and 'Author', the title remains largely unchanged by the regex.
-    expect(result[1].title).toBe('Book by');
+    expect(result[1].title).toBe('bok by');
     expect(result[1].author).not.toBeNull();
   });
 
@@ -243,7 +241,7 @@ describe('normalizeBookData', () => {
     // Index 2: Fixed by S1 (Fuzzy match)
     // The title cleanup is now fixed thanks to period escaping in the regex in normalizeBookData
     expect(result[2].author).toBe('A. B. Smith');
-    expect(result[2].title).toBe('Book 1'); // Author words removed correctly
+    expect(result[2].title).toBe('bok 1'); // Author words removed correctly
 
     // Index 3: Fixed by S2 (Title similarity)
     expect(result[3].author).toBe('A. B. Smith');

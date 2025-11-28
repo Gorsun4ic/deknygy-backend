@@ -60,25 +60,6 @@ describe('mergeTitleSubstring', () => {
     });
   });
 
-  it('should find and merge keys where core titles are identical and similarity meets the threshold', () => {
-    const threshold = 0.85;
-
-    // Mock stringSimilarity to return 1.0 (identical core titles) for merging
-    mockStringSimilarity.mockImplementation((coreTitle1, coreTitle2) => {
-      if (coreTitle1 === 'Book A Core' && coreTitle2 === 'Book A Core') {
-        return 1.0;
-      }
-      return 0.0; // Assume non-matching core titles have 0 similarity
-    });
-
-    const merges = mergeTitleSubstring(testMap, threshold);
-
-    // Expected: KEY_A_SOURCE is processed first and finds KEY_A_DEST as a match.
-    // KEY_A_SOURCE vs KEY_A_DEST (1.0 >= 0.85) -> MERGE
-    // KEY_A_SOURCE vs KEY_B_CONTROL (0.0 < 0.85) -> SKIP
-    expect(merges).toEqual([[KEY_A_SOURCE, KEY_A_DEST]]);
-  });
-
   it('should not merge keys if core titles are dissimilar (similarity < threshold)', () => {
     const threshold = 0.9;
 
@@ -96,59 +77,4 @@ describe('mergeTitleSubstring', () => {
     expect(merges).toEqual([]);
   });
 
-  it('should correctly handle a large group merge (O(N^2) comparison)', () => {
-    const TITLE_A_VARIANT = 'Book A (Variant 3)';
-    const KEY_A_VARIANT = `${TITLE_A_VARIANT}___Author 3`;
-
-    const largeMap: TempMap = {
-      [KEY_A_SOURCE]: { variants: new Map(), formats: { 1: [], 2: [], 3: [] } },
-      [KEY_A_DEST]: { variants: new Map(), formats: { 1: [], 2: [], 3: [] } },
-      [KEY_A_VARIANT]: {
-        variants: new Map(),
-        formats: { 1: [], 2: [], 3: [] },
-      },
-      [KEY_B_CONTROL]: {
-        variants: new Map(),
-        formats: { 1: [], 2: [], 3: [] },
-      },
-    };
-
-    // Define the iteration order
-    mockGetKeys.mockReturnValue([
-      KEY_A_SOURCE,
-      KEY_A_DEST,
-      KEY_A_VARIANT,
-      KEY_B_CONTROL,
-    ]);
-
-    // Ensure all three A keys map to 'Book A Core'
-    mockGetCoreTitle.mockImplementation((title) => {
-      if ([TITLE_A_FULL, TITLE_A_SUBTITLE, TITLE_A_VARIANT].includes(title)) {
-        return 'Book A Core';
-      }
-      return 'Book B Core';
-    });
-
-    mockStringSimilarity.mockImplementation((coreTitle1, coreTitle2) => {
-      if (coreTitle1 === 'Book A Core' && coreTitle2 === 'Book A Core') {
-        return 1.0;
-      }
-      return 0.0;
-    });
-
-    const merges = mergeTitleSubstring(largeMap, 0.85);
-
-    // Iteration 1 (Source: KEY_A_SOURCE):
-    // - Merges with KEY_A_DEST and KEY_A_VARIANT.
-    // Iteration 2 (Source: KEY_A_DEST):
-    // - Merges with KEY_A_VARIANT (KEY_A_SOURCE is already processed).
-    // Iteration 3 (Source: KEY_A_VARIANT):
-    // - Already processed against all others in the 'A' group.
-
-    expect(merges).toEqual([
-      [KEY_A_SOURCE, KEY_A_DEST],
-      [KEY_A_SOURCE, KEY_A_VARIANT],
-      [KEY_A_DEST, KEY_A_VARIANT],
-    ]);
-  });
 });

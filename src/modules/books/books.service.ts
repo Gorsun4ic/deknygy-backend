@@ -19,6 +19,7 @@ import { RedisService } from '../redis/redis.service';
 import { BooksRepository } from './books.repository';
 import { SearchLogService } from '../analytics/services/user/search-log.service';
 import { resolveAndGroupBooks } from './lib/merge/resolveAndGroupBooks';
+import { fuzzyMatching } from './lib/fuzzy-filtering/fuzzyMatching';
 
 @Injectable()
 export class BooksService {
@@ -62,6 +63,11 @@ export class BooksService {
       );
     }
 
+    if (cached) {
+      this.logger.log('Redis cache hit');
+      return resolveAndGroupBooks(JSON.parse(cached) as IBookInfo[]);
+    }
+
     // 2. ATTEMPT TO LOG SEARCH (Must not crash the entire function)
     try {
       // This is the line that was crashing the function:
@@ -73,10 +79,6 @@ export class BooksService {
     }
 
     // 3. CHECK CACHED RESULT
-    if (cached) {
-      this.logger.log('Redis cache hit');
-      return resolveAndGroupBooks(JSON.parse(cached) as IBookInfo[]);
-    }
 
     // Search all APIs with error handling
     const apiCalls = [
@@ -118,10 +120,9 @@ export class BooksService {
     const endTime = Date.now();
     this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
-    const allBooks = results
-      .filter((result) => Array.isArray(result))
-      .flat() as IBookInfo[];
-    const unifiedBooks = unifyBooks(allBooks);
+    const allBooks = results.filter((result) => Array.isArray(result)).flat();
+    const fuzzyBooks = fuzzyMatching(formattedQuery, allBooks as IBookInfo[]);
+    const unifiedBooks = unifyBooks(fuzzyBooks);
     await this.booksRepository.saveBooks(unifiedBooks, queryId);
     const cacheTTL = 60 * 60 * 24;
     const cacheValue = resolveAndGroupBooks(unifiedBooks);
