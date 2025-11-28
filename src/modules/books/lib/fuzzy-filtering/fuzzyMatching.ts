@@ -25,7 +25,7 @@ export const fuzzyMatching = (
     uniqueAuthors,
   );
   const { title: queryTitle, author: queryAuthor } =
-    splitQueryIntoTitleAndAuthor(normalizeString(query));
+    splitQueryIntoTitleAndAuthor(query);
 
   // Fuse.js is used for initial quick filtering
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -48,18 +48,13 @@ export const fuzzyMatching = (
     const manualResults = normalizedBooks?.map((book) => ({ item: book }));
     return scoreBooks(
       manualResults,
-      normalizeString(queryWithoutAuthor),
+      queryWithoutAuthor,
       queryTitle,
       queryAuthor,
     );
   }
 
-  const res = scoreBooks(
-    results,
-    normalizeString(queryWithoutAuthor),
-    queryTitle,
-    queryAuthor,
-  );
+  const res = scoreBooks(results, queryWithoutAuthor, queryTitle, queryAuthor);
 
   // Use the extracted scoring function
   return res;
