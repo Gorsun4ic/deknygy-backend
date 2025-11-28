@@ -22,6 +22,7 @@ export const getTitleWithoutAuthor = (
     authors,
     MIN_AUTHOR_WORD_MATCH_RATIO,
   );
+
   if (!matchResult) {
     return {
       title,
@@ -32,10 +33,8 @@ export const getTitleWithoutAuthor = (
 
   const { author, matchedTitleWords } = matchResult;
   const authorWordsToMatch = matchedTitleWords.map(escapeRegExp).join('\\s+');
-
   const authorRegex = new RegExp(
-    // Match the entire sequence, surrounded by optional whitespace/boundaries
-    `(\\s+|^)(${authorWordsToMatch})(\\s+|$)`,
+    `${authorWordsToMatch}`, // Match only the escaped sequence
     'gi',
   );
   const cleanedTitle = title

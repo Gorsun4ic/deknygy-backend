@@ -56,7 +56,7 @@ describe('mergeAuthorTypoGroups', () => {
 
     (getGroupLength as jest.Mock).mockReturnValue(1);
 
-    mergeAuthorTypoGroups(tempMap, 0.85);
+    mergeAuthorTypoGroups(tempMap);
 
     expect(mergeGroups).toHaveBeenCalledWith(
       [['Title___Jon Doe', 'Title___John Doe']],
@@ -123,17 +123,4 @@ describe('mergeAuthorTypoGroups', () => {
     );
   });
 
-  test('author length tiebreaker when counts equal', () => {
-    (getKeys as jest.Mock).mockReturnValue(['Title___Jo', 'Title___John']);
-
-    (getGroupLength as jest.Mock).mockReturnValue(3);
-
-    mergeAuthorTypoGroups(tempMap);
-
-    // "Jo" should merge → "John" (longer author name)
-    expect(mergeGroups).toHaveBeenCalledWith(
-      [['Title___Jo', 'Title___John']],
-      tempMap,
-    );
-  });
 });
