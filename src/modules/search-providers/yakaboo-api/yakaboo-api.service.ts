@@ -28,7 +28,11 @@ export class YakabooApiService {
     try {
       const response = await firstValueFrom(
         this.httpService
-          .post<IYakabooResponse>(API_URL, payload)
+          .post<IYakabooResponse>(API_URL, payload, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
           .pipe(map((res) => res.data)),
       );
       const yakabooResponse = YakabooResponseDto.fromPlain(response);

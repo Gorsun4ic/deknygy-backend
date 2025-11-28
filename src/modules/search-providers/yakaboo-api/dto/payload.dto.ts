@@ -86,14 +86,14 @@ class FunctionScoreDto {
 
 // --- DTO for the "terms" object inside the "filter" array ---
 // Fixes: Replaced `@ValidateNested({ each: true })` with the correct
-// `@IsNumber({ each: true })` for arrays of numbers.
+// `@IsNumber({}, { each: true })` for arrays of numbers.
 class TermsDto {
   @IsArray()
-  @IsNumber()
+  @IsNumber({}, { each: true })
   visibility?: number[];
 
   @IsArray()
-  @IsNumber()
+  @IsNumber({}, { each: true })
   status?: number[];
 }
 
