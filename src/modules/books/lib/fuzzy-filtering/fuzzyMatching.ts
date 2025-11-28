@@ -14,17 +14,17 @@ import { getUniqueAuthors } from '../../utils/genUniqueAuthors';
  * @param books The flat array of book offers.
  * @returns A sorted array of relevant IBookInfo objects.
  */
-export const  fuzzyMatching = (
+export const fuzzyMatching = (
   query: string,
   books: IBookInfo[],
 ): IBookInfo[] => {
+
   const normalizedBooks = normalizeBookData(books);
   const uniqueAuthors = getUniqueAuthors(books);
   const { title: queryWithoutAuthor } = getTitleWithoutAuthor(
     query,
     uniqueAuthors,
   );
-  const normalizedQuery = normalizeString(queryWithoutAuthor);
   const { title: queryTitle, author: queryAuthor } =
     splitQueryIntoTitleAndAuthor(normalizeString(query));
 
@@ -49,13 +49,18 @@ export const  fuzzyMatching = (
     const manualResults = normalizedBooks?.map((book) => ({ item: book }));
     return scoreBooks(
       manualResults,
-      queryWithoutAuthor,
+      normalizeString(queryWithoutAuthor),
       queryTitle,
       queryAuthor,
     );
   }
 
-  const res = scoreBooks(results, queryWithoutAuthor, queryTitle, queryAuthor);
+  const res = scoreBooks(
+    results,
+    normalizeString(queryWithoutAuthor),
+    queryTitle,
+    queryAuthor,
+  );
 
   // Use the extracted scoring function
   return res;

@@ -5,6 +5,7 @@ import { getCoreTitle } from '../../utils/getCoreTitle';
 import { removeSalePrefix } from 'src/modules/common/utils/removeSalePrefix';
 import { mergeGroups } from './mergeGroups';
 import { normalizeString } from '../../utils/normalizeString';
+import { MIN_TITLE_SUBSTRING_THRESHOLD } from '../../constants/fuzzy-thresholds';
 
 /*
  * Merges groups that share the same normalized title but have a substring match.
@@ -15,7 +16,7 @@ import { normalizeString } from '../../utils/normalizeString';
  */
 export const mergeTitleSubstring = (
   tempMap: TempMap,
-  threshold: number = 0.85,
+  threshold: number = MIN_TITLE_SUBSTRING_THRESHOLD,
 ) => {
   const keys = getKeys(tempMap);
   const toProcess = new Set(keys);

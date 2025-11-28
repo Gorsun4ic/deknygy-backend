@@ -15,6 +15,8 @@ export const compare2ArraysItemsSimilarity = (
   arr2: string[],
   threshold: number = 0.8,
 ): [string[], string[]] | null => {
+  let totalScore: number = 0;
+  
   const matchedArr1: string[] = [];
   const matchedArr2: string[] = [];
   // Use a Set to track indices of arr2 that have already been matched to ensure unique matches in arr2.
@@ -29,6 +31,7 @@ export const compare2ArraysItemsSimilarity = (
 
       // Assuming 'string-similarity-js' library is used via 'stringSimilarity' import
       const similarity = stringSimilarity(item1, item2);
+      totalScore += similarity;
 
       if (similarity >= threshold) {
         // Collect the matched items

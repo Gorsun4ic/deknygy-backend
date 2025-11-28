@@ -1,3 +1,5 @@
+import { normalizeString } from './normalizeString';
+
 /**
  * Attempts to split a query into potential title and author parts.
  * This version prioritizes common semantic markers (like "by") before falling back
@@ -14,12 +16,10 @@ export const splitQueryIntoTitleAndAuthor = (
   const wordCount = words.length;
 
   if (wordCount < 2) {
-    return { title: normalizedQuery, author: null };
+    return { title: normalizeString(normalizedQuery), author: null };
   }
 
-  let semanticDelimiterEncountered = false;
-
-  // --- Step 1: Look for Semantic Markers (FINAL FIXED VERSION) ---
+  // --- Step 1: Look for Semantic Markers ---
 
   for (let i = 1; i < wordCount; i++) {
     const currentWord = words[i].toLowerCase();
@@ -55,32 +55,18 @@ export const splitQueryIntoTitleAndAuthor = (
     if (delimiterLength > 0) {
       // The title ends at the word *before* the delimiter starts, which is index 'i'
       const titlePart = words.slice(0, i).join(' ');
-      semanticDelimiterEncountered = true;
       // The author starts *after* the entire delimiter phrase
       const authorStartIndex = i + delimiterLength;
       const authorPart = words.slice(authorStartIndex).join(' ');
 
       // Perform the crucial length check on the final title/author parts
       if (titlePart.length >= 3 && authorPart.length >= 3) {
-        return { title: titlePart, author: authorPart };
+        return { title: normalizeString(titlePart), author: authorPart };
       }
 
       // If the semantic split fails the length check (e.g., "Title by A"),
       // we abandon the semantic split attempt and proceed to the heuristic/default.
       break;
-    }
-  }
-
-  // --- Step 2: Fallback to Heuristic (Prioritizing Shorter Author) ---
-  if (wordCount >= 3 && !semanticDelimiterEncountered) {
-    for (let splitPoint = wordCount - 1; splitPoint >= 1; splitPoint--) {
-      const titlePart = words.slice(0, splitPoint).join(' ');
-      const authorPart = words.slice(splitPoint).join(' ');
-
-      if (titlePart.length >= 3 && authorPart.length >= 3) {
-        // This will be the split with the shortest possible author name
-        return { title: titlePart, author: authorPart };
-      }
     }
   }
 

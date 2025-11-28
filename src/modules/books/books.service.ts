@@ -54,14 +54,19 @@ export class BooksService {
 
     let cached: string | null = null;
 
-    // try {
-    //   cached = await this.redisService.get(cacheKey);
-    // } catch (error) {
-    //   this.logger.error(
-    //     `Failed to retrieve from Redis. Proceeding without cache.`,
-    //     error?.message,
-    //   );
-    // }
+    try {
+      cached = await this.redisService.get(cacheKey);
+    } catch (error) {
+      this.logger.error(
+        `Failed to retrieve from Redis. Proceeding without cache.`,
+        error?.message,
+      );
+    }
+
+    if (cached) {
+      this.logger.log('Redis cache hit');
+      return resolveAndGroupBooks(JSON.parse(cached) as IBookInfo[]);
+    }
 
     // 2. ATTEMPT TO LOG SEARCH (Must not crash the entire function)
     try {
@@ -105,7 +110,6 @@ export class BooksService {
             service.search(formattedQuery),
             timeoutPromise,
           ]);
-          console.log('Result', result);
           return result;
         } catch (error) {
           this.logger.error(`Error calling ${name} API:`, error?.message);

@@ -1,5 +1,6 @@
 import { normalizeString } from '../../utils/normalizeString';
 import { stringSimilarity } from 'string-similarity-js';
+import { MIN_WORD_MATCH_SCORE } from '../../constants/fuzzy-thresholds';
 /**
  * Performs word-by-word matching between query words and author name words.
  * Returns a score indicating how well the query words match the author.
@@ -10,7 +11,7 @@ import { stringSimilarity } from 'string-similarity-js';
 export const calculateWordMatchScore = (
   queryWords: string[],
   authorName: string,
-  threshold: number = 0.6,
+  threshold: number = MIN_WORD_MATCH_SCORE,
 ): number => {
   if (!authorName || queryWords.length === 0) return 0;
 
