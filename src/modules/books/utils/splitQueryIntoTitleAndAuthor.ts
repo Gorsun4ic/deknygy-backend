@@ -16,7 +16,7 @@ export const splitQueryIntoTitleAndAuthor = (
   const wordCount = words.length;
 
   if (wordCount < 2) {
-    return { title: normalizeString(normalizedQuery), author: null };
+    return { title: normalizedQuery, author: null };
   }
 
   // --- Step 1: Look for Semantic Markers ---
@@ -61,7 +61,7 @@ export const splitQueryIntoTitleAndAuthor = (
 
       // Perform the crucial length check on the final title/author parts
       if (titlePart.length >= 3 && authorPart.length >= 3) {
-        return { title: normalizeString(titlePart), author: authorPart };
+        return { title: titlePart, author: authorPart };
       }
 
       // If the semantic split fails the length check (e.g., "Title by A"),
