@@ -43,7 +43,7 @@ export const getTitleWithoutAuthor = (
     .trim();
 
   return {
-    title: normalizeString(cleanedTitle),
+    title: cleanedTitle,
     matchResult,
     author,
   };
