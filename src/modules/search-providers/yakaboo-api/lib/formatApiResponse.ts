@@ -25,7 +25,7 @@ function formatYakabooResponse(book: YakabooBookSourceDto): IBookInfo {
       ? clearIsbn(book.book_isbn_label[0].label)
       : undefined;
 
-  const available = book.stock && book.stock.some((s) => s.isInStock);
+  const available = book.stock && book.stock.some((s) => s.is_in_stock);
 
   const optionId =
     book.book_publication_label && book.book_publication_label.length > 0
