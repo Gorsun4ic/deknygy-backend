@@ -45,6 +45,7 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
+./tsconfig.build.tsbuildinfo
 
 # Runtime data
 pids
