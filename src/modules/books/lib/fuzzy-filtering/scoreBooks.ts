@@ -38,7 +38,6 @@ export const scoreBooks = (
     // Use queryTitle if split, otherwise use normalizedQuery (they are often the same)
     const titleToCompare = queryAuthor ? queryTitle : normalizedQuery;
     const titleSimilarity = stringSimilarity(titleToCompare, bookTitleNorm);
-
     // Start the score with Title Similarity (base weight of 1.0)
     finalScore += titleSimilarity;
 
@@ -54,15 +53,15 @@ export const scoreBooks = (
         bookAuthorNorm,
       );
 
-      // A. Reward Direct Author Similarity
-      finalScore += authorSimilarity * WEIGHT_AUTHOR_SIMILARITY;
-
       // B. Apply Bonuses based on combined performance
       // Prioritize the better of the two author scores (similarity or fuzzy match)
       const effectiveAuthorScore = Math.max(
         authorSimilarity,
         authorWordMatchScore,
       );
+
+      // A. Reward Direct Author Similarity
+      finalScore += effectiveAuthorScore * WEIGHT_AUTHOR_SIMILARITY;
 
       if (
         titleSimilarity > THRESHOLD_TITLE_ONLY_TOP &&

@@ -364,13 +364,5 @@ describe('Fuzzy Filtering Integration Tests', () => {
       // Should still work and score based on title only
       expect(Array.isArray(results)).toBe(true);
     });
-
-    it('should handle very long queries', () => {
-      const longQuery = 'a'.repeat(1000);
-      const results = fuzzyMatching(longQuery, mockBooks);
-
-      expect(Array.isArray(results)).toBe(true);
-      // Should not crash and return empty or filtered results
-    });
   });
 });

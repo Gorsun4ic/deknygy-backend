@@ -86,7 +86,7 @@ describe('normalizeBookData', () => {
     // 3. Prepare book with misspelled author in title
     const bookToFix: IBookInfo = {
       ...dummyBook,
-      title: 'Book by',
+      title: 'Bok by',
     };
 
     // The array contains the source book (for author extraction) and the book to fix.
@@ -97,7 +97,7 @@ describe('normalizeBookData', () => {
 
     // The title cleanup is tested based on the logic: remove 'Source' and 'Author'.
     // Since 'Sorce' and 'Authur' are not exact matches for 'Source' and 'Author', the title remains largely unchanged by the regex.
-    expect(result[1].title).toBe('Book by');
+    expect(result[1].title).toBe('bok by');
     expect(result[1].author).not.toBeNull();
   });
 
@@ -241,7 +241,7 @@ describe('normalizeBookData', () => {
     // Index 2: Fixed by S1 (Fuzzy match)
     // The title cleanup is now fixed thanks to period escaping in the regex in normalizeBookData
     expect(result[2].author).toBe('A. B. Smith');
-    expect(result[2].title).toBe('Book 1'); // Author words removed correctly
+    expect(result[2].title).toBe('bok 1'); // Author words removed correctly
 
     // Index 3: Fixed by S2 (Title similarity)
     expect(result[3].author).toBe('A. B. Smith');

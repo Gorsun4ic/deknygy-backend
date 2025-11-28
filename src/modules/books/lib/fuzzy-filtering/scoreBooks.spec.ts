@@ -123,7 +123,7 @@ describe('scoreBooks', () => {
       expect(results.some((b) => b.title === titleThreeBody)).toBe(false);
 
       // 2. Check Scores (using high tolerance for floating point)
-      expect(getScoreByTitle(results, titleMartian)).toBeCloseTo(1.5); // 1.0 + 0.5 (bonus)
+      expect(getScoreByTitle(results, titleMartian)).toBeCloseTo(2); // 1.0 + 0.5 (bonus)
       expect(getScoreByTitle(results, titleMartianChronicles)).toBeCloseTo(0.8); // 0.8
 
       // 3. Check Sorting (Score 1.5 should be first, 0.8 second)
@@ -155,7 +155,7 @@ describe('scoreBooks', () => {
 
       // Check Scores
       expect(results.length).toBe(1);
-      expect(getScoreByTitle(results, titleMartian)).toBeCloseTo(1.46);
+      expect(getScoreByTitle(results, titleMartian)).toBeCloseTo(1.96);
     });
   });
 

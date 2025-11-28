@@ -15,7 +15,6 @@ export const normalizeBookData = (arr: IBookInfo[]): IBookInfo[] => {
   const uniqueAuthors = getUniqueAuthors(arr);
   // Only need books with authors for the second strategy
   const authorSourceBooks = arr.filter((book) => book.author);
-
   return arr.map((currentBook) => {
     // 1. Skip books that already have an author (primary goal is to fill missing data)
     if (currentBook.author) {
@@ -35,7 +34,6 @@ export const normalizeBookData = (arr: IBookInfo[]): IBookInfo[] => {
         author, // This is the correctly spelled author
       };
     }
-
     // --- Strategy 2: Find Author via Title Similarity against known books ---
 
     // Use Array.prototype.find() instead of forEach to prevent side-effects

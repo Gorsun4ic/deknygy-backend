@@ -18,7 +18,6 @@ export const fuzzyMatching = (
   query: string,
   books: IBookInfo[],
 ): IBookInfo[] => {
-
   const normalizedBooks = normalizeBookData(books);
   const uniqueAuthors = getUniqueAuthors(books);
   const { title: queryWithoutAuthor } = getTitleWithoutAuthor(

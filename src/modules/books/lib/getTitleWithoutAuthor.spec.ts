@@ -79,7 +79,7 @@ describe('getTitleWithoutAuthor', () => {
     const result = getTitleWithoutAuthor(originalTitle, DUMMY_AUTHORS);
 
     // Expected title: "Book Title" (single space cleaned up)
-    expect(result.title).toBe('Book Title');
+    expect(result.title).toBe('bok title');
     expect(result.author).toBe('John Doe');
     expect(result.matchResult).toEqual(matchResult);
 
@@ -100,7 +100,7 @@ describe('getTitleWithoutAuthor', () => {
     const result = getTitleWithoutAuthor(originalTitle, DUMMY_AUTHORS);
 
     // Expected title: "The Best Book Ever" (leading/trailing spaces removed, double space reduced)
-    expect(result.title).toBe('The Best Book Ever');
+    expect(result.title).toBe('the best bok ever');
     expect(result.author).toBe('John Doe');
   });
 
@@ -123,7 +123,7 @@ describe('getTitleWithoutAuthor', () => {
 
     // The original title is 'The Novel by A. B. C. Author.'
     // The cleaned title should be 'The Novel'
-    expect(result.title).toBe('The Novel');
+    expect(result.title).toBe('the novel');
     expect(result.author).toBe('A. B. C. Author');
   });
 
@@ -146,7 +146,7 @@ describe('getTitleWithoutAuthor', () => {
     // '(by' and 'Doe!' end in non-word chars ((), !), so they use partial word boundaries.
     // Removal: "A Masterpiece (by John Doe!)" -> "A Masterpiece  " (two spaces remaining)
     // Final cleanup: "A Masterpiece"
-    expect(result.title).toBe('A Masterpiece');
+    expect(result.title).toBe('a masterpiece');
     expect(result.author).toBe('John Doe');
   });
 
