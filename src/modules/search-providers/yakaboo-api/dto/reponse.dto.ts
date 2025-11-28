@@ -27,7 +27,7 @@ export class YakabooBookSourceDto {
   book_isbn_label: Array<{ label: string }>;
 
   @Expose()
-  stock: Array<{ isInStock: boolean }>;
+  stock: Array<{ is_in_stock: boolean }>;
 }
 
 @Exclude()

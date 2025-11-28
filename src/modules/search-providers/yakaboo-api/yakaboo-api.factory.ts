@@ -17,6 +17,28 @@ export function createYakabooSearchPayload(
   searchMinMatch: string,
   searchSize: number,
 ): YakabooSearchPayloadDto {
+  // Validate inputs to ensure no null/undefined values
+  if (!searchQuery) {
+    throw new Error('searchQuery cannot be empty');
+  }
+  if (searchFuzziness == null || isNaN(searchFuzziness)) {
+    throw new Error(
+      `searchFuzziness must be a valid number, got: ${searchFuzziness}`,
+    );
+  }
+  if (!searchMinMatch) {
+    throw new Error('searchMinMatch cannot be empty');
+  }
+  if (searchSize == null || isNaN(searchSize)) {
+    throw new Error(`searchSize must be a valid number, got: ${searchSize}`);
+  }
+
+  // Ensure fuzziness is a valid number (can be decimal like 1.5)
+  const fuzziness =
+    typeof searchFuzziness === 'number'
+      ? searchFuzziness
+      : Number(searchFuzziness);
+
   return {
     query: {
       bool: {
@@ -38,7 +60,7 @@ export function createYakabooSearchPayload(
                         'children_brand_label.label^2',
                       ],
                       query: searchQuery,
-                      fuzziness: searchFuzziness,
+                      fuzziness: fuzziness,
                       minimum_should_match: searchMinMatch,
                     },
                   },
