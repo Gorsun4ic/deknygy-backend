@@ -3,13 +3,17 @@ import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
 import { stringSimilarity } from 'string-similarity-js';
 import { calculateWordMatchScore } from './calculateWordMatchScore';
 import { getCoreTitle } from '../../utils/getCoreTitle';
-
-const THRESHOLD_TITLE_ONLY_TOP = 0.6;
-const THRESHOLD_TITLE_ONLY_FAIR = 0.5;
-const WEIGHT_AUTHOR_SIMILARITY = 0.5;
-const BONUS_STRONG_COMBINED = 1.0;
-const BONUS_MODERATE_COMBINED = 0.6;
-const BONUS_SMALL_COMBINED = 0.3;
+import {
+  THRESHOLD_TITLE_ONLY_EXTRA_HIGH,
+  THRESHOLD_TITLE_ONLY_TOP,
+  THRESHOLD_TITLE_ONLY_FAIR,
+  THRESHOLD_TITLE_ONLY_LOW,
+  WEIGHT_AUTHOR_SIMILARITY,
+  BONUS_STRONG_COMBINED,
+  BONUS_MODERATE_COMBINED,
+  BONUS_SMALL_COMBINED,
+  AUTHOR_WORD_SIMILARITY_THRESHOLD,
+} from '../../constants/fuzzy-thresholds';
 
 /**
  * Scores a list of books based on query matching.
@@ -60,26 +64,32 @@ export const scoreBooks = (
         authorWordMatchScore,
       );
 
-      if (titleSimilarity > 0.6 && effectiveAuthorScore > 0.6) {
+      if (
+        titleSimilarity > THRESHOLD_TITLE_ONLY_TOP &&
+        effectiveAuthorScore > THRESHOLD_TITLE_ONLY_TOP
+      ) {
         finalScore += BONUS_STRONG_COMBINED;
-      } else if (titleSimilarity > 0.5 && effectiveAuthorScore > 0.5) {
+      } else if (
+        titleSimilarity > THRESHOLD_TITLE_ONLY_FAIR &&
+        effectiveAuthorScore > THRESHOLD_TITLE_ONLY_FAIR
+      ) {
         finalScore += BONUS_MODERATE_COMBINED;
-      } else if (titleSimilarity > 0.3 && effectiveAuthorScore > 0.3) {
+      } else if (
+        titleSimilarity > THRESHOLD_TITLE_ONLY_LOW &&
+        effectiveAuthorScore > THRESHOLD_TITLE_ONLY_LOW
+      ) {
         finalScore += BONUS_SMALL_COMBINED;
       }
     }
     // --- 3. Enhanced Scoring for Title-Only Queries ---
     else {
       // Reward exact matches/high similarity more reliably
-      if (titleSimilarity > 0.95) {
+      if (
+        titleSimilarity > THRESHOLD_TITLE_ONLY_EXTRA_HIGH ||
+        bookTitleNorm === normalizedQuery
+      ) {
         // Use high similarity instead of includes() for robustness
-        finalScore += 0.5;
-      } else {
-        // Only give bonus for exact match (same normalized string)
-        const exactMatch = bookTitleNorm === normalizedQuery;
-        if (exactMatch) {
-          finalScore += 0.5;
-        }
+        finalScore += BONUS_STRONG_COMBINED;
       }
     }
 
@@ -105,7 +115,7 @@ export const scoreBooks = (
     // If title similarity is very high (>0.7), be more lenient with threshold
     // This accounts for cases where books have same title but different/missing authors
     // which will be merged later in the grouping phase
-    if (queryAuthor && titleSim > 0.7) {
+    if (queryAuthor && titleSim > AUTHOR_WORD_SIMILARITY_THRESHOLD) {
       // Use a lower threshold (0.35) for high title similarity matches
       // This ensures books with strong title matches aren't filtered out
       // even if author doesn't match, since merge logic will handle grouping
