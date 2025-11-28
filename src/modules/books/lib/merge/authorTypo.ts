@@ -4,6 +4,7 @@ import { normalizeString } from '../../utils/normalizeString';
 import { getKeys } from '../../utils/getKeys';
 import { getGroupLength } from '../../utils/getGroupLength';
 import { mergeGroups } from './mergeGroups';
+import { AUTHOR_TYPO_MERGING_THRESHOLD } from '../../constants/fuzzy-thresholds';
 
 /**
  * Merges groups that share the same normalized title but have slightly different
@@ -13,7 +14,7 @@ import { mergeGroups } from './mergeGroups';
  */
 export const mergeAuthorTypoGroups = (
   tempMap: TempMap,
-  threshold: number = 0.85,
+  threshold: number = AUTHOR_TYPO_MERGING_THRESHOLD,
 ) => {
   const keys = getKeys(tempMap);
   const toProcess = new Set(keys);
@@ -52,7 +53,13 @@ export const mergeAuthorTypoGroups = (
         (areTitlesTheSame && authorSimilarity >= threshold) ||
         // Condition B: Title-only into Author-Anchored Check
         // (Title parts are identical, AND one author is missing/empty, and the other is present)
-        (areTitlesTheSame && (sourceAuthor || destAuthor)); // Dest is title-only, Source is author-anchored
+        (areTitlesTheSame &&
+          (sourceAuthor || destAuthor) &&
+          !areAuthorsPresent); // Dest is title-only, Source is author-anchored
+
+      if (!shouldMerge) {
+        continue;
+      }
 
       // Step 2.2: If the keys should be merged, merge them
       if (shouldMerge) {
