@@ -65,7 +65,7 @@ export class BooksService {
 
     if (cached) {
       this.logger.log('Redis cache hit');
-      return resolveAndGroupBooks(JSON.parse(cached) as IBookInfo[]);
+      return JSON.parse(cached) as IBookInfo[];
     }
 
     // 2. ATTEMPT TO LOG SEARCH (Must not crash the entire function)
