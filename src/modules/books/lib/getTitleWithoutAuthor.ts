@@ -4,7 +4,6 @@ import {
 } from './findFuzzyAuthorMatch';
 import { MIN_AUTHOR_WORD_MATCH_RATIO } from '../constants/fuzzy-thresholds';
 import { escapeRegExp } from '../utils/escapeRegExp';
-import { normalizeString } from '../utils/normalizeString';
 
 interface ITitleWithoutAuthorRes {
   title: string;
