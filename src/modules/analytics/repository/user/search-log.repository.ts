@@ -80,4 +80,38 @@ export class SearchLogRepository {
 
     return this.prisma.unsuccessfulSearch.count({ where: { userId: user.id } });
   }
+
+  async getLastUnsuccessfulCurrentDifferenceSearchCount(telegramId: bigint) {
+    const user = await this.prisma.user.findUnique({ where: { telegramId } });
+    if (!user)
+      throw new NotFoundException(
+        `User with telegramId ${telegramId} not found`,
+      );
+
+    const lastUnsuccessfulSearch =
+      await this.prisma.unsuccessfulSearch.findFirst({
+        where: { userId: user.id },
+        orderBy: { searchedAt: 'desc' },
+      });
+
+    // If there's no unsuccessful search, return total search count
+    // (all searches happened "since" the last unsuccessful search)
+    if (!lastUnsuccessfulSearch) {
+      return this.prisma.searchLog.count({
+        where: { userId: user.id },
+      });
+    }
+
+    // Count searches that happened AFTER the last unsuccessful search
+    const searchesSinceLastUnsuccessful = await this.prisma.searchLog.count({
+      where: {
+        userId: user.id,
+        searchedAt: {
+          gt: lastUnsuccessfulSearch.searchedAt,
+        },
+      },
+    });
+
+    return searchesSinceLastUnsuccessful;
+  }
 }
