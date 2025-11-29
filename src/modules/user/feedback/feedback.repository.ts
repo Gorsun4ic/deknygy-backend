@@ -57,4 +57,14 @@ export class UserFeedbackRepository {
       orderBy: { createdAt: 'desc' },
     });
   }
+
+  async getUserFeedbacksCount(userId: bigint) {
+    const user = await this.prisma.user.findUnique({
+      where: { telegramId: userId },
+    });
+    if (!user) {
+      throw new Error(`User with telegramId ${userId} not found`);
+    }
+    return this.prisma.feedback.count({ where: { userId: user.id } });
+  }
 }
