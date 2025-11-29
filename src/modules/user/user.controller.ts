@@ -109,4 +109,22 @@ export class UserController {
       );
     }
   }
+
+  @Get(':userId/feedbacks/count')
+  async getUserFeedbacksCount(@Param('userId') userId: string) {
+    try {
+      return await this.userFeedbackService.getUserFeedbacksCount(
+        BigInt(userId),
+      );
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Failed to get user feedbacks count';
+      throw new HttpException(
+        { success: false, message: errorMessage },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 }
