@@ -207,7 +207,14 @@ export class BooksService {
         await this.saveBooks(authorsBooks, queryId, cacheKey);
         const endTime = Date.now();
         this.logger.log(`Time taken: ${endTime - startTime}ms`);
-        return resolveAndGroupBooks(authorsBooks);
+        const result = resolveAndGroupBooks(authorsBooks);
+        if (result.length === 0) {
+          await this.searchLogService.logUnsuccessfulSearch(
+            telegramId,
+            formattedQuery,
+          );
+        }
+        return result;
       }
     }
 
@@ -221,6 +228,15 @@ export class BooksService {
     this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
     await this.saveBooks(fuzzyBooks, queryId, cacheKey);
-    return resolveAndGroupBooks(fuzzyBooks);
+    this.logger.log('ASSHOLE SHIT');
+    this.logger.log(resolveAndGroupBooks(fuzzyBooks));
+    const result = resolveAndGroupBooks(fuzzyBooks);
+    if (result.length === 0) {
+      await this.searchLogService.logUnsuccessfulSearch(
+        telegramId,
+        formattedQuery,
+      );
+    }
+    return result;
   }
 }

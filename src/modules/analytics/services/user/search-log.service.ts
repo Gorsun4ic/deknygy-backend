@@ -24,4 +24,17 @@ export class SearchLogService {
   async getUserSearchCount(telegramId: bigint) {
     return await this.searchLogRepository.getUserSearchCount(telegramId);
   }
+
+  async logUnsuccessfulSearch(telegramId: bigint, query: string) {
+    return await this.searchLogRepository.logUnsuccessfulSearch(
+      telegramId,
+      query,
+    );
+  }
+
+  async getUnsuccessfulSearchCount(telegramId: bigint) {
+    return await this.searchLogRepository.getUnsuccessfulSearchCount(
+      telegramId,
+    );
+  }
 }
