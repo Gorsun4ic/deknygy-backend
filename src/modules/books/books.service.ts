@@ -1,18 +1,20 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { YakabooApiService } from '../search-providers/yakaboo-api/yakaboo-api.service';
-import { NashformatApiService } from '../search-providers/nashformat/nashformat-api.service';
-import { AprioriApiService } from '../search-providers/apriori/apriori-api.service';
-import { VivatApiService } from '../search-providers/vivat/vivat-api.service';
-import { StaryLevApiService } from '../search-providers/stary-lev/stary-lev-api.service';
-import { MegogoApiService } from '../search-providers/megogo/megogo-api.service';
-import { LaboratoryService } from '../search-providers/laboratory/laboratory.service';
+import {
+  YakabooApiService,
+  NashformatApiService,
+  AprioriApiService,
+  VivatApiService,
+  StaryLevApiService,
+  MegogoApiService,
+  LaboratoryService,
+  KSDService,
+  ReadEatService,
+  BookYeApiService,
+  KnygolandApiService,
+  RidnamovaApiService,
+  ArthussApiService,
+} from '../search-providers';
 import { formatQuery } from '../common/utils/formatQuery';
-import { KSDService } from '../search-providers/ksd/ksd.service';
-import { ReadEatService } from '../search-providers/readeat/readeat.service';
-import { BookYeApiService } from '../search-providers/book-ye/book-ye.api.service';
-import { KnygolandApiService } from '../search-providers/knygoland/knygoland.api.service';
-import { RidnamovaApiService } from '../search-providers/ridnamova/ridnamova.api.service';
-import { ArthussApiService } from '../search-providers/arthuss/arthuss.api.service';
 import { unifyBooks } from './lib/unuiqifyBooks';
 import { IBookInfo } from '../common/interfaces/api/book.info';
 import { RedisService } from '../redis/redis.service';
