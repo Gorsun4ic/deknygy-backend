@@ -18,6 +18,7 @@ export const fuzzyMatching = (
   booksArr: IBookInfo[],
 ): IBookInfo[] => {
   const books = booksArr.filter((result) => Array.isArray(result)).flat();
+
   const normalizedBooks = normalizeBookData(books);
   const uniqueAuthors = getUniqueAuthors(books);
   const { title: queryWithoutAuthor } = getTitleWithoutAuthor(
