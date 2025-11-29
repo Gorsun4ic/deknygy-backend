@@ -38,6 +38,7 @@ export const scoreBooks = (
     // Use queryTitle if split, otherwise use normalizedQuery (they are often the same)
     const titleToCompare = queryAuthor ? queryTitle : normalizedQuery;
     const titleSimilarity = stringSimilarity(titleToCompare, bookTitleNorm);
+
     // Start the score with Title Similarity (base weight of 1.0)
     finalScore += titleSimilarity;
 

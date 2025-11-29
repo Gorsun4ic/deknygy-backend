@@ -48,7 +48,7 @@ function formatYakabooResponse(book: YakabooBookSourceDto): IBookInfo {
       format = 1;
   }
 
-  const link = `${BASE_URL}${book.slug}.html`;
+  const link = `${BASE_URL}/${book.slug}.html`;
 
   return {
     title: book.title,
