@@ -26,6 +26,7 @@ import { getTitleWithoutAuthor } from './lib/getTitleWithoutAuthor';
 import { type ApiCall } from './interfaces/services.type';
 import { callMultipleAPIs } from './lib/callMultipleAPIs';
 import { uniqifyBooks } from './lib/unuiqifyBooks';
+import { CacheLogRepository } from '../analytics/repository/user/cache-log.repository';
 
 @Injectable()
 export class BooksService {
@@ -47,6 +48,7 @@ export class BooksService {
     private readonly redisService: RedisService,
     private readonly booksRepository: BooksRepository,
     private readonly searchLogService: SearchLogService,
+    private readonly cacheLogRepository: CacheLogRepository,
   ) {}
 
   // Search all APIs with error handling
