@@ -76,9 +76,17 @@ export class BooksRepository {
           },
         });
 
-        await this.prisma.bookPrice.create({
-          data: { bookId: dbBook.id, price: book.price },
-        });
+        // Only create BookPrice if price is valid (not null, not NaN, and >= 0)
+        if (
+          book.price != null &&
+          !isNaN(book.price) &&
+          isFinite(book.price) &&
+          book.price >= 0
+        ) {
+          await this.prisma.bookPrice.create({
+            data: { bookId: dbBook.id, price: book.price },
+          });
+        }
 
         savedBooks.push(dbBook);
       } catch (error) {
