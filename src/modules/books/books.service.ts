@@ -106,6 +106,10 @@ export class BooksService {
       // Flatten and deduplicate all books by link
       const allBooks = allBooksArrays.flat();
       return uniqifyBooks(allBooks);
+    } else {
+      const result = await callMultipleAPIs(title, this.apiCalls);
+      const fuzzyBooks = fuzzyMatching(title, result as IBookInfo[]).flat();
+      return uniqifyBooks(fuzzyBooks);
     }
   }
 
@@ -117,16 +121,16 @@ export class BooksService {
       await this.booksRepository.getOrCreateQueryId(formattedQuery);
     this.logger.log(`[SEARCH START] Key: ${cacheKey}`);
 
-    // let cached: string | null = null;
+    let cached: string | null = null;
 
-    // try {
-    //   cached = await this.redisService.get(cacheKey);
-    // } catch (error) {
-    //   this.logger.error(
-    //     `Failed to retrieve from Redis. Proceeding without cache.`,
-    //     error instanceof Error ? error.message : String(error),
-    //   );
-    // }
+    try {
+      cached = await this.redisService.get(cacheKey);
+    } catch (error) {
+      this.logger.error(
+        `Failed to retrieve from Redis. Proceeding without cache.`,
+        error instanceof Error ? error.message : String(error),
+      );
+    }
 
     // 2. ATTEMPT TO LOG SEARCH
     try {
@@ -140,10 +144,10 @@ export class BooksService {
     }
 
     // If cached - return cached result
-    // if (cached) {
-    //   this.logger.log('Redis cache hit');
-    //   return JSON.parse(cached) as IBookInfo[];
-    // }
+    if (cached) {
+      this.logger.log('Redis cache hit');
+      return JSON.parse(cached) as IBookInfo[];
+    }
 
     const yakabooAuthorBooks =
       await this.yakabooApiService.searchByAuthor(formattedQuery);
