@@ -35,12 +35,5 @@ export const getEfficientSimilarity = (
     }
   }
 
-  // 3. Simple Substitution Boost (Optional, but helps 'John' vs 'Jhon' if Dice score is low)
-  if (diff === 0 && maxScore < 0.9 && len1 > 2) {
-    // If same length, but low score (suggesting a single internal substitution)
-    // apply a conservative floor to reflect high confidence in a simple typo.
-    maxScore = Math.max(maxScore, 0.7);
-  }
-
   return maxScore;
 };

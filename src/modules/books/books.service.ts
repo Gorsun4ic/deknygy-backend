@@ -1,25 +1,31 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { YakabooApiService } from '../search-providers/yakaboo-api/yakaboo-api.service';
-import { NashformatApiService } from '../search-providers/nashformat/nashformat-api.service';
-import { AprioriApiService } from '../search-providers/apriori/apriori-api.service';
-import { VivatApiService } from '../search-providers/vivat/vivat-api.service';
-import { StaryLevApiService } from '../search-providers/stary-lev/stary-lev-api.service';
-import { MegogoApiService } from '../search-providers/megogo/megogo-api.service';
-import { LaboratoryService } from '../search-providers/laboratory/laboratory.service';
+import {
+  YakabooApiService,
+  NashformatApiService,
+  AprioriApiService,
+  VivatApiService,
+  StaryLevApiService,
+  MegogoApiService,
+  LaboratoryService,
+  KSDService,
+  ReadEatService,
+  BookYeApiService,
+  KnygolandApiService,
+  RidnamovaApiService,
+  ArthussApiService,
+} from '../search-providers';
 import { formatQuery } from '../common/utils/formatQuery';
-import { KSDService } from '../search-providers/ksd/ksd.service';
-import { ReadEatService } from '../search-providers/readeat/readeat.service';
-import { BookYeApiService } from '../search-providers/book-ye/book-ye.api.service';
-import { KnygolandApiService } from '../search-providers/knygoland/knygoland.api.service';
-import { RidnamovaApiService } from '../search-providers/ridnamova/ridnamova.api.service';
-import { ArthussApiService } from '../search-providers/arthuss/arthuss.api.service';
-import { unifyBooks } from './lib/unuiqifyBooks';
+import { CACHE_TTL } from './constants/cacheTTL';
 import { IBookInfo } from '../common/interfaces/api/book.info';
 import { RedisService } from '../redis/redis.service';
 import { BooksRepository } from './books.repository';
 import { SearchLogService } from '../analytics/services/user/search-log.service';
 import { resolveAndGroupBooks } from './lib/merge/resolveAndGroupBooks';
 import { fuzzyMatching } from './lib/fuzzy-filtering/fuzzyMatching';
+import { getTitleWithoutAuthor } from './lib/getTitleWithoutAuthor';
+import { type ApiCall } from './interfaces/services.type';
+import { callMultipleAPIs } from './lib/callMultipleAPIs';
+import { uniqifyBooks } from './lib/unuiqifyBooks';
 
 @Injectable()
 export class BooksService {
@@ -43,45 +49,9 @@ export class BooksService {
     private readonly searchLogService: SearchLogService,
   ) {}
 
-  async searchBook(telegramId: bigint, query: string) {
-    const TIMEOUT = 5000;
-    const formattedQuery = formatQuery(query);
-    const startTime = Date.now();
-    const cacheKey = `search:${formattedQuery}`;
-    const queryId =
-      await this.booksRepository.getOrCreateQueryId(formattedQuery);
-    this.logger.log(`[SEARCH START] Key: ${cacheKey}`);
-
-    let cached: string | null = null;
-
-    try {
-      cached = await this.redisService.get(cacheKey);
-    } catch (error) {
-      this.logger.error(
-        `Failed to retrieve from Redis. Proceeding without cache.`,
-        error?.message,
-      );
-    }
-
-    if (cached) {
-      this.logger.log('Redis cache hit');
-      return JSON.parse(cached) as IBookInfo[];
-    }
-
-    // 2. ATTEMPT TO LOG SEARCH (Must not crash the entire function)
-    try {
-      // This is the line that was crashing the function:
-      await this.searchLogService.logSearch(telegramId, formattedQuery);
-    } catch (error) {
-      // Log the error but DO NOT return. Let the search continue.
-      this.logger.error(`Failed to log search: ${error?.message}.`, error);
-      // We know the query is "not found", so we proceed.
-    }
-
-    // 3. CHECK CACHED RESULT
-
-    // Search all APIs with error handling
-    const apiCalls = [
+  // Search all APIs with error handling
+  private get apiCalls(): ApiCall[] {
+    return [
       { name: 'Yakaboo', service: this.yakabooApiService },
       { name: 'Nashformat', service: this.nashformatApiService },
       { name: 'Apriori', service: this.aprioriApiService },
@@ -96,37 +66,119 @@ export class BooksService {
       { name: 'Ridnamova', service: this.ridnamovaApiService },
       { name: 'Arthuss', service: this.arthussApiService },
     ];
+  }
+
+  private async saveBooks(
+    books: IBookInfo[],
+    queryId: number,
+    cacheKey: string,
+  ) {
+    await this.booksRepository.saveBooks(books, queryId);
+    const cacheValue = resolveAndGroupBooks(books);
+    await this.redisService.set(
+      cacheKey,
+      JSON.stringify(cacheValue),
+      CACHE_TTL,
+    );
+  }
+
+  private async getAuthorsBooks(authorBooks: IBookInfo[], query: string) {
+    const authorsArray = authorBooks
+      .map((book) => book.author)
+      .filter((author) => typeof author === 'string');
+
+    const { title } = getTitleWithoutAuthor(query, authorsArray);
+    // If query was only an author, we loop through all his books and search for each of them
+    if (title.length === 0) {
+      const bookTitles = authorBooks
+        .map((book) => book.title)
+        .filter((title) => title.length > 0);
+
+      // Search for each book title and collect all results
+      const allBooksArrays = await Promise.all(
+        bookTitles.map(async (bookTitle) => {
+          const result = await callMultipleAPIs(bookTitle, this.apiCalls);
+          const fuzzyBooks = fuzzyMatching(bookTitle, result as IBookInfo[]);
+          return fuzzyBooks;
+        }),
+      );
+
+      // Flatten and deduplicate all books by link
+      const allBooks = allBooksArrays.flat();
+      return uniqifyBooks(allBooks);
+    } else {
+      const result = await callMultipleAPIs(title, this.apiCalls);
+      const fuzzyBooks = fuzzyMatching(title, result as IBookInfo[]).flat();
+      return uniqifyBooks(fuzzyBooks);
+    }
+  }
+
+  async searchBook(telegramId: bigint, query: string) {
+    const formattedQuery = formatQuery(query);
+    const cacheKey = `search:${formattedQuery}`;
+    const startTime = Date.now();
+    const queryId =
+      await this.booksRepository.getOrCreateQueryId(formattedQuery);
+    this.logger.log(`[SEARCH START] Key: ${cacheKey}`);
+
+    let cached: string | null = null;
+
+    try {
+      cached = await this.redisService.get(cacheKey);
+    } catch (error) {
+      this.logger.error(
+        `Failed to retrieve from Redis. Proceeding without cache.`,
+        error instanceof Error ? error.message : String(error),
+      );
+    }
+
+    // 2. ATTEMPT TO LOG SEARCH
+    try {
+      await this.searchLogService.logSearch(telegramId, formattedQuery);
+    } catch (error) {
+      // Log the error but DO NOT return. Let the search continue.
+      this.logger.error(
+        `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+        error,
+      );
+    }
+
+    // If cached - return cached result
+    if (cached) {
+      this.logger.log('Redis cache hit');
+      return JSON.parse(cached) as IBookInfo[];
+    }
+
+    const yakabooAuthorBooks =
+      await this.yakabooApiService.searchByAuthor(formattedQuery);
+
+    if (yakabooAuthorBooks.length > 0) {
+      const authorsBooks = await this.getAuthorsBooks(
+        yakabooAuthorBooks,
+        formattedQuery,
+      );
+
+      // Only return early if we actually found author books (query was only an author)
+      // If authorsBooks is undefined, it means the query had a title, so continue with regular search
+      if (authorsBooks && authorsBooks.length > 0) {
+        // Save all aggregated and deduplicated books once
+        await this.saveBooks(authorsBooks, queryId, cacheKey);
+        const endTime = Date.now();
+        this.logger.log(`Time taken: ${endTime - startTime}ms`);
+        return resolveAndGroupBooks(authorsBooks);
+      }
+    }
+
     this.logger.log(
-      `[CACHE MISS] Key: ${cacheKey}. Starting ${apiCalls.length} API calls.`,
+      `[CACHE MISS] Key: ${cacheKey}. Starting ${this.apiCalls.length} API calls.`,
     );
 
-    const results = await Promise.all(
-      apiCalls.map(async ({ name, service }) => {
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error(`${name} API timed out`)), TIMEOUT),
-        );
-        try {
-          const result = await Promise.race([
-            service.search(formattedQuery),
-            timeoutPromise,
-          ]);
-          return result;
-        } catch (error) {
-          this.logger.error(`Error calling ${name} API:`, error?.message);
-          return [];
-        }
-      }),
-    );
+    const results = await callMultipleAPIs(formattedQuery, this.apiCalls);
+    const fuzzyBooks = fuzzyMatching(formattedQuery, results as IBookInfo[]);
     const endTime = Date.now();
     this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
-    const allBooks = results.filter((result) => Array.isArray(result)).flat();
-    const fuzzyBooks = fuzzyMatching(formattedQuery, allBooks as IBookInfo[]);
-    const unifiedBooks = unifyBooks(fuzzyBooks);
-    await this.booksRepository.saveBooks(unifiedBooks, queryId);
-    const cacheTTL = 60 * 60 * 24;
-    const cacheValue = resolveAndGroupBooks(unifiedBooks);
-    await this.redisService.set(cacheKey, JSON.stringify(cacheValue), cacheTTL);
-    return resolveAndGroupBooks(unifiedBooks);
+    await this.saveBooks(fuzzyBooks, queryId, cacheKey);
+    return resolveAndGroupBooks(fuzzyBooks);
   }
 }

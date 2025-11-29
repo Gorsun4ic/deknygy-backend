@@ -1,12 +1,10 @@
 import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
 import { splitQueryIntoTitleAndAuthor } from '../../utils/splitQueryIntoTitleAndAuthor';
-import { normalizeString } from '../../utils/normalizeString';
 import Fuse from 'fuse.js';
 import { scoreBooks } from './scoreBooks';
 import { normalizeBookData } from '../normalizeBooksAuthorsAndTitles';
 import { getTitleWithoutAuthor } from '../getTitleWithoutAuthor';
 import { getUniqueAuthors } from '../../utils/genUniqueAuthors';
-
 /**
  * Performs fuzzy search on the book list and assigns a relevance score.
  * It filters the results to only include strong matches.
@@ -16,8 +14,9 @@ import { getUniqueAuthors } from '../../utils/genUniqueAuthors';
  */
 export const fuzzyMatching = (
   query: string,
-  books: IBookInfo[],
+  booksArr: IBookInfo[],
 ): IBookInfo[] => {
+  const books = booksArr.filter((result) => Array.isArray(result)).flat();
   const normalizedBooks = normalizeBookData(books);
   const uniqueAuthors = getUniqueAuthors(books);
   const { title: queryWithoutAuthor } = getTitleWithoutAuthor(
