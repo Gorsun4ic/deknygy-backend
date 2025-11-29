@@ -8,6 +8,7 @@ import {
 } from './constants/api.params';
 import {
   createYakabooAuthorSearchPayload,
+  createYakabooIsbnSearchPayload,
   createYakabooSearchPayload,
 } from './yakaboo-api.factory';
 import { YakabooResponseDto } from './dto/reponse.dto';
@@ -78,6 +79,25 @@ export class YakabooApiService {
       API_MIN_MATCH,
     );
 
+    try {
+      const response = await firstValueFrom(
+        this.httpService
+          .post<IYakabooResponse>(API_URL, payload)
+          .pipe(map((res) => res.data)),
+      );
+      const yakabooResponse = YakabooResponseDto.fromPlain(response);
+      return mapYakabooResponseToBookInfo(yakabooResponse.hits.hits);
+    } catch (error) {
+      throw new Error(`Failed to search in Yakaboo API: ${error}`);
+    }
+  }
+
+  async searchByIsbn(isbn: string): Promise<IBookInfo[]> {
+    const payload = createYakabooIsbnSearchPayload(
+      isbn,
+      API_FUZZINESS,
+      API_MIN_MATCH,
+    );
     try {
       const response = await firstValueFrom(
         this.httpService
