@@ -22,7 +22,9 @@ export class SearchLogService {
   }
 
   async getUserSearchCount(telegramId: bigint) {
-    return await this.searchLogRepository.getUserSearchCount(telegramId);
+    return {
+      count: await this.searchLogRepository.getUserSearchCount(telegramId),
+    };
   }
 
   async logUnsuccessfulSearch(telegramId: bigint, query: string) {
@@ -33,14 +35,18 @@ export class SearchLogService {
   }
 
   async getUnsuccessfulSearchCount(telegramId: bigint) {
-    return await this.searchLogRepository.getUnsuccessfulSearchCount(
-      telegramId,
-    );
+    return {
+      count:
+        await this.searchLogRepository.getUnsuccessfulSearchCount(telegramId),
+    };
   }
 
   async getLastUnsuccessfulCurrentDifferenceSearchCount(telegramId: bigint) {
-    return await this.searchLogRepository.getLastUnsuccessfulCurrentDifferenceSearchCount(
-      telegramId,
-    );
+    return {
+      count:
+        await this.searchLogRepository.getLastUnsuccessfulCurrentDifferenceSearchCount(
+          telegramId,
+        ),
+    };
   }
 }
