@@ -26,4 +26,9 @@ export class AnalyticsController {
   getUserSearchLogs(@Param('telegramId') telegramId: string) {
     return this.searchLogService.getUserSearchLogs(BigInt(telegramId));
   }
+
+  @Get('search-count/:telegramId')
+  getUserSearchCount(@Param('telegramId') telegramId: string) {
+    return this.searchLogService.getUserSearchCount(BigInt(telegramId));
+  }
 }
