@@ -99,7 +99,9 @@ export class UserController {
   @Get(':userId/feedbacks')
   async getUserFeedbacks(@Param('userId') userId: string) {
     try {
-      return await this.userFeedbackService.getUserFeedbacks(BigInt(userId));
+      return await this.userFeedbackService.getUserFeedbacks(
+        BigInt(userId.toString()),
+      );
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to get user feedbacks';
@@ -114,7 +116,7 @@ export class UserController {
   async getUserFeedbacksCount(@Param('userId') userId: string) {
     try {
       return await this.userFeedbackService.getUserFeedbacksCount(
-        BigInt(userId),
+        BigInt(userId.toString()),
       );
     } catch (error) {
       const errorMessage =
