@@ -39,4 +39,14 @@ export class SearchLogRepository {
       orderBy: { searchedAt: 'desc' },
     });
   }
+
+  async getUserSearchCount(telegramId: bigint) {
+    const user = await this.prisma.user.findUnique({ where: { telegramId } });
+    if (!user)
+      throw new NotFoundException(
+        `User with telegramId ${telegramId} not found`,
+      );
+
+    return this.prisma.searchLog.count({ where: { userId: user.id } });
+  }
 }

@@ -1,12 +1,14 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { UserSessionActivityService } from './services/user/session.service';
 import { SearchLogService } from './services/user/search-log.service';
+import { CacheLogService } from '../analytics/services/user/cache-log.service';
 
 @Controller('analytics')
 export class AnalyticsController {
   constructor(
     private readonly userSessionActivityService: UserSessionActivityService,
     private readonly searchLogService: SearchLogService,
+    private readonly cacheLogService: CacheLogService,
   ) {}
 
   @Post('track-session')
@@ -25,5 +27,15 @@ export class AnalyticsController {
   @Get('search-logs/:telegramId')
   getUserSearchLogs(@Param('telegramId') telegramId: string) {
     return this.searchLogService.getUserSearchLogs(BigInt(telegramId));
+  }
+
+  @Get('search-count/:telegramId')
+  getUserSearchCount(@Param('telegramId') telegramId: string) {
+    return this.searchLogService.getUserSearchCount(BigInt(telegramId));
+  }
+
+  @Get('cache-logs/:queryId')
+  getCacheLogsByQueryId(@Param('queryId') queryId: string) {
+    return this.cacheLogService.getCacheLogsByQueryId(Number(queryId));
   }
 }

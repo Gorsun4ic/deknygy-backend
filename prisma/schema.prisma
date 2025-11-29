@@ -20,6 +20,7 @@ model Book {
   format    Format    @relation(fields: [formatId], references: [id])
   formatId  Int
   prices    BookPrice[]
+  cacheLogs CacheLog[]
 
   @@index([storeId])
   @@index([formatId])
@@ -128,6 +129,7 @@ model Query {
   books     Book[]
   searchLogs SearchLog[]
   unsuccessfulSearches UnsuccessfulSearch[]
+  cacheLogs CacheLog[]
 }
 
 model WeeklyBroadcast {
@@ -146,4 +148,17 @@ model BookPrice {
   bookId     Int
   price      Float
   recordedAt DateTime @default(now())
+}
+
+model CacheLog {
+  id        Int      @id @default(autoincrement())
+  book      Book?    @relation(fields: [bookId], references: [id])
+  bookId    Int?
+  query     Query?   @relation(fields: [queryId], references: [id])
+  queryId   Int
+  createdAt DateTime @default(now())
+
+  @@unique([bookId, queryId])
+  @@index([queryId])
+  @@index([bookId])
 }
