@@ -49,7 +49,6 @@ export class BooksService {
   ) {}
 
   async searchBook(telegramId: bigint, query: string) {
-    const TIMEOUT = 5000;
     const formattedQuery = formatQuery(query);
     const startTime = Date.now();
     const cacheKey = `search:${formattedQuery}`;
@@ -83,8 +82,15 @@ export class BooksService {
         .filter((author) => typeof author === 'string');
 
       const { title } = getTitleWithoutAuthor(formattedQuery, authorsArray);
-
-      if (title.length === 0) console.log('That was the author');
+      // If query was only an author, we loop through all his books and search for each of them
+      if (title.length === 0) {
+        const bookTitles = yakabooAuthorBooks.map((book) => book.title);
+        const authorBooksResults = [];
+        bookTitles.forEach(async (bookTitle) => {
+          const result = await callMultipleAPIs(bookTitle, apiCalls);
+          authorBooksResults.push(result);
+        });
+      }
     }
     // 2. ATTEMPT TO LOG SEARCH (Must not crash the entire function)
     try {
@@ -119,17 +125,15 @@ export class BooksService {
       `[CACHE MISS] Key: ${cacheKey}. Starting ${apiCalls.length} API calls.`,
     );
 
-    const results = await callMultipleAPIs(formattedQuery, apiCalls, TIMEOUT);
+    const results = await callMultipleAPIs(formattedQuery, apiCalls);
     const endTime = Date.now();
     this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
-    const allBooks = results.filter((result) => Array.isArray(result)).flat();
-    const fuzzyBooks = fuzzyMatching(formattedQuery, allBooks as IBookInfo[]);
-    const unifiedBooks = unifyBooks(fuzzyBooks);
-    await this.booksRepository.saveBooks(unifiedBooks, queryId);
+    const fuzzyBooks = fuzzyMatching(formattedQuery, results as IBookInfo[]);
+    await this.booksRepository.saveBooks(fuzzyBooks, queryId);
     const cacheTTL = 60 * 60 * 24;
-    const cacheValue = resolveAndGroupBooks(unifiedBooks);
+    const cacheValue = resolveAndGroupBooks(fuzzyBooks);
     await this.redisService.set(cacheKey, JSON.stringify(cacheValue), cacheTTL);
-    return resolveAndGroupBooks(unifiedBooks);
+    return resolveAndGroupBooks(fuzzyBooks);
   }
 }
