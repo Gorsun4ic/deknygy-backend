@@ -158,8 +158,7 @@ export class BooksService {
     }
 
     const formattedQuery = formatQuery(query);
-    const probablyIsbn =
-      removeSymbolsExceptNumbers(formattedQuery).length === 13;
+    const probablyIsbn = removeSymbolsExceptNumbers(query).length === 13;
     const cacheKey = `search:${formattedQuery}`;
     const startTime = Date.now();
     const queryId =
@@ -195,15 +194,17 @@ export class BooksService {
     }
 
     if (probablyIsbn) {
-      const yakabooIsbnBooks =
-        await this.yakabooApiService.searchByIsbn(formattedQuery);
+      const isbn = removeSymbolsExceptNumbers(query);
+      const yakabooIsbnBooks = await this.yakabooApiService.searchByIsbn(isbn);
+      const isbnCacheKey = `search:${isbn}`;
+
       if (yakabooIsbnBooks.length > 0) {
         const title = yakabooIsbnBooks[0].title;
         const books = await callMultipleAPIs(title, this.apiCalls);
         const fuzzyBooks = fuzzyMatching(title, books as IBookInfo[]);
         const endTime = Date.now();
         this.logger.log(`Time taken: ${endTime - startTime}ms`);
-        await this.saveBooks(fuzzyBooks, queryId, cacheKey);
+        await this.saveBooks(fuzzyBooks, queryId, isbnCacheKey);
         const result = resolveAndGroupBooks(fuzzyBooks);
 
         if (result.length === 0) {
@@ -253,7 +254,6 @@ export class BooksService {
     this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
     await this.saveBooks(fuzzyBooks, queryId, cacheKey);
-    this.logger.log('ASSHOLE SHIT');
     this.logger.log(resolveAndGroupBooks(fuzzyBooks));
     const result = resolveAndGroupBooks(fuzzyBooks);
     if (result.length === 0) {

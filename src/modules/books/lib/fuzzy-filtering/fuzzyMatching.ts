@@ -30,12 +30,15 @@ export const fuzzyMatching = (
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const fuse = new Fuse(normalizedBooks, {
     keys: ['title', 'author'],
-    threshold: 1.0, // Very lenient - let our enhanced scoring do the work
+    threshold: 0.5, // Very lenient - let our enhanced scoring do the work
     ignoreLocation: true,
     minMatchCharLength: 1, // Very permissive
   });
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   const results = fuse.search(queryWithoutAuthor);
+  if (results?.length > 0) {
+    return results.map((item) => item.item);
+  }
 
   // If Fuse.js returns no results but we have a potential split query,
   // try scoring all books manually
