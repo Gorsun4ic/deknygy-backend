@@ -37,4 +37,10 @@ export class SearchLogService {
       telegramId,
     );
   }
+
+  async getLastUnsuccessfulCurrentDifferenceSearchCount(telegramId: bigint) {
+    return await this.searchLogRepository.getLastUnsuccessfulCurrentDifferenceSearchCount(
+      telegramId,
+    );
+  }
 }

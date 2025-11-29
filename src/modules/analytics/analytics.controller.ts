@@ -47,6 +47,15 @@ export class AnalyticsController {
     return this.searchLogService.getUnsuccessfulSearchCount(BigInt(telegramId));
   }
 
+  @Get('last-unsuccessful-current-difference-search-count/:telegramId')
+  getLastUnsuccessfulCurrentDifferenceSearchCount(
+    @Param('telegramId') telegramId: string,
+  ) {
+    return this.searchLogService.getLastUnsuccessfulCurrentDifferenceSearchCount(
+      BigInt(telegramId),
+    );
+  }
+
   @Get('cache-logs/:queryId')
   getCacheLogsByQueryId(@Param('queryId') queryId: string) {
     return this.cacheLogService.getCacheLogsByQueryId(Number(queryId));
