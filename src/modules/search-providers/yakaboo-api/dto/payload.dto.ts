@@ -264,6 +264,11 @@ export class YakabooSearchPayloadDto {
   @IsBoolean()
   track_total_hits: boolean;
 
+  @IsOptional()
   @IsNumber()
-  min_score: number;
+  min_score?: number;
+
+  @IsOptional()
+  @IsNumber()
+  size?: number;
 }

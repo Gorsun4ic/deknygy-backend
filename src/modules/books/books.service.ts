@@ -22,6 +22,9 @@ import { BooksRepository } from './books.repository';
 import { SearchLogService } from '../analytics/services/user/search-log.service';
 import { resolveAndGroupBooks } from './lib/merge/resolveAndGroupBooks';
 import { fuzzyMatching } from './lib/fuzzy-filtering/fuzzyMatching';
+import { getTitleWithoutAuthor } from './lib/getTitleWithoutAuthor';
+import { type ApiCall } from './interfaces/services.type';
+import { callMultipleAPIs } from './lib/callMultipleAPIs';
 
 @Injectable()
 export class BooksService {
@@ -61,29 +64,43 @@ export class BooksService {
     } catch (error) {
       this.logger.error(
         `Failed to retrieve from Redis. Proceeding without cache.`,
-        error?.message,
+        error instanceof Error ? error.message : String(error),
       );
     }
 
-    if (cached) {
-      this.logger.log('Redis cache hit');
-      return JSON.parse(cached) as IBookInfo[];
-    }
+    // If cached - return cached result
+    // if (cached) {
+    //   this.logger.log('Redis cache hit');
+    //   return JSON.parse(cached) as IBookInfo[];
+    // }
 
+    const yakabooAuthorBooks =
+      await this.yakabooApiService.searchByAuthor(formattedQuery);
+
+    if (yakabooAuthorBooks.length > 0) {
+      const authorsArray = yakabooAuthorBooks
+        .map((book) => book.author)
+        .filter((author) => typeof author === 'string');
+
+      const { title } = getTitleWithoutAuthor(formattedQuery, authorsArray);
+
+      if (title.length === 0) console.log('That was the author');
+    }
     // 2. ATTEMPT TO LOG SEARCH (Must not crash the entire function)
     try {
       // This is the line that was crashing the function:
       await this.searchLogService.logSearch(telegramId, formattedQuery);
     } catch (error) {
       // Log the error but DO NOT return. Let the search continue.
-      this.logger.error(`Failed to log search: ${error?.message}.`, error);
+      this.logger.error(
+        `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+        error,
+      );
       // We know the query is "not found", so we proceed.
     }
 
-    // 3. CHECK CACHED RESULT
-
     // Search all APIs with error handling
-    const apiCalls = [
+    const apiCalls: ApiCall[] = [
       { name: 'Yakaboo', service: this.yakabooApiService },
       { name: 'Nashformat', service: this.nashformatApiService },
       { name: 'Apriori', service: this.aprioriApiService },
@@ -102,23 +119,7 @@ export class BooksService {
       `[CACHE MISS] Key: ${cacheKey}. Starting ${apiCalls.length} API calls.`,
     );
 
-    const results = await Promise.all(
-      apiCalls.map(async ({ name, service }) => {
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error(`${name} API timed out`)), TIMEOUT),
-        );
-        try {
-          const result = await Promise.race([
-            service.search(formattedQuery),
-            timeoutPromise,
-          ]);
-          return result;
-        } catch (error) {
-          this.logger.error(`Error calling ${name} API:`, error?.message);
-          return [];
-        }
-      }),
-    );
+    const results = await callMultipleAPIs(formattedQuery, apiCalls, TIMEOUT);
     const endTime = Date.now();
     this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
