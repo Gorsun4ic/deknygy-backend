@@ -34,6 +34,19 @@ export class AnalyticsController {
     return this.searchLogService.getUserSearchCount(BigInt(telegramId));
   }
 
+  @Post('log-unsuccessful-search')
+  logUnsuccessfulSearch(
+    @Body('telegramId') telegramId: bigint,
+    @Body('query') query: string,
+  ) {
+    return this.searchLogService.logUnsuccessfulSearch(telegramId, query);
+  }
+
+  @Get('unsuccessful-search-count/:telegramId')
+  getUnsuccessfulSearchCount(@Param('telegramId') telegramId: string) {
+    return this.searchLogService.getUnsuccessfulSearchCount(BigInt(telegramId));
+  }
+
   @Get('cache-logs/:queryId')
   getCacheLogsByQueryId(@Param('queryId') queryId: string) {
     return this.cacheLogService.getCacheLogsByQueryId(Number(queryId));
