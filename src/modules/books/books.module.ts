@@ -21,7 +21,8 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { SearchLogService } from '../analytics/services/user/search-log.service';
 import { SearchLogRepository } from '../analytics/repository/user/search-log.repository';
 import { CacheLogRepository } from '../analytics/repository/user/cache-log.repository';
-
+import { CacheLogService } from '../analytics/services/user/cache-log.service';
+import { AnalyticsModule } from '../analytics/analytics.module';
 @Module({
   imports: [
     YakabooApiModule,
@@ -40,6 +41,7 @@ import { CacheLogRepository } from '../analytics/repository/user/cache-log.repos
     ConfigModule,
     RedisModule,
     PrismaModule,
+    AnalyticsModule,
   ],
   controllers: [BooksController],
   providers: [
@@ -49,6 +51,7 @@ import { CacheLogRepository } from '../analytics/repository/user/cache-log.repos
     SearchLogService,
     SearchLogRepository,
     CacheLogRepository,
+    CacheLogService,
   ],
 })
 export class BooksModule {}

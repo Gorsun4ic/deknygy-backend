@@ -6,6 +6,7 @@ import { SearchLogService } from './services/user/search-log.service';
 import { SearchLogRepository } from './repository/user/search-log.repository';
 import { AnalyticsController } from './analytics.controller';
 import { CacheLogRepository } from './repository/user/cache-log.repository';
+import { CacheLogService } from './services/user/cache-log.service';
 
 @Module({
   imports: [PrismaModule],
@@ -17,6 +18,7 @@ import { CacheLogRepository } from './repository/user/cache-log.repository';
     SearchLogService,
     SearchLogRepository,
     CacheLogRepository,
+    CacheLogService,
   ],
   exports: [
     UserSessionActivityService,
@@ -24,6 +26,7 @@ import { CacheLogRepository } from './repository/user/cache-log.repository';
     SearchLogService,
     SearchLogRepository,
     CacheLogRepository,
+    CacheLogService,
   ],
 })
 export class AnalyticsModule {}

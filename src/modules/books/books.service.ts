@@ -26,7 +26,7 @@ import { getTitleWithoutAuthor } from './lib/getTitleWithoutAuthor';
 import { type ApiCall } from './interfaces/services.type';
 import { callMultipleAPIs } from './lib/callMultipleAPIs';
 import { uniqifyBooks } from './lib/unuiqifyBooks';
-import { CacheLogRepository } from '../analytics/repository/user/cache-log.repository';
+import { CacheLogService } from '../analytics/services/user/cache-log.service';
 
 @Injectable()
 export class BooksService {
@@ -48,7 +48,7 @@ export class BooksService {
     private readonly redisService: RedisService,
     private readonly booksRepository: BooksRepository,
     private readonly searchLogService: SearchLogService,
-    private readonly cacheLogRepository: CacheLogRepository,
+    private readonly cacheLogService: CacheLogService,
   ) {}
 
   // Search all APIs with error handling
@@ -75,7 +75,24 @@ export class BooksService {
     queryId: number,
     cacheKey: string,
   ) {
-    await this.booksRepository.saveBooks(books, queryId);
+    const savedBooks = await this.booksRepository.saveBooks(books, queryId);
+
+    // Log each saved book to CacheLog for technical/caching tracking
+    // This is done in parallel and errors are caught to not break the search flow
+    await Promise.allSettled(
+      savedBooks.map(async (book) => {
+        try {
+          await this.cacheLogService.logCacheLog(queryId, book.id);
+        } catch (error) {
+          this.logger.error(
+            `Failed to log cache entry for book ${book.id} and query ${queryId}: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          );
+        }
+      }),
+    );
+
     const cacheValue = resolveAndGroupBooks(books);
     await this.redisService.set(
       cacheKey,
