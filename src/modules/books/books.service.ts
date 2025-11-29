@@ -25,6 +25,7 @@ import { fuzzyMatching } from './lib/fuzzy-filtering/fuzzyMatching';
 import { getTitleWithoutAuthor } from './lib/getTitleWithoutAuthor';
 import { type ApiCall } from './interfaces/services.type';
 import { callMultipleAPIs } from './lib/callMultipleAPIs';
+import { uniqifyBooks } from './lib/unuiqifyBooks';
 
 @Injectable()
 export class BooksService {
@@ -92,18 +93,19 @@ export class BooksService {
       const bookTitles = authorBooks
         .map((book) => book.title)
         .filter((title) => title.length > 0);
-      return await Promise.all(
+
+      // Search for each book title and collect all results
+      const allBooksArrays = await Promise.all(
         bookTitles.map(async (bookTitle) => {
           const result = await callMultipleAPIs(bookTitle, this.apiCalls);
-          const cacheKey = `search:${bookTitle}`;
-          const queryId =
-            await this.booksRepository.getOrCreateQueryId(bookTitle);
-
           const fuzzyBooks = fuzzyMatching(bookTitle, result as IBookInfo[]);
-          await this.saveBooks(fuzzyBooks, queryId, cacheKey);
           return fuzzyBooks;
         }),
       );
+
+      // Flatten and deduplicate all books by link
+      const allBooks = allBooksArrays.flat();
+      return uniqifyBooks(allBooks);
     }
   }
 
@@ -115,20 +117,19 @@ export class BooksService {
       await this.booksRepository.getOrCreateQueryId(formattedQuery);
     this.logger.log(`[SEARCH START] Key: ${cacheKey}`);
 
-    let cached: string | null = null;
+    // let cached: string | null = null;
 
-    try {
-      cached = await this.redisService.get(cacheKey);
-    } catch (error) {
-      this.logger.error(
-        `Failed to retrieve from Redis. Proceeding without cache.`,
-        error instanceof Error ? error.message : String(error),
-      );
-    }
+    // try {
+    //   cached = await this.redisService.get(cacheKey);
+    // } catch (error) {
+    //   this.logger.error(
+    //     `Failed to retrieve from Redis. Proceeding without cache.`,
+    //     error instanceof Error ? error.message : String(error),
+    //   );
+    // }
 
-    // 2. ATTEMPT TO LOG SEARCH (Must not crash the entire function)
+    // 2. ATTEMPT TO LOG SEARCH
     try {
-      // This is the line that was crashing the function:
       await this.searchLogService.logSearch(telegramId, formattedQuery);
     } catch (error) {
       // Log the error but DO NOT return. Let the search continue.
@@ -136,7 +137,6 @@ export class BooksService {
         `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
         error,
       );
-      // We know the query is "not found", so we proceed.
     }
 
     // If cached - return cached result
@@ -154,11 +154,15 @@ export class BooksService {
         formattedQuery,
       );
 
-      if (!authorsBooks) {
-        return;
+      // Only return early if we actually found author books (query was only an author)
+      // If authorsBooks is undefined, it means the query had a title, so continue with regular search
+      if (authorsBooks && authorsBooks.length > 0) {
+        // Save all aggregated and deduplicated books once
+        await this.saveBooks(authorsBooks, queryId, cacheKey);
+        const endTime = Date.now();
+        this.logger.log(`Time taken: ${endTime - startTime}ms`);
+        return resolveAndGroupBooks(authorsBooks);
       }
-
-      return resolveAndGroupBooks(authorsBooks.flat());
     }
 
     this.logger.log(
