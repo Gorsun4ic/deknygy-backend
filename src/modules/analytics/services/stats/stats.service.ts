@@ -59,33 +59,37 @@ export class StatsService {
     };
   }
 
-  async getTotalUsersRegisteredToday() {
-    return await this.statsRepository.getTotalUsersRegisteredToday();
+  async getTotalSearchesForADay(date: Date) {
+    return await this.statsRepository.getTotalSearchesForADay(date);
   }
 
-  async getTotalSearchesToday() {
-    return await this.statsRepository.getTotalSearchesToday();
+  async getTotalFeedbacksForADay(date: Date) {
+    return await this.statsRepository.getTotalFeedbacksForADay(date);
   }
 
-  async getTotalFeedbacksToday() {
-    return await this.statsRepository.getTotalFeedbacksToday();
+  async getUsersRegisteredForADay(date: Date) {
+    return await this.statsRepository.getUsersRegisteredForADay(date);
   }
 
-  async getTodayNewUsersWhoMadeAQuery() {
-    return await this.statsRepository.getTodayNewUsersWhoMadeAQuery();
+  async getTotalUsersRegisteredForADayCount(date: Date) {
+    return await this.statsRepository.getTotalUsersRegisteredForADayCount(date);
   }
 
-  async getTotalStatsToday() {
-    const totalUsersRegisteredToday = await this.getTotalUsersRegisteredToday();
-    const totalSearches = await this.getTotalSearchesToday();
-    const totalFeedbacks = await this.getTotalFeedbacksToday();
-    const todayNewUsersWhoMadeAQuery =
-      await this.getTodayNewUsersWhoMadeAQuery();
+  async getDailyNewUsersWhoMadeAQuery(date: Date) {
+    return await this.statsRepository.getDailyNewUsersWhoMadeAQuery(date);
+  }
+
+  async getTotalStatsForADay(date: Date) {
+    const newUsers = await this.getTotalUsersRegisteredForADayCount(date);
+    const searches = await this.getTotalSearchesForADay(date);
+    const feedbacks = await this.getTotalFeedbacksForADay(date);
+    const newUsersWhoMadeAQuery =
+      await this.getDailyNewUsersWhoMadeAQuery(date);
     return {
-      newUsers: totalUsersRegisteredToday,
-      searches: totalSearches,
-      feedbacks: totalFeedbacks,
-      newUsersWhoMadeAQuery: todayNewUsersWhoMadeAQuery,
+      newUsers,
+      searches,
+      feedbacks,
+      newUsersWhoMadeAQuery,
     };
   }
 

@@ -68,9 +68,16 @@ export class AnalyticsController {
     return this.statsService.getTotalStats();
   }
 
+  @Get('stats/day/:date')
+  getTotalStatsForADay(@Param('date') dateParam: string) {
+    const date = new Date(dateParam);
+    date.setHours(0, 0, 0, 0);
+    return this.statsService.getTotalStatsForADay(date);
+  }
+
   @Get('stats/today')
-  getTotalStatsToday() {
-    return this.statsService.getTotalStatsToday();
+  getTotalStatsForToday() {
+    return this.statsService.getTotalStatsForADay(new Date(Date.now()));
   }
 
   @Get('last-queries/:n')
