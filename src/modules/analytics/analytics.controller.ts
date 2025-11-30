@@ -77,4 +77,9 @@ export class AnalyticsController {
   getLastNQueries(@Param('n') n: string) {
     return this.searchLogService.getLastNQueries(Number(n));
   }
+
+  @Get('top-queries/:n')
+  getTopQueries(@Param('n') n: string) {
+    return this.searchLogService.getTopQueries(Number(n));
+  }
 }
