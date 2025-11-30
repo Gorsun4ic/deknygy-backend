@@ -148,9 +148,22 @@ export class StatsRepository {
   }
 
   async getLastNFeedbacks(n: number) {
-    return this.prisma.feedback.findMany({
+    const lastNFeedbacks = await this.prisma.feedback.findMany({
       orderBy: { createdAt: 'desc' },
       take: n,
+    });
+    const users = await this.prisma.user.findMany({
+      where: {
+        id: {
+          in: lastNFeedbacks.map((feedback) => feedback.userId),
+        },
+      },
+    });
+    return lastNFeedbacks.map((feedback) => {
+      return {
+        ...feedback,
+        username: users.find((user) => user.id === feedback.userId)?.username,
+      };
     });
   }
 
