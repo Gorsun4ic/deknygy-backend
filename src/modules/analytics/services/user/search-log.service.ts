@@ -64,4 +64,16 @@ export class SearchLogService {
       };
     });
   }
+
+  async getUserHistory(
+    telegramId: bigint,
+    page: number = 1,
+    limit: number = 10,
+  ) {
+    return await this.searchLogRepository.getUserHistory(
+      telegramId,
+      page,
+      limit,
+    );
+  }
 }

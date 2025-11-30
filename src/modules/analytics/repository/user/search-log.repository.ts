@@ -137,4 +137,52 @@ export class SearchLogRepository {
       take: n,
     });
   }
+
+  async getUserHistory(
+    telegramId: bigint,
+    page: number = 1,
+    limit: number = 10,
+  ) {
+    const user = await this.prisma.user.findUnique({ where: { telegramId } });
+    if (!user)
+      throw new NotFoundException(
+        `User with telegramId ${telegramId} not found`,
+      );
+
+    // Ensure page is a valid number and at least 1
+    const pageNumber = Math.max(1, Number(page) || 1);
+    // Ensure limit is a valid number, at least 1 and at most 100
+    const pageSize = Math.min(Math.max(1, Number(limit) || 10), 100);
+    const skip = (pageNumber - 1) * pageSize;
+
+    const [data, total] = await Promise.all([
+      this.prisma.searchLog.findMany({
+        where: { userId: user.id },
+        include: { query: true },
+        orderBy: { searchedAt: 'desc' },
+        skip,
+        take: pageSize,
+      }),
+      this.prisma.searchLog.count({
+        where: { userId: user.id },
+      }),
+    ]);
+
+    const totalPages = Math.ceil(total / pageSize);
+    const hasNextPage = pageNumber < totalPages;
+    const hasPreviousPage = pageNumber > 1;
+
+    return {
+      username: user.username,
+      data,
+      pagination: {
+        page: pageNumber,
+        limit: pageSize,
+        total,
+        totalPages,
+        hasNextPage,
+        hasPreviousPage,
+      },
+    };
+  }
 }
