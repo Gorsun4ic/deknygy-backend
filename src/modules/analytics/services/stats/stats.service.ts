@@ -96,4 +96,15 @@ export class StatsService {
   async getLastNFeedbacks(n: number) {
     return await this.statsRepository.getLastNFeedbacks(n);
   }
+
+  async getTopUsersBySearches(n: number) {
+    const logs = await this.statsRepository.getTopUsersBySearches(n);
+    return logs.map((log) => {
+      return {
+        telegramId: log.telegramId,
+        username: log.username,
+        count: log._count.searchLogs,
+      };
+    });
+  }
 }

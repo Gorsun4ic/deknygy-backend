@@ -124,4 +124,9 @@ export class AnalyticsController {
       limitNumber,
     );
   }
+
+  @Get('top-users/:n')
+  getTopUsersBySearches(@Param('n') n: string) {
+    return this.statsService.getTopUsersBySearches(Number(n));
+  }
 }
