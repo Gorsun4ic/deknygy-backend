@@ -105,4 +105,14 @@ export class StatsRepository {
       take: n,
     });
   }
+
+  async getTodayNewUsersWhoMadeAQuery() {
+    return this.prisma.user.count({
+      where: {
+        firstSeen: {
+          gte: new Date(Date.now() - this.ONE_DAY),
+        },
+      },
+    });
+  }
 }

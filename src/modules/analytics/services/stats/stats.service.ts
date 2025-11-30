@@ -70,14 +70,22 @@ export class StatsService {
   async getTotalFeedbacksToday() {
     return await this.statsRepository.getTotalFeedbacksToday();
   }
+
+  async getTodayNewUsersWhoMadeAQuery() {
+    return await this.statsRepository.getTodayNewUsersWhoMadeAQuery();
+  }
+
   async getTotalStatsToday() {
     const totalUsersRegisteredToday = await this.getTotalUsersRegisteredToday();
     const totalSearches = await this.getTotalSearchesToday();
     const totalFeedbacks = await this.getTotalFeedbacksToday();
+    const todayNewUsersWhoMadeAQuery =
+      await this.getTodayNewUsersWhoMadeAQuery();
     return {
-      totalUsersRegisteredToday,
-      totalSearches,
-      totalFeedbacks,
+      newUsers: totalUsersRegisteredToday,
+      searches: totalSearches,
+      feedbacks: totalFeedbacks,
+      newUsersWhoMadeAQuery: todayNewUsersWhoMadeAQuery,
     };
   }
 
