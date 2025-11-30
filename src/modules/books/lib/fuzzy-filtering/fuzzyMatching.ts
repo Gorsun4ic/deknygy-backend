@@ -15,7 +15,13 @@ import { getUniqueAuthors } from '../../utils/genUniqueAuthors';
 export const fuzzyMatching = (
   query: string,
   booksArr: IBookInfo[],
+  author?: string,
 ): IBookInfo[] => {
+  if (!author) {
+    author = '';
+  } else {
+    console.log(author);
+  }
   const books = booksArr.filter((result) => Array.isArray(result)).flat();
   const normalizedBooks = normalizeBookData(books);
   const uniqueAuthors = getUniqueAuthors(books);
@@ -48,12 +54,15 @@ export const fuzzyMatching = (
       manualResults,
       queryWithoutAuthor,
       queryTitle,
-      queryAuthor,
+      queryAuthor || author,
     );
   }
 
-  const res = scoreBooks(results, queryWithoutAuthor, queryTitle, queryAuthor);
-
   // Use the extracted scoring function
-  return res;
+  return scoreBooks(
+    results,
+    queryWithoutAuthor,
+    queryTitle,
+    queryAuthor || author,
+  );
 };
