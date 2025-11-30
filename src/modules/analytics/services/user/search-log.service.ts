@@ -49,4 +49,8 @@ export class SearchLogService {
         ),
     };
   }
+
+  async getLastNQueries(n: number) {
+    return await this.searchLogRepository.getLastNQueries(n);
+  }
 }
