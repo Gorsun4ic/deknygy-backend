@@ -98,4 +98,11 @@ export class StatsRepository {
       },
     });
   }
+
+  async getLastNFeedbacks(n: number) {
+    return this.prisma.feedback.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: n,
+    });
+  }
 }

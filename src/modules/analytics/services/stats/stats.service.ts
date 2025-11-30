@@ -80,4 +80,8 @@ export class StatsService {
       totalFeedbacks,
     };
   }
+
+  async getLastNFeedbacks(n: number) {
+    return await this.statsRepository.getLastNFeedbacks(n);
+  }
 }
