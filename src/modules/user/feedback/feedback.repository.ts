@@ -51,10 +51,16 @@ export class UserFeedbackRepository {
     if (!user) {
       throw new Error(`User with telegramId ${userId} not found`);
     }
-    return this.prisma.feedback.findMany({
+    const feedbacks = await this.prisma.feedback.findMany({
       where: { userId: user.id },
       include: { category: true },
       orderBy: { createdAt: 'desc' },
+    });
+    return feedbacks.map((feedback) => {
+      return {
+        ...feedback,
+        username: user.username,
+      };
     });
   }
 

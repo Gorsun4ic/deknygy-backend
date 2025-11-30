@@ -73,7 +73,7 @@ export class AnalyticsController {
     return this.statsService.getTotalStatsToday();
   }
 
-  @Get('last-n-queries/:n')
+  @Get('last-queries/:n')
   getLastNQueries(@Param('n') n: string) {
     return this.searchLogService.getLastNQueries(Number(n));
   }
@@ -81,5 +81,10 @@ export class AnalyticsController {
   @Get('top-queries/:n')
   getTopQueries(@Param('n') n: string) {
     return this.searchLogService.getTopQueries(Number(n));
+  }
+
+  @Get('last-feedbacks/:n')
+  getLastNFeedbacks(@Param('n') n: string) {
+    return this.statsService.getLastNFeedbacks(Number(n));
   }
 }
