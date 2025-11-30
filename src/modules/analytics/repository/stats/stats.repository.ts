@@ -219,4 +219,39 @@ export class StatsRepository {
       take: n,
     });
   }
+
+  /**
+   * Get distribution of users by number of searches they made.
+   * Returns an array of { searchCount, userCount } where:
+   * - searchCount: number of searches made
+   * - userCount: number of users who made that many searches
+   *
+   * Example: [{ searchCount: 1, userCount: 100 }, { searchCount: 2, userCount: 50 }]
+   * means 100 users made 1 search, 50 users made 2 searches.
+   */
+  async getUsersBySearchCount() {
+    // Group search logs by userId and count searches per user
+    const userSearchCounts = await this.prisma.searchLog.groupBy({
+      by: ['userId'],
+      _count: {
+        id: true,
+      },
+    });
+
+    // Count how many users made each number of searches
+    const distribution: Record<number, number> = {};
+
+    for (const user of userSearchCounts) {
+      const searchCount = user._count.id;
+      distribution[searchCount] = (distribution[searchCount] || 0) + 1;
+    }
+
+    // Convert to array and sort by searchCount
+    return Object.entries(distribution)
+      .map(([searchCount, userCount]) => ({
+        searchCount: parseInt(searchCount, 10),
+        userCount,
+      }))
+      .sort((a, b) => a.searchCount - b.searchCount);
+  }
 }
