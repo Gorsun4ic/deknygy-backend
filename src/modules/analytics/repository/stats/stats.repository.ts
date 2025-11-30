@@ -71,53 +71,77 @@ export class StatsRepository {
     return this.prisma.user.findUnique({ where: { id: userId } });
   }
 
-  async getTotalSearchesForADay(date?: Date) {
-    const startDate = date || this.TODAY;
-    // Ensure the date is a proper Date object and set to start of day
-    const normalizedDate = new Date(startDate);
-    normalizedDate.setHours(0, 0, 0, 0);
+  async getTotalSearchesForADay(date: Date) {
+    // Set to start of the day (00:00:00)
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    // Set to start of the next day (00:00:00)
+    const startOfNextDay = new Date(startOfDay);
+    startOfNextDay.setDate(startOfNextDay.getDate() + 1);
 
     return this.prisma.searchLog.count({
       where: {
         searchedAt: {
-          gte: normalizedDate,
+          gte: startOfDay,
+          lt: startOfNextDay,
         },
       },
     });
   }
 
-  async getTotalFeedbacksForADay(date?: Date) {
-    const startDate = date || this.TODAY;
-    // Ensure the date is a proper Date object and set to start of day
-    const normalizedDate = new Date(startDate);
-    normalizedDate.setHours(0, 0, 0, 0);
+  async getTotalFeedbacksForADay(date: Date) {
+    // Set to start of the day (00:00:00)
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    // Set to start of the next day (00:00:00)
+    const startOfNextDay = new Date(startOfDay);
+    startOfNextDay.setDate(startOfNextDay.getDate() + 1);
 
     return this.prisma.feedback.count({
       where: {
         createdAt: {
-          gte: normalizedDate,
+          gte: startOfDay,
+          lt: startOfNextDay,
         },
       },
     });
   }
 
   async getTotalUsersRegisteredForADayCount(date: Date) {
-    date.setHours(0, 0, 0, 0);
+    // Set to start of the day (00:00:00)
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    // Set to start of the next day (00:00:00)
+    const startOfNextDay = new Date(startOfDay);
+    startOfNextDay.setDate(startOfNextDay.getDate() + 1);
 
     return this.prisma.user.count({
       where: {
         firstSeen: {
-          gte: date,
+          gte: startOfDay,
+          lt: startOfNextDay,
         },
       },
     });
   }
 
   async getUsersRegisteredForADay(date: Date) {
+    // Set to start of the day (00:00:00)
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    // Set to start of the next day (00:00:00)
+    const startOfNextDay = new Date(startOfDay);
+    startOfNextDay.setDate(startOfNextDay.getDate() + 1);
+
     return await this.prisma.user.findMany({
       where: {
         firstSeen: {
-          gte: date,
+          gte: startOfDay,
+          lt: startOfNextDay,
         },
       },
     });
