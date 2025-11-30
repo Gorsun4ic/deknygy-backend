@@ -128,7 +128,12 @@ export class BooksService {
       return uniqifyBooks(allBooks);
     } else {
       const result = await callMultipleAPIs(title, this.apiCalls);
-      const fuzzyBooks = fuzzyMatching(title, result as IBookInfo[]).flat();
+      const author = query.replace(title, '').trim();
+      const fuzzyBooks = fuzzyMatching(
+        title,
+        result as IBookInfo[],
+        author,
+      ).flat();
       return uniqifyBooks(fuzzyBooks);
     }
   }
