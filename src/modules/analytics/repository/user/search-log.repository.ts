@@ -122,4 +122,19 @@ export class SearchLogRepository {
       take: n,
     });
   }
+
+  async getTopQueries(n: number) {
+    return await this.prisma.query.findMany({
+      select: {
+        query: true,
+        _count: {
+          select: {
+            searchLogs: true,
+          },
+        },
+      },
+      orderBy: { searchLogs: { _count: 'desc' } },
+      take: n,
+    });
+  }
 }
