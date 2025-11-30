@@ -70,10 +70,20 @@ export class SearchLogService {
     page: number = 1,
     limit: number = 10,
   ) {
-    return await this.searchLogRepository.getUserHistory(
+    const userHistory = await this.searchLogRepository.getUserHistory(
       telegramId,
       page,
       limit,
     );
+    const formatedUserHistory = userHistory.data.map((searchLog) => {
+      return {
+        ...searchLog,
+        query: upFirstLetter(searchLog.query.query),
+      };
+    });
+    return {
+      ...userHistory,
+      data: formatedUserHistory,
+    };
   }
 }
