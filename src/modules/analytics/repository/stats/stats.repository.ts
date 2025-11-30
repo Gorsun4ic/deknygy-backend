@@ -162,6 +162,8 @@ export class StatsRepository {
     return lastNFeedbacks.map((feedback) => {
       return {
         ...feedback,
+        telegramId: users.find((user) => user.id === feedback.userId)
+          ?.telegramId,
         username: users.find((user) => user.id === feedback.userId)?.username,
       };
     });
