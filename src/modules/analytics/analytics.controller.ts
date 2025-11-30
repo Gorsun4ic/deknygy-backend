@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Query } from '@nestjs/common';
 import { UserSessionActivityService } from './services/user/session.service';
 import { SearchLogService } from './services/user/search-log.service';
 import { CacheLogService } from '../analytics/services/user/cache-log.service';
@@ -93,5 +93,35 @@ export class AnalyticsController {
   @Get('last-feedbacks/:n')
   getLastNFeedbacks(@Param('n') n: string) {
     return this.statsService.getLastNFeedbacks(Number(n));
+  }
+
+  @Get('user-history/:telegramId')
+  getUserHistory(
+    @Param('telegramId') telegramId: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    // Parse and validate page (default: 1)
+    const pageNumber = page ? parseInt(page, 10) : 1;
+    // Parse and validate limit (default: 10)
+    const limitNumber = limit ? parseInt(limit, 10) : 10;
+
+    // Validate that the numbers are valid integers
+    if (
+      isNaN(pageNumber) ||
+      pageNumber < 1 ||
+      isNaN(limitNumber) ||
+      limitNumber < 1
+    ) {
+      throw new Error(
+        'Invalid page or limit parameter. Both must be positive integers.',
+      );
+    }
+
+    return this.searchLogService.getUserHistory(
+      BigInt(telegramId),
+      pageNumber,
+      limitNumber,
+    );
   }
 }
