@@ -187,4 +187,21 @@ export class StatsRepository {
       newUsersWhoMadeAQuery,
     };
   }
+
+  async getTopUsersBySearches(n: number) {
+    return this.prisma.user.findMany({
+      orderBy: { searchLogs: { _count: 'desc' } },
+      select: {
+        id: true,
+        telegramId: true,
+        username: true,
+        _count: {
+          select: {
+            searchLogs: true,
+          },
+        },
+      },
+      take: n,
+    });
+  }
 }
