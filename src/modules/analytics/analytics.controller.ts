@@ -72,4 +72,9 @@ export class AnalyticsController {
   getTotalStatsToday() {
     return this.statsService.getTotalStatsToday();
   }
+
+  @Get('last-n-queries/:n')
+  getLastNQueries(@Param('n') n: string) {
+    return this.searchLogService.getLastNQueries(Number(n));
+  }
 }

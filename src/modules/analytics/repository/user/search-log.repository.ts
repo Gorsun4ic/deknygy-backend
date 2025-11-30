@@ -114,4 +114,12 @@ export class SearchLogRepository {
 
     return searchesSinceLastUnsuccessful;
   }
+
+  async getLastNQueries(n: number) {
+    return await this.prisma.searchLog.findMany({
+      include: { query: true },
+      orderBy: { searchedAt: 'desc' },
+      take: n,
+    });
+  }
 }
