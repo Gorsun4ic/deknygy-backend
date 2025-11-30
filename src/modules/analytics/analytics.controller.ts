@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { UserSessionActivityService } from './services/user/session.service';
 import { SearchLogService } from './services/user/search-log.service';
 import { CacheLogService } from '../analytics/services/user/cache-log.service';
+import { StatsService } from './services/stats/stats.service';
 
 @Controller('analytics')
 export class AnalyticsController {
@@ -9,6 +10,7 @@ export class AnalyticsController {
     private readonly userSessionActivityService: UserSessionActivityService,
     private readonly searchLogService: SearchLogService,
     private readonly cacheLogService: CacheLogService,
+    private readonly statsService: StatsService,
   ) {}
 
   @Post('track-session')
@@ -59,5 +61,15 @@ export class AnalyticsController {
   @Get('cache-logs/:queryId')
   getCacheLogsByQueryId(@Param('queryId') queryId: string) {
     return this.cacheLogService.getCacheLogsByQueryId(Number(queryId));
+  }
+
+  @Get('stats')
+  getTotalStats() {
+    return this.statsService.getTotalStats();
+  }
+
+  @Get('stats/today')
+  getTotalStatsToday() {
+    return this.statsService.getTotalStatsToday();
   }
 }
