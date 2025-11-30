@@ -129,4 +129,9 @@ export class AnalyticsController {
   getTopUsersBySearches(@Param('n') n: string) {
     return this.statsService.getTopUsersBySearches(Number(n));
   }
+
+  @Get('users-by-search-count')
+  getUsersBySearchCount() {
+    return this.statsService.getUsersBySearchCount();
+  }
 }

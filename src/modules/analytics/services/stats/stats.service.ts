@@ -107,4 +107,8 @@ export class StatsService {
       };
     });
   }
+
+  async getUsersBySearchCount() {
+    return await this.statsRepository.getUsersBySearchCount();
+  }
 }
