@@ -6,6 +6,8 @@ export class StatsRepository {
   constructor(private readonly prisma: PrismaService) {}
   private readonly ONE_HOUR = 1 * 60 * 60 * 1000;
   private readonly ONE_DAY = 1 * 24 * 60 * 60 * 1000;
+  private readonly ONE_MONTH = 30 * 24 * 60 * 60 * 1000;
+  private readonly TODAY = new Date(Date.now() - this.ONE_DAY);
 
   async getTotalUsers() {
     return this.prisma.user.count();
@@ -69,31 +71,53 @@ export class StatsRepository {
     return this.prisma.user.findUnique({ where: { id: userId } });
   }
 
-  async getTotalSearchesToday() {
+  async getTotalSearchesForADay(date?: Date) {
+    const startDate = date || this.TODAY;
+    // Ensure the date is a proper Date object and set to start of day
+    const normalizedDate = new Date(startDate);
+    normalizedDate.setHours(0, 0, 0, 0);
+
     return this.prisma.searchLog.count({
       where: {
         searchedAt: {
-          gte: new Date(Date.now() - this.ONE_DAY),
+          gte: normalizedDate,
         },
       },
     });
   }
 
-  async getTotalFeedbacksToday() {
+  async getTotalFeedbacksForADay(date?: Date) {
+    const startDate = date || this.TODAY;
+    // Ensure the date is a proper Date object and set to start of day
+    const normalizedDate = new Date(startDate);
+    normalizedDate.setHours(0, 0, 0, 0);
+
     return this.prisma.feedback.count({
       where: {
         createdAt: {
-          gte: new Date(Date.now() - this.ONE_DAY),
+          gte: normalizedDate,
         },
       },
     });
   }
 
-  async getTotalUsersRegisteredToday() {
+  async getTotalUsersRegisteredForADayCount(date: Date) {
+    date.setHours(0, 0, 0, 0);
+
     return this.prisma.user.count({
       where: {
         firstSeen: {
-          gte: new Date(Date.now() - this.ONE_DAY),
+          gte: date,
+        },
+      },
+    });
+  }
+
+  async getUsersRegisteredForADay(date: Date) {
+    return await this.prisma.user.findMany({
+      where: {
+        firstSeen: {
+          gte: date,
         },
       },
     });
@@ -106,13 +130,37 @@ export class StatsRepository {
     });
   }
 
-  async getTodayNewUsersWhoMadeAQuery() {
-    return this.prisma.user.count({
+  async getDailyNewUsersWhoMadeAQuery(date: Date) {
+    const users = await this.getUsersRegisteredForADay(date);
+    if (users.length === 0) {
+      return 0;
+    }
+
+    // Get distinct user IDs who made at least one search
+    const userSearchCounts = await this.prisma.searchLog.groupBy({
+      by: ['userId'],
       where: {
-        firstSeen: {
-          gte: new Date(Date.now() - this.ONE_DAY),
+        userId: {
+          in: users.map((user) => user.id),
         },
       },
     });
+
+    // Return the count of distinct users who made searches
+    return userSearchCounts.length;
+  }
+
+  async getStatsForADay(date: Date) {
+    const newUsers = await this.getTotalUsersRegisteredForADayCount(date);
+    const searches = await this.getTotalSearchesForADay(date);
+    const feedbacks = await this.getTotalFeedbacksForADay(date);
+    const newUsersWhoMadeAQuery =
+      await this.getDailyNewUsersWhoMadeAQuery(date);
+    return {
+      newUsers,
+      searches,
+      feedbacks,
+      newUsersWhoMadeAQuery,
+    };
   }
 }
