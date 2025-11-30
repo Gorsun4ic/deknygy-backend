@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SearchLogRepository } from '../../repository/user/search-log.repository';
+import { upFirstLetter } from '../../../common/utils/upFirstLetter';
 
 @Injectable()
 export class SearchLogService {
@@ -48,5 +49,19 @@ export class SearchLogService {
           telegramId,
         ),
     };
+  }
+
+  async getLastNQueries(n: number) {
+    return await this.searchLogRepository.getLastNQueries(n);
+  }
+
+  async getTopQueries(n: number) {
+    const topQueries = await this.searchLogRepository.getTopQueries(n);
+    return topQueries.map((query) => {
+      return {
+        query: upFirstLetter(query.query),
+        count: query._count.searchLogs,
+      };
+    });
   }
 }
