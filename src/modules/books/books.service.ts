@@ -193,10 +193,10 @@ export class BooksService {
     }
 
     // If cached - return cached result
-    if (cached) {
-      this.logger.log('Redis cache hit');
-      return JSON.parse(cached) as IBookInfo[];
-    }
+    // if (cached) {
+    //   this.logger.log('Redis cache hit');
+    //   return JSON.parse(cached) as IBookInfo[];
+    // }
 
     if (probablyIsbn) {
       const isbn = removeSymbolsExceptNumbers(query);
@@ -259,7 +259,7 @@ export class BooksService {
     this.logger.log(`Time taken: ${endTime - startTime}ms`);
 
     await this.saveBooks(fuzzyBooks, queryId, cacheKey);
-    this.logger.log(resolveAndGroupBooks(fuzzyBooks));
+    // this.logger.log(resolveAndGroupBooks(fuzzyBooks));
     const result = resolveAndGroupBooks(fuzzyBooks);
     if (result.length === 0) {
       await this.searchLogService.logUnsuccessfulSearch(

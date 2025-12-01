@@ -16,4 +16,5 @@ export interface IBookInfo {
   isbn?: string | null;
   publisher?: string | null;
   optionId?: number;
+  _titleSimilarity?: number;
 }
