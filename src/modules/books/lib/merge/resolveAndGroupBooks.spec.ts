@@ -68,10 +68,12 @@ describe('resolveAndGroupBooks', () => {
   const mockGroup1: IBookGroup = {
     variants: new Map([['Title 1', 5]]),
     formats: { 1: [mockBooks[0]], 2: [], 3: [] },
+    similarity: 0,
   };
   const mockGroup2: IBookGroup = {
     variants: new Map([['Title 2', 10]]),
     formats: { 1: [], 2: [mockBooks[1]], 3: [mockBooks[2]] },
+    similarity: 0,
   };
 
   beforeEach(() => {

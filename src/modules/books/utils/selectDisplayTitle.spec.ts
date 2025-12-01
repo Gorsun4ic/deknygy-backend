@@ -7,6 +7,7 @@ describe('selectDisplayTitle', () => {
     // formats are not needed for this test, so we provide minimal mock data
     formats: { 1: [], 2: [], 3: [] },
     variants: new Map(variants),
+    similarity: 0,
   });
 
   // Test Case 1: Highest count wins even if title is shorter (Count priority)

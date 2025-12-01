@@ -29,6 +29,7 @@ describe('addBookToGroup', () => {
         2: [],
         3: [],
       },
+      similarity: 0,
     };
 
     book = {

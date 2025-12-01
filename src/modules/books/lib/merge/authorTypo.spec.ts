@@ -30,6 +30,7 @@ const emptyFormats = (): Record<Exclude<FormatType, 0>, IBookInfo[]> =>
 export const mockGroup = (variantKeys: string[]): IBookGroup => ({
   variants: new Map(variantKeys.map((key) => [key, 1])),
   formats: emptyFormats(),
+  similarity: 0,
 });
 
 describe('mergeAuthorTypoGroups', () => {
