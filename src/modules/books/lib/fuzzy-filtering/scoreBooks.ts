@@ -126,7 +126,5 @@ export const scoreBooks = (
   });
 
   // Sort by best score and remove temporary _titleSimilarity property
-  return highMatch
-    .sort((a, b) => b.score - a.score)
-    .map(({ _titleSimilarity, ...book }) => book);
+  return highMatch.sort((a, b) => b.score - a.score).map((book) => book);
 };

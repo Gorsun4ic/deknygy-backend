@@ -9,4 +9,5 @@ import { type FormatType } from 'src/modules/common/interfaces/api/book.info';
 export interface IBookGroup {
   variants: Map<string, number>;
   formats: Record<Exclude<FormatType, 0>, IBookInfo[]>;
+  similarity: number;
 }
