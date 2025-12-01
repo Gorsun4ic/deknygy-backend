@@ -47,10 +47,24 @@ export const mergeTitleSubstring = (
         sourceCoreTitle.length < destCoreTitle.length
           ? destCoreTitle
           : sourceCoreTitle;
-      // Only consider it a substring match if lengths are different
+      const lengthDiff = longer.length - shorter.length;
+
+      // Calculate similarity first (needed for substring validation)
+      const similarity = stringSimilarity(sourceCoreTitle, destCoreTitle);
+
+      // Only consider it a substring match if:
+      // 1. Lengths are different
+      // 2. Longer starts with shorter (in normalized form)
+      // 3. Length difference is significant (>= 3 chars)
+      // 4. Similarity is high enough (prevents merging different words like "інститут" vs "інститутка")
+      //    This ensures substring matches are actually related titles, not just word prefixes
       const isSubstring =
         sourceCoreTitle.length !== destCoreTitle.length &&
-        longer.startsWith(shorter);
+        longer.startsWith(shorter) &&
+        lengthDiff >= 3 &&
+        similarity >= threshold;
+
+      console.log('isSubstring', isSubstring, sourceCoreTitle, destCoreTitle);
 
       // Also check if first 2 words match (for normalized titles without punctuation)
       // But only if one title is significantly longer (indicating subtitle/description)
@@ -66,8 +80,6 @@ export const mergeTitleSubstring = (
         sourceWords[0] === destWords[0] &&
         sourceWords[1] === destWords[1];
 
-      // Calculate similarity for cases where neither is a substring
-      const similarity = stringSimilarity(sourceCoreTitle, destCoreTitle);
       const areTitlesTheSame =
         isSubstring || firstWordsMatch || similarity >= threshold;
       const areAuthorsPresent = sourceAuthor && destAuthor; // Check if both authors are present

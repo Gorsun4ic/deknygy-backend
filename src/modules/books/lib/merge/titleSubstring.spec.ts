@@ -36,9 +36,21 @@ describe('mergeTitleSubstring', () => {
   const KEY_B_CONTROL = `${TITLE_B}___Author 3`; // Control: should NOT merge with A
 
   const testMap: TempMap = {
-    [KEY_A_SOURCE]: { variants: new Map(), formats: { 1: [], 2: [], 3: [] } },
-    [KEY_A_DEST]: { variants: new Map(), formats: { 1: [], 2: [], 3: [] } },
-    [KEY_B_CONTROL]: { variants: new Map(), formats: { 1: [], 2: [], 3: [] } },
+    [KEY_A_SOURCE]: {
+      variants: new Map(),
+      formats: { 1: [], 2: [], 3: [] },
+      similarity: 0,
+    },
+    [KEY_A_DEST]: {
+      variants: new Map(),
+      formats: { 1: [], 2: [], 3: [] },
+      similarity: 0,
+    },
+    [KEY_B_CONTROL]: {
+      variants: new Map(),
+      formats: { 1: [], 2: [], 3: [] },
+      similarity: 0,
+    },
   };
 
   beforeEach(() => {
@@ -76,5 +88,4 @@ describe('mergeTitleSubstring', () => {
     // Expected: No merges found.
     expect(merges).toEqual([]);
   });
-
 });

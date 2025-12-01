@@ -18,7 +18,10 @@ import { mergeTitleSubstring } from './titleSubstring';
  */
 export function resolveAndGroupBooks(
   books: IBookInfo[],
-): Record<string, Record<Exclude<FormatType, 0>, IBookInfo[]>>[] {
+): Record<
+  string,
+  { books: Record<Exclude<FormatType, 0>, IBookInfo[]>; similarity: number }
+>[] {
   const tempMap: TempMap = {};
 
   // 1. Initial Grouping Pass
@@ -29,6 +32,7 @@ export function resolveAndGroupBooks(
       tempMap[key] = {
         variants: new Map(),
         formats: { 1: [], 2: [], 3: [] },
+        similarity: book._titleSimilarity ?? 0,
       };
     }
     // Use format, defaulting to 1 (Print) if missing or invalid.
@@ -43,13 +47,23 @@ export function resolveAndGroupBooks(
   mergeTitleSubstring(tempMap);
 
   // 3. Final Output Generation
-  const result: Record<string, Record<Exclude<FormatType, 0>, IBookInfo[]>>[] =
-    [];
+  const result: Record<
+    string,
+    { books: Record<Exclude<FormatType, 0>, IBookInfo[]>; similarity: number }
+  >[] = [];
   for (const group of Object.values(tempMap)) {
     // Select the best title variant to use as the key for the final output.
     const displayTitle = selectDisplayTitle(group);
-    result.push({ [displayTitle]: group.formats });
+
+    result.push({
+      [displayTitle]: {
+        books: group.formats,
+        similarity: group.similarity,
+      },
+    });
   }
 
-  return result;
+  return result.sort(
+    (a, b) => Object.values(b)[0].similarity - Object.values(a)[0].similarity,
+  );
 }

@@ -59,6 +59,7 @@ describe('mergeGroups', () => {
           ['var1', 5],
           ['var2', 2],
         ]),
+        similarity: 0,
       },
       GroupB: {
         formats: {
@@ -70,10 +71,12 @@ describe('mergeGroups', () => {
           ['var1', 3],
           ['var3', 10],
         ]),
+        similarity: 0,
       },
       GroupC: {
         formats: { 1: [], 2: [], 3: [] },
         variants: new Map(),
+        similarity: 0,
       },
     };
   });
@@ -130,6 +133,7 @@ describe('mergeGroups', () => {
     tempMap['GroupD'] = {
       formats: { 1: [book3], 2: [], 3: [] },
       variants: new Map([['var4', 7]]),
+      similarity: 0,
     };
 
     const merges: [string, string][] = [

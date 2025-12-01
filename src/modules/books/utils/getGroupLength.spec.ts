@@ -47,6 +47,7 @@ describe('Book Grouping Utility Functions', () => {
   const mockGroup: IBookGroup = {
     variants: new Map(), // Unused for these tests
     formats: complexFormats,
+    similarity: 0,
   };
 
   describe('getFormatLength', () => {
@@ -81,6 +82,7 @@ describe('Book Grouping Utility Functions', () => {
           2: [],
           3: [],
         },
+        similarity: 0,
       };
       // Expected: 1 + 0 + 0 = 1
       expect(getGroupLength(singleFormatGroup)).toBe(1);
@@ -90,6 +92,7 @@ describe('Book Grouping Utility Functions', () => {
       const emptyGroup: IBookGroup = {
         variants: new Map(),
         formats: emptyFormats,
+        similarity: 0,
       };
       // Expected: 0 + 0 + 0 = 0
       expect(getGroupLength(emptyGroup)).toBe(0);
