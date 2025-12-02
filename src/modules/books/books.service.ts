@@ -52,6 +52,32 @@ export class BooksService {
     private readonly cacheLogService: CacheLogService,
   ) {}
 
+  /**
+   * Extracts all book links from the grouped search results
+   */
+  private extractBookLinks(
+    groupedResults: Record<
+      string,
+      { books: Record<1 | 2 | 3, IBookInfo[]>; similarity: number }
+    >[],
+  ): string[] {
+    const links: string[] = [];
+    for (const group of groupedResults) {
+      for (const groupData of Object.values(group)) {
+        // Iterate through all format types (1, 2, 3)
+        for (const formatType of [1, 2, 3] as const) {
+          const books = groupData.books[formatType] || [];
+          for (const book of books) {
+            if (book.link) {
+              links.push(book.link);
+            }
+          }
+        }
+      }
+    }
+    return [...new Set(links)]; // Remove duplicates
+  }
+
   // Search all APIs with error handling
   private get apiCalls(): ApiCall[] {
     return [
@@ -181,21 +207,51 @@ export class BooksService {
       );
     }
 
-    // 2. ATTEMPT TO LOG SEARCH
-    try {
-      await this.searchLogService.logSearch(telegramId, formattedQuery);
-    } catch (error) {
-      // Log the error but DO NOT return. Let the search continue.
-      this.logger.error(
-        `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
-        error,
-      );
-    }
-
-    // If cached - return cached result
+    // If cached - return cached result and log search
     if (cached) {
       this.logger.log('Redis cache hit');
-      return JSON.parse(cached) as IBookInfo[];
+      const cachedResult = JSON.parse(cached) as Record<
+        string,
+        { books: Record<1 | 2 | 3, IBookInfo[]>; similarity: number }
+      >[];
+
+      // Extract raw books from grouped cached result to ensure they're saved to DB
+      const rawBooksFromCache: IBookInfo[] = [];
+      for (const group of cachedResult) {
+        for (const groupData of Object.values(group)) {
+          for (const formatType of [1, 2, 3] as const) {
+            const books = groupData.books[formatType] || [];
+            rawBooksFromCache.push(...books);
+          }
+        }
+      }
+
+      // Save books to ensure they exist in DB (upsert will handle duplicates)
+      if (rawBooksFromCache.length > 0) {
+        await this.saveBooks(rawBooksFromCache, queryId, cacheKey);
+      }
+
+      // Extract book links from cached result (it's already grouped)
+      const bookLinks = this.extractBookLinks(cachedResult);
+      // Log search with viewed books
+      try {
+        const searchLog = await this.searchLogService.logSearch(
+          telegramId,
+          formattedQuery,
+          bookLinks,
+        );
+        // Link ViewedBook records to saved Book records
+        await this.searchLogService.linkViewedBooksToSavedBooks(
+          searchLog.id,
+          bookLinks,
+        );
+      } catch (error) {
+        this.logger.error(
+          `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+          error,
+        );
+      }
+      return cachedResult;
     }
 
     if (probablyIsbn) {
@@ -209,13 +265,39 @@ export class BooksService {
         const fuzzyBooks = fuzzyMatching(title, books as IBookInfo[]);
         const endTime = Date.now();
         this.logger.log(`Time taken: ${endTime - startTime}ms`);
+        // Extract book links from raw books BEFORE grouping
+        const rawBookLinks = fuzzyBooks
+          .map((book) => book.link)
+          .filter((link): link is string => !!link);
+        const uniqueBookLinks = [...new Set(rawBookLinks)];
+
         await this.saveBooks(fuzzyBooks, queryId, isbnCacheKey);
         const result = resolveAndGroupBooks(fuzzyBooks);
 
-        if (result.length === 0) {
-          await this.searchLogService.logUnsuccessfulSearch(
-            telegramId,
-            formattedQuery,
+        // Log search with viewed books
+        const bookLinks = this.extractBookLinks(result);
+        try {
+          if (result.length === 0) {
+            await this.searchLogService.logUnsuccessfulSearch(
+              telegramId,
+              formattedQuery,
+            );
+          } else {
+            const searchLog = await this.searchLogService.logSearch(
+              telegramId,
+              formattedQuery,
+              bookLinks,
+            );
+            // Link ViewedBook records to saved Book records (use raw links to match what was saved)
+            await this.searchLogService.linkViewedBooksToSavedBooks(
+              searchLog.id,
+              uniqueBookLinks,
+            );
+          }
+        } catch (error) {
+          this.logger.error(
+            `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+            error,
           );
         }
         return result;
@@ -234,15 +316,42 @@ export class BooksService {
       // Only return early if we actually found author books (query was only an author)
       // If authorsBooks is undefined, it means the query had a title, so continue with regular search
       if (authorsBooks && authorsBooks.length > 0) {
+        // Extract book links from raw books BEFORE grouping
+        const rawBookLinks = authorsBooks
+          .map((book) => book.link)
+          .filter((link): link is string => !!link);
+        const uniqueBookLinks = [...new Set(rawBookLinks)];
+
         // Save all aggregated and deduplicated books once
         await this.saveBooks(authorsBooks, queryId, cacheKey);
         const endTime = Date.now();
         this.logger.log(`Time taken: ${endTime - startTime}ms`);
         const result = resolveAndGroupBooks(authorsBooks);
-        if (result.length === 0) {
-          await this.searchLogService.logUnsuccessfulSearch(
-            telegramId,
-            formattedQuery,
+
+        // Log search with viewed books
+        const bookLinks = this.extractBookLinks(result);
+        try {
+          if (result.length === 0) {
+            await this.searchLogService.logUnsuccessfulSearch(
+              telegramId,
+              formattedQuery,
+            );
+          } else {
+            const searchLog = await this.searchLogService.logSearch(
+              telegramId,
+              formattedQuery,
+              bookLinks,
+            );
+            // Link ViewedBook records to saved Book records (use raw links to match what was saved)
+            await this.searchLogService.linkViewedBooksToSavedBooks(
+              searchLog.id,
+              uniqueBookLinks,
+            );
+          }
+        } catch (error) {
+          this.logger.error(
+            `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+            error,
           );
         }
         return result;
@@ -261,10 +370,50 @@ export class BooksService {
     await this.saveBooks(fuzzyBooks, queryId, cacheKey);
     // this.logger.log(resolveAndGroupBooks(fuzzyBooks));
     const result = resolveAndGroupBooks(fuzzyBooks);
-    if (result.length === 0) {
-      await this.searchLogService.logUnsuccessfulSearch(
-        telegramId,
-        formattedQuery,
+
+    // Extract book links from raw books (what was saved to DB) for linking
+    const rawBookLinks = fuzzyBooks
+      .map((book) => book.link)
+      .filter((link): link is string => !!link);
+    const uniqueBookLinks = [...new Set(rawBookLinks)];
+
+    // Extract book links from grouped results (what user actually saw) for logging
+    const bookLinks = this.extractBookLinks(result);
+    this.logger.log(
+      `Extracted ${bookLinks.length} book links from grouped results, ${uniqueBookLinks.length} from raw books`,
+    );
+    let searchLogId: number | null = null;
+    try {
+      if (result.length === 0) {
+        await this.searchLogService.logUnsuccessfulSearch(
+          telegramId,
+          formattedQuery,
+        );
+      } else {
+        const searchLog = await this.searchLogService.logSearch(
+          telegramId,
+          formattedQuery,
+          bookLinks, // Log what user saw
+        );
+        searchLogId = searchLog.id;
+        this.logger.log(
+          `Created search log ${searchLogId} with ${bookLinks.length} viewed books`,
+        );
+        // Link ViewedBook records to saved Book records
+        // IMPORTANT: Use the SAME links that were logged (bookLinks) to match ViewedBook records
+        // But also try to find books using raw links in case of URL differences
+        await this.searchLogService.linkViewedBooksToSavedBooks(
+          searchLogId,
+          bookLinks, // Use the same links that were stored in ViewedBook
+        );
+        this.logger.log(
+          `Attempted to link viewed books for search log ${searchLogId}`,
+        );
+      }
+    } catch (error) {
+      this.logger.error(
+        `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+        error,
       );
     }
     return result;
