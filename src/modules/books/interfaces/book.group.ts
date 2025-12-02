@@ -11,3 +11,10 @@ export interface IBookGroup {
   formats: Record<Exclude<FormatType, 0>, IBookInfo[]>;
   similarity: number;
 }
+
+export interface IBookGroupResult {
+  [key: string]: {
+    books: Record<Exclude<FormatType, 0>, IBookInfo[]>;
+    similarity: number;
+  };
+}
