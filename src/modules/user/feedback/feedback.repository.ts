@@ -13,13 +13,14 @@ export class UserFeedbackRepository {
     if (!user) {
       throw new Error(`User with telegramId ${userId} not found`);
     }
-    return this.prisma.feedback.create({
+    const feedback = await this.prisma.feedback.create({
       data: {
         userId: user.id,
         type: FeedbackType.CUSTOM,
         message,
       },
     });
+    return feedback;
   }
 
   async createStructuredFeedback(userId: bigint, categoryId: number) {
@@ -29,13 +30,14 @@ export class UserFeedbackRepository {
     if (!user) {
       throw new Error(`User with telegramId ${userId} not found`);
     }
-    return this.prisma.feedback.create({
+    const feedback = await this.prisma.feedback.create({
       data: {
         userId: user.id,
         type: FeedbackType.STRUCTURED,
         categoryId,
       },
     });
+    return feedback;
   }
 
   async findCategoryByKey(key: string) {
@@ -71,6 +73,17 @@ export class UserFeedbackRepository {
     if (!user) {
       throw new Error(`User with telegramId ${userId} not found`);
     }
-    return this.prisma.feedback.count({ where: { userId: user.id } });
+
+    const count = await this.prisma.feedback.count({
+      where: { userId: user.id },
+    });
+
+    // Also check all feedbacks for this user to debug
+    const allFeedbacks = await this.prisma.feedback.findMany({
+      where: { userId: user.id },
+      select: { id: true, userId: true, type: true, createdAt: true },
+    });
+
+    return count;
   }
 }
