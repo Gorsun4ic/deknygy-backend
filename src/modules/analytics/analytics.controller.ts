@@ -134,4 +134,16 @@ export class AnalyticsController {
   getUsersBySearchCount() {
     return this.statsService.getUsersBySearchCount();
   }
+
+  @Get('user-search-log-ids/:telegramId')
+  getUserSearchLogIds(@Param('telegramId') telegramId: string) {
+    return this.searchLogService.getUserSearchLogIds(BigInt(telegramId));
+  }
+
+  @Get('viewed-books/:searchLogId')
+  getViewedBooksBySearchLogId(@Param('searchLogId') searchLogId: string) {
+    return this.searchLogService.getViewedBooksBySearchLogId(
+      Number(searchLogId),
+    );
+  }
 }

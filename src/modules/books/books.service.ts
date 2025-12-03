@@ -16,7 +16,7 @@ import {
 } from '../search-providers';
 import { formatQuery } from '../common/utils/formatQuery';
 import { CACHE_TTL } from './constants/cacheTTL';
-import { IBookInfo } from '../common/interfaces/api/book.info';
+import { type IBookInfo } from '../common/interfaces/api/book.info';
 import { RedisService } from '../redis/redis.service';
 import { BooksRepository } from './books.repository';
 import { SearchLogService } from '../analytics/services/user/search-log.service';
@@ -27,8 +27,8 @@ import { type ApiCall } from './interfaces/services.type';
 import { callMultipleAPIs } from './lib/callMultipleAPIs';
 import { uniqifyBooks } from './lib/unuiqifyBooks';
 import { CacheLogService } from '../analytics/services/user/cache-log.service';
+import { type IBookGroupResult } from './interfaces/book.group';
 import { removeSymbolsExceptNumbers } from './utils/getNumbersFromString';
-
 @Injectable()
 export class BooksService {
   constructor(
@@ -51,6 +51,27 @@ export class BooksService {
     private readonly searchLogService: SearchLogService,
     private readonly cacheLogService: CacheLogService,
   ) {}
+
+  /**
+   * Extracts all book links from the grouped search results
+   */
+  private extractBookLinks(groupedResults: IBookGroupResult[]): string[] {
+    const links: string[] = [];
+    for (const group of groupedResults) {
+      for (const groupData of Object.values(group)) {
+        // Iterate through all format types (1, 2, 3)
+        for (const formatType of [1, 2, 3] as const) {
+          const books = groupData.books[formatType] || [];
+          for (const book of books) {
+            if (book.link) {
+              links.push(book.link);
+            }
+          }
+        }
+      }
+    }
+    return [...new Set(links)]; // Remove duplicates
+  }
 
   // Search all APIs with error handling
   private get apiCalls(): ApiCall[] {
@@ -138,20 +159,68 @@ export class BooksService {
     }
   }
 
+  private async handleRawBooksCache(
+    cachedResult: IBookGroupResult[],
+    queryId: number,
+    cacheKey: string,
+  ): Promise<string[]> {
+    // Extract raw books from grouped cached result to ensure they're saved to DB
+    const rawBooksFromCache: IBookInfo[] = [];
+    for (const group of cachedResult) {
+      for (const groupData of Object.values(group)) {
+        for (const formatType of [1, 2, 3] as const) {
+          const books = groupData.books[formatType] || [];
+          rawBooksFromCache.push(...books);
+        }
+      }
+    }
+
+    // Save books to ensure they exist in DB (upsert will handle duplicates)
+    if (rawBooksFromCache.length > 0) {
+      await this.saveBooks(rawBooksFromCache, queryId, cacheKey);
+    }
+
+    // Extract book links from cached result (it's already grouped)
+    return this.extractBookLinks(cachedResult);
+  }
+
+  private async handleSearchLog(
+    result: IBookGroupResult[],
+    telegramId: bigint,
+    formattedQuery: string,
+    bookLinks: string[],
+    uniqueBookLinks?: string[],
+  ) {
+    if (result.length === 0) {
+      await this.searchLogService.logUnsuccessfulSearch(
+        telegramId,
+        formattedQuery,
+      );
+    } else {
+      await this.searchLogService.logSearch(
+        telegramId,
+        formattedQuery,
+        uniqueBookLinks || bookLinks,
+      );
+    }
+  }
+
+  private getUniqueBookLinks(books: IBookInfo[]): string[] {
+    const rawBookLinks = books
+      .map((book) => book.link)
+      .filter((link): link is string => !!link);
+    return [...new Set(rawBookLinks)];
+  }
+
   async searchBook(telegramId: bigint, query: string) {
     // Rate limiting: 20 searches per minute
     const rateLimitKey = `search_limit:${telegramId}`;
-    const isAllowed = await this.redisService.checkRateLimit(
-      rateLimitKey,
-      20,
-      60, // 60 seconds = 1 minute
-    );
+    const limitParams = [rateLimitKey, 20, 60] as const;
+    const isAllowed = await this.redisService.checkRateLimit(...limitParams);
 
     if (!isAllowed) {
       const remaining = await this.redisService.getRemainingRequests(
-        rateLimitKey,
-        20,
-        60,
+        ...limitParams,
       );
       this.logger.warn(
         `Rate limit exceeded for user ${telegramId}. Remaining: ${remaining}`,
@@ -181,21 +250,30 @@ export class BooksService {
       );
     }
 
-    // 2. ATTEMPT TO LOG SEARCH
-    try {
-      await this.searchLogService.logSearch(telegramId, formattedQuery);
-    } catch (error) {
-      // Log the error but DO NOT return. Let the search continue.
-      this.logger.error(
-        `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
-        error,
-      );
-    }
-
-    // If cached - return cached result
+    // If cached - return cached result and log search
     if (cached) {
       this.logger.log('Redis cache hit');
-      return JSON.parse(cached) as IBookInfo[];
+      const cachedResult = JSON.parse(cached) as IBookGroupResult[];
+      const bookLinks = await this.handleRawBooksCache(
+        cachedResult,
+        queryId,
+        cacheKey,
+      );
+      // Log search with viewed books
+      try {
+        await this.handleSearchLog(
+          cachedResult,
+          telegramId,
+          formattedQuery,
+          bookLinks,
+        );
+      } catch (error) {
+        this.logger.error(
+          `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+          error,
+        );
+      }
+      return cachedResult;
     }
 
     if (probablyIsbn) {
@@ -209,13 +287,26 @@ export class BooksService {
         const fuzzyBooks = fuzzyMatching(title, books as IBookInfo[]);
         const endTime = Date.now();
         this.logger.log(`Time taken: ${endTime - startTime}ms`);
+        // Extract book links from raw books BEFORE grouping
+        const uniqueBookLinks = this.getUniqueBookLinks(fuzzyBooks);
+
         await this.saveBooks(fuzzyBooks, queryId, isbnCacheKey);
         const result = resolveAndGroupBooks(fuzzyBooks);
 
-        if (result.length === 0) {
-          await this.searchLogService.logUnsuccessfulSearch(
+        // Log search with viewed books
+        const bookLinks = this.extractBookLinks(result);
+        try {
+          await this.handleSearchLog(
+            result,
             telegramId,
             formattedQuery,
+            bookLinks,
+            uniqueBookLinks,
+          );
+        } catch (error) {
+          this.logger.error(
+            `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+            error,
           );
         }
         return result;
@@ -234,15 +325,29 @@ export class BooksService {
       // Only return early if we actually found author books (query was only an author)
       // If authorsBooks is undefined, it means the query had a title, so continue with regular search
       if (authorsBooks && authorsBooks.length > 0) {
+        // Extract book links from raw books BEFORE grouping
+        const uniqueBookLinks = this.getUniqueBookLinks(authorsBooks);
+
         // Save all aggregated and deduplicated books once
         await this.saveBooks(authorsBooks, queryId, cacheKey);
         const endTime = Date.now();
         this.logger.log(`Time taken: ${endTime - startTime}ms`);
         const result = resolveAndGroupBooks(authorsBooks);
-        if (result.length === 0) {
-          await this.searchLogService.logUnsuccessfulSearch(
+
+        // Log search with viewed books
+        const bookLinks = this.extractBookLinks(result);
+        try {
+          await this.handleSearchLog(
+            result,
             telegramId,
             formattedQuery,
+            bookLinks,
+            uniqueBookLinks,
+          );
+        } catch (error) {
+          this.logger.error(
+            `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+            error,
           );
         }
         return result;
@@ -261,10 +366,27 @@ export class BooksService {
     await this.saveBooks(fuzzyBooks, queryId, cacheKey);
     // this.logger.log(resolveAndGroupBooks(fuzzyBooks));
     const result = resolveAndGroupBooks(fuzzyBooks);
-    if (result.length === 0) {
-      await this.searchLogService.logUnsuccessfulSearch(
+
+    // Extract book links from raw books (what was saved to DB) for linking
+    const uniqueBookLinks = this.getUniqueBookLinks(fuzzyBooks);
+
+    // Extract book links from grouped results (what user actually saw) for logging
+    const bookLinks = this.extractBookLinks(result);
+    this.logger.log(
+      `Extracted ${bookLinks.length} book links from grouped results, ${uniqueBookLinks.length} from raw books`,
+    );
+    try {
+      await this.handleSearchLog(
+        result,
         telegramId,
         formattedQuery,
+        bookLinks,
+        uniqueBookLinks,
+      );
+    } catch (error) {
+      this.logger.error(
+        `Failed to log search: ${error instanceof Error ? error.message : String(error)}.`,
+        error,
       );
     }
     return result;
