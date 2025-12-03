@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SearchLogRepository } from '../../repository/user/search-log.repository';
 import { upFirstLetter } from '../../../common/utils/upFirstLetter';
+import { bookPopulateDto } from '../../dto/book-popualte.dto';
 
 @Injectable()
 export class SearchLogService {
@@ -127,29 +128,7 @@ export class SearchLogService {
   async getViewedBooksBySearchLogId(searchLogId: number) {
     const searchLog =
       await this.searchLogRepository.getViewedBooksBySearchLogId(searchLogId);
-    return {
-      id: searchLog.id,
-      query: upFirstLetter(searchLog.query.query),
-      searchedAt: searchLog.searchedAt,
-      viewedBooks: searchLog.viewedBooks.map((vb) => ({
-        id: vb.id,
-        bookLink: vb.bookLink,
-        viewedAt: vb.viewedAt,
-        book: vb.book
-          ? {
-              id: vb.book.id,
-              title: vb.book.title,
-              link: vb.book.link,
-              available: vb.book.available,
-              store: vb.book.store.title,
-              format: vb.book.format.title,
-              price:
-                vb.book.prices && vb.book.prices.length > 0
-                  ? vb.book.prices[0].price
-                  : null,
-            }
-          : null,
-      })),
-    };
+    console.log(bookPopulateDto(searchLog));
+    return bookPopulateDto(searchLog);
   }
 }
