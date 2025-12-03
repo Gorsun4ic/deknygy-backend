@@ -397,11 +397,22 @@ export class SearchLogRepository {
           include: {
             book: {
               include: {
-                store: true,
-                format: true,
+                store: {
+                  select: {
+                    title: true,
+                  },
+                },
+                format: {
+                  select: {
+                    title: true,
+                  },
+                },
                 prices: {
                   orderBy: { recordedAt: 'desc' },
                   take: 1, // Get the most recent price
+                  select: {
+                    price: true,
+                  },
                 },
               },
             },

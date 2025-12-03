@@ -215,17 +215,12 @@ export class BooksService {
   async searchBook(telegramId: bigint, query: string) {
     // Rate limiting: 20 searches per minute
     const rateLimitKey = `search_limit:${telegramId}`;
-    const isAllowed = await this.redisService.checkRateLimit(
-      rateLimitKey,
-      20,
-      60, // 60 seconds = 1 minute
-    );
+    const limitParams = [rateLimitKey, 20, 60] as const;
+    const isAllowed = await this.redisService.checkRateLimit(...limitParams);
 
     if (!isAllowed) {
       const remaining = await this.redisService.getRemainingRequests(
-        rateLimitKey,
-        20,
-        60,
+        ...limitParams,
       );
       this.logger.warn(
         `Rate limit exceeded for user ${telegramId}. Remaining: ${remaining}`,
