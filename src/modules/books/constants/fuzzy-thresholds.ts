@@ -18,3 +18,11 @@ Has been used in the mergeAuthorTypoGroups function to determine if two groups s
 John Doe and Jon Doe is 0.76
 */
 export const AUTHOR_TYPO_MERGING_THRESHOLD = 0.75;
+
+/*  Author Similarity Threshold
+Author Similarity Threshold for Yakaboo API.
+Has been used in the fuzzyMatching function to determine if two authors should be merged.
+0.85 is the bare minimum, because here is ratio of two similar authors:
+John Doe and Jon Doe is 0.86.
+*/
+export const YAKABOO_AUTHOR_SIMILARITY_THRESHOLD = 0.85;

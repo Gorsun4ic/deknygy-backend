@@ -19,8 +19,6 @@ export const fuzzyMatching = (
 ): IBookInfo[] => {
   if (!author) {
     author = '';
-  } else {
-    console.log(author);
   }
   const books = booksArr.filter((result) => Array.isArray(result)).flat();
   const normalizedBooks = normalizeBookData(books);

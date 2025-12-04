@@ -399,20 +399,19 @@ export class SearchLogRepository {
               include: {
                 store: {
                   select: {
+                    id: true,
                     title: true,
                   },
                 },
                 format: {
                   select: {
+                    id: true,
                     title: true,
                   },
                 },
                 prices: {
                   orderBy: { recordedAt: 'desc' },
                   take: 1, // Get the most recent price
-                  select: {
-                    price: true,
-                  },
                 },
               },
             },

@@ -64,8 +64,6 @@ export const mergeTitleSubstring = (
         lengthDiff >= 3 &&
         similarity >= threshold;
 
-      console.log('isSubstring', isSubstring, sourceCoreTitle, destCoreTitle);
-
       // Also check if first 2 words match (for normalized titles without punctuation)
       // But only if one title is significantly longer (indicating subtitle/description)
       const sourceWords = sourceCoreTitle.trim().split(/\s+/);
