@@ -188,8 +188,7 @@ export class BooksService {
     result: IBookGroupResult[],
     telegramId: bigint,
     formattedQuery: string,
-    bookLinks: string[],
-    uniqueBookLinks?: string[],
+    rawBooks: IBookInfo[] | Array<{ link: string; similarity: number }>,
   ) {
     if (result.length === 0) {
       await this.searchLogService.logUnsuccessfulSearch(
@@ -197,10 +196,28 @@ export class BooksService {
         formattedQuery,
       );
     } else {
+      // Extract books with their similarity scores
+      let booksWithSimilarity: Array<{ link: string; similarity: number }>;
+
+      if (rawBooks.length > 0 && 'title' in rawBooks[0]) {
+        // Raw IBookInfo[] array - extract similarity
+        booksWithSimilarity = (rawBooks as IBookInfo[]).map((book) => ({
+          link: book.link,
+          similarity: book._titleSimilarity || 0.0,
+        }));
+      } else {
+        // Already formatted as { link, similarity }
+        booksWithSimilarity = rawBooks as Array<{
+          link: string;
+          similarity: number;
+        }>;
+      }
+
       await this.searchLogService.logSearch(
         telegramId,
         formattedQuery,
-        uniqueBookLinks || bookLinks,
+        booksWithSimilarity,
+        result, // Pass the grouped results that user actually saw
       );
     }
   }
@@ -260,12 +277,17 @@ export class BooksService {
         cacheKey,
       );
       // Log search with viewed books
+      // For cached results, we don't have similarity scores, so use default (0.0)
+      const booksFromCache = bookLinks.map((link) => ({
+        link,
+        similarity: 0.0,
+      }));
       try {
         await this.handleSearchLog(
           cachedResult,
           telegramId,
           formattedQuery,
-          bookLinks,
+          booksFromCache,
         );
       } catch (error) {
         this.logger.error(
@@ -287,21 +309,17 @@ export class BooksService {
         const fuzzyBooks = fuzzyMatching(title, books as IBookInfo[]);
         const endTime = Date.now();
         this.logger.log(`Time taken: ${endTime - startTime}ms`);
-        // Extract book links from raw books BEFORE grouping
-        const uniqueBookLinks = this.getUniqueBookLinks(fuzzyBooks);
 
         await this.saveBooks(fuzzyBooks, queryId, isbnCacheKey);
         const result = resolveAndGroupBooks(fuzzyBooks);
 
         // Log search with viewed books
-        const bookLinks = this.extractBookLinks(result);
         try {
           await this.handleSearchLog(
             result,
             telegramId,
             formattedQuery,
-            bookLinks,
-            uniqueBookLinks,
+            fuzzyBooks,
           );
         } catch (error) {
           this.logger.error(
@@ -325,9 +343,6 @@ export class BooksService {
       // Only return early if we actually found author books (query was only an author)
       // If authorsBooks is undefined, it means the query had a title, so continue with regular search
       if (authorsBooks && authorsBooks.length > 0) {
-        // Extract book links from raw books BEFORE grouping
-        const uniqueBookLinks = this.getUniqueBookLinks(authorsBooks);
-
         // Save all aggregated and deduplicated books once
         await this.saveBooks(authorsBooks, queryId, cacheKey);
         const endTime = Date.now();
@@ -335,14 +350,12 @@ export class BooksService {
         const result = resolveAndGroupBooks(authorsBooks);
 
         // Log search with viewed books
-        const bookLinks = this.extractBookLinks(result);
         try {
           await this.handleSearchLog(
             result,
             telegramId,
             formattedQuery,
-            bookLinks,
-            uniqueBookLinks,
+            authorsBooks,
           );
         } catch (error) {
           this.logger.error(
@@ -370,18 +383,15 @@ export class BooksService {
     // Extract book links from raw books (what was saved to DB) for linking
     const uniqueBookLinks = this.getUniqueBookLinks(fuzzyBooks);
 
-    // Extract book links from grouped results (what user actually saw) for logging
-    const bookLinks = this.extractBookLinks(result);
     this.logger.log(
-      `Extracted ${bookLinks.length} book links from grouped results, ${uniqueBookLinks.length} from raw books`,
+      `Extracted ${uniqueBookLinks.length} unique book links from raw books`,
     );
     try {
       await this.handleSearchLog(
         result,
         telegramId,
         formattedQuery,
-        bookLinks,
-        uniqueBookLinks,
+        fuzzyBooks,
       );
     } catch (error) {
       this.logger.error(

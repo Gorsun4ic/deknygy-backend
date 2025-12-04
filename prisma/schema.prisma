@@ -72,6 +72,7 @@ model SearchLog {
   userId    BigInt
   searchedAt DateTime @default(now())
   viewedBooks ViewedBook[]
+  groupedResults Json? // Store the exact grouped results shown to user
 
   @@index([queryId])
   @@index([userId])
@@ -173,6 +174,7 @@ model ViewedBook {
   bookId    Int?
   bookLink  String    // Store the link to identify the book even if not in DB yet
   viewedAt  DateTime  @default(now())
+  similarity Float
 
   @@index([searchLogId])
   @@index([bookId])

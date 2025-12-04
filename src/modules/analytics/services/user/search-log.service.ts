@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { SearchLogRepository } from '../../repository/user/search-log.repository';
 import { upFirstLetter } from '../../../common/utils/upFirstLetter';
-import { bookPopulateDto } from '../../dto/book-popualte.dto';
 import { resolveAndGroupBooks } from '../../../books/lib/merge/resolveAndGroupBooks';
+import {
+  FormatType,
+  IBookInfo,
+} from 'src/modules/common/interfaces/api/book.info';
 
 @Injectable()
 export class SearchLogService {
@@ -14,14 +17,20 @@ export class SearchLogService {
    *
    * @param telegramId - Telegram user ID
    * @param query - Search query text
-   * @param bookLinks - Array of book links that were shown to the user
+   * @param books - Array of books with link and similarity score
    * @returns The created SearchLog record
    */
-  async logSearch(telegramId: bigint, query: string, bookLinks: string[] = []) {
+  async logSearch(
+    telegramId: bigint,
+    query: string,
+    books: Array<{ link: string; similarity?: number }> = [],
+    groupedResults?: any,
+  ) {
     return await this.searchLogRepository.logSearch(
       telegramId,
       query,
-      bookLinks,
+      books,
+      groupedResults,
     );
   }
 
@@ -124,11 +133,58 @@ export class SearchLogService {
   /**
    * Gets all viewed books for a specific search log
    * @param searchLogId - Search log ID
-   * @returns Search log with viewed books
+   * @returns Search log with viewed books grouped by title
    */
   async getViewedBooksBySearchLogId(searchLogId: number) {
     const searchLog =
       await this.searchLogRepository.getViewedBooksBySearchLogId(searchLogId);
-    return bookPopulateDto(searchLog);
+
+    // If we have stored grouped results, return them directly
+    if (searchLog.groupedResults) {
+      return {
+        id: searchLog.id,
+        query: upFirstLetter(searchLog.query.query),
+        searchedAt: searchLog.searchedAt,
+        groupedBooks: searchLog.groupedResults,
+      };
+    }
+
+    // Fallback: reconstruct from ViewedBook records (for old search logs)
+    const formatMap: Record<string, 1 | 2 | 3> = {
+      Physical: 1,
+      'E-book': 2,
+      Audio: 3,
+    };
+
+    const booksForGrouping: IBookInfo[] = searchLog.viewedBooks
+      .filter((vb) => vb.book)
+      .map((vb) => ({
+        title: vb.book!.title,
+        author: null,
+        price: vb.book!.prices[0]?.price || 0,
+        link: vb.book!.link,
+        store: vb.book!.store.title,
+        available: vb.book!.available,
+        format: formatMap[vb.book!.format.title] || 1,
+        _titleSimilarity: vb.similarity || 0.0,
+      }));
+
+    if (booksForGrouping.length === 0) {
+      return {
+        id: searchLog.id,
+        query: upFirstLetter(searchLog.query.query),
+        searchedAt: searchLog.searchedAt,
+        groupedBooks: [],
+      };
+    }
+
+    const grouped = resolveAndGroupBooks(booksForGrouping);
+
+    return {
+      id: searchLog.id,
+      query: upFirstLetter(searchLog.query.query),
+      searchedAt: searchLog.searchedAt,
+      groupedBooks: grouped,
+    };
   }
 }
