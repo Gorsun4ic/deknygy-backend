@@ -29,6 +29,8 @@ import { uniqifyBooks } from './lib/unuiqifyBooks';
 import { CacheLogService } from '../analytics/services/user/cache-log.service';
 import { type IBookGroupResult } from './interfaces/book.group';
 import { removeSymbolsExceptNumbers } from './utils/getNumbersFromString';
+import stringSimilarity from 'string-similarity-js';
+import { YAKABOO_AUTHOR_SIMILARITY_THRESHOLD } from './constants/fuzzy-thresholds';
 @Injectable()
 export class BooksService {
   constructor(
@@ -335,8 +337,14 @@ export class BooksService {
       await this.yakabooApiService.searchByAuthor(formattedQuery);
 
     if (yakabooAuthorBooks.length > 0) {
+      const highAuthorSimilarityBooks = yakabooAuthorBooks.filter((book) => {
+        return (
+          stringSimilarity(formattedQuery, book?.author || '') >
+          YAKABOO_AUTHOR_SIMILARITY_THRESHOLD
+        );
+      });
       const authorsBooks = await this.getAuthorsBooks(
-        yakabooAuthorBooks,
+        highAuthorSimilarityBooks,
         formattedQuery,
       );
 
