@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { SearchLogRepository } from '../../repository/user/search-log.repository';
 import { upFirstLetter } from '../../../common/utils/upFirstLetter';
 import { bookPopulateDto } from '../../dto/book-popualte.dto';
+import { resolveAndGroupBooks } from '../../../books/lib/merge/resolveAndGroupBooks';
 
 @Injectable()
 export class SearchLogService {
@@ -128,7 +129,6 @@ export class SearchLogService {
   async getViewedBooksBySearchLogId(searchLogId: number) {
     const searchLog =
       await this.searchLogRepository.getViewedBooksBySearchLogId(searchLogId);
-    console.log(bookPopulateDto(searchLog));
     return bookPopulateDto(searchLog);
   }
 }
