@@ -1,11 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 
 @Injectable()
 export class SearchLogRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly logger: Logger,
+  ) {}
 
-  async logSearch(telegramId: bigint, query: string, bookLinks: string[] = []) {
+  async logSearch(
+    telegramId: bigint,
+    query: string,
+    books: Array<{ link: string; similarity?: number }> = [],
+    groupedResults?: any, // The grouped book results shown to user
+  ) {
     const [user, existingQuery] = await Promise.all([
       this.prisma.user.findUnique({ where: { telegramId } }),
       this.prisma.query.findUnique({ where: { query } }),
@@ -17,6 +25,9 @@ export class SearchLogRepository {
       );
     if (!existingQuery)
       throw new NotFoundException(`Query "${query}" not found`);
+
+    // Extract links for querying existing books
+    const bookLinks = books.map((b) => b.link);
 
     // Find existing books by their links
     const existingBooks = await this.prisma.book.findMany({
@@ -40,11 +51,13 @@ export class SearchLogRepository {
       data: {
         user: { connect: { id: user.id } },
         query: { connect: { id: existingQuery.id } },
+        groupedResults: groupedResults || null, // Store the grouped results
         viewedBooks: {
-          create: bookLinks.map((link) => {
-            const bookId = bookLinkToIdMap.get(link);
+          create: books.map((book) => {
+            const bookId = bookLinkToIdMap.get(book.link);
             return {
-              bookLink: link,
+              bookLink: book.link,
+              similarity: book.similarity ?? 0.0, // Default to 0 if not provided
               ...(bookId ? { book: { connect: { id: bookId } } } : {}),
             };
           }),
@@ -69,27 +82,6 @@ export class SearchLogRepository {
    */
   async linkViewedBooksToSavedBooks(searchLogId: number, bookLinks: string[]) {
     if (bookLinks.length === 0) return;
-
-    console.log(
-      `[linkViewedBooksToSavedBooks] SearchLog ${searchLogId}, looking for ${bookLinks.length} books`,
-    );
-
-    // Find the books that were just saved (try exact match first)
-    const savedBooks = await this.prisma.book.findMany({
-      where: {
-        link: {
-          in: bookLinks,
-        },
-      },
-      select: {
-        id: true,
-        link: true,
-      },
-    });
-
-    console.log(
-      `[linkViewedBooksToSavedBooks] Found ${savedBooks.length} exact matches out of ${bookLinks.length} links`,
-    );
 
     // Get all books from DB to create comprehensive matching maps
     const allBooks = await this.prisma.book.findMany({
@@ -129,27 +121,6 @@ export class SearchLogRepository {
       },
     });
 
-    console.log(
-      `[linkViewedBooksToSavedBooks] Found ${viewedBooks.length} ViewedBook records without bookId for searchLog ${searchLogId}`,
-    );
-
-    // Log sample links for debugging if no matches found
-    if (viewedBooks.length > 0 && allBooks.length === 0) {
-      console.log(
-        `[linkViewedBooksToSavedBooks] WARNING: No books in DB! Sample ViewedBook links:`,
-        viewedBooks.slice(0, 3).map((vb) => vb.bookLink),
-      );
-    } else if (viewedBooks.length > 0 && savedBooks.length === 0) {
-      console.log(
-        `[linkViewedBooksToSavedBooks] No exact matches found. Sample links we're looking for:`,
-        viewedBooks.slice(0, 3).map((vb) => vb.bookLink),
-      );
-      console.log(
-        `[linkViewedBooksToSavedBooks] Sample links in DB:`,
-        allBooks.slice(0, 3).map((b) => b.link),
-      );
-    }
-
     // Update each ViewedBook to link to its Book if found
     const updatePromises = viewedBooks.map(async (vb) => {
       // Try exact match first
@@ -169,32 +140,17 @@ export class SearchLogRepository {
           });
           return true;
         } catch (error) {
-          console.error(
+          this.logger.error(
             `[linkViewedBooksToSavedBooks] Failed to update ViewedBook ${vb.id} with bookId ${bookId}:`,
             error,
           );
           return false;
         }
-      } else {
-        console.log(
-          `[linkViewedBooksToSavedBooks] No match found for ViewedBook ${vb.id} with link: ${vb.bookLink}`,
-        );
       }
       return false;
     });
 
-    const results = await Promise.all(updatePromises);
-    const linkedCount = results.filter((r) => r).length;
-
-    // Log for debugging
-    console.log(
-      `[linkViewedBooksToSavedBooks] Linked ${linkedCount} of ${viewedBooks.length} ViewedBook records to Book records for searchLog ${searchLogId}`,
-    );
-    if (linkedCount < viewedBooks.length) {
-      console.log(
-        `[linkViewedBooksToSavedBooks] WARNING: ${viewedBooks.length - linkedCount} ViewedBook records could not be linked!`,
-      );
-    }
+    await Promise.all(updatePromises);
   }
 
   async getUserSearchLogs(telegramId: bigint) {
