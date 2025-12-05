@@ -33,8 +33,8 @@ export class StatsService {
     return await this.statsRepository.getTotalFeedbacks();
   }
 
-  async getUserStats(userId: number) {
-    return await this.statsRepository.getUserStats(userId);
+  async getUserStats(telegramId: bigint) {
+    return await this.statsRepository.getUserStats(telegramId);
   }
 
   async getTotalStats() {

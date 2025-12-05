@@ -146,4 +146,9 @@ export class AnalyticsController {
       Number(searchLogId),
     );
   }
+
+  @Get('user-stats/:telegramId')
+  getUserStats(@Param('telegramId') telegramId: bigint) {
+    return this.statsService.getUserStats(telegramId);
+  }
 }

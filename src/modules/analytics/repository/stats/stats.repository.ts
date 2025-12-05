@@ -1,9 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { SearchLogRepository } from '../user/search-log.repository';
+import { UserFeedbackRepository } from '../../../user/feedback/feedback.repository';
 
 @Injectable()
 export class StatsRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly feedbackRepository: UserFeedbackRepository,
+    private readonly searchLogRepository: SearchLogRepository,
+  ) {}
   private readonly ONE_HOUR = 1 * 60 * 60 * 1000;
   private readonly ONE_DAY = 1 * 24 * 60 * 60 * 1000;
   private readonly ONE_MONTH = 30 * 24 * 60 * 60 * 1000;
@@ -67,8 +73,27 @@ export class StatsRepository {
     return this.prisma.feedback.count();
   }
 
-  async getUserStats(userId: number) {
-    return this.prisma.user.findUnique({ where: { id: userId } });
+  async getUserStats(telegramId: bigint) {
+    const user = await this.prisma.user.findUnique({
+      where: { telegramId },
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        `User with telegramId ${telegramId} not found`,
+      );
+    }
+
+    const feedbacksCount =
+      await this.feedbackRepository.getUserFeedbacksCount(telegramId);
+    const searchesCount =
+      await this.searchLogRepository.getUserSearchCount(telegramId);
+
+    return {
+      ...user,
+      feedbacks: feedbacksCount,
+      searches: searchesCount,
+    };
   }
 
   async getTotalSearchesForADay(date: Date) {
