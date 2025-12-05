@@ -9,6 +9,8 @@ import { CacheLogRepository } from './repository/user/cache-log.repository';
 import { CacheLogService } from './services/user/cache-log.service';
 import { StatsService } from './services/stats/stats.service';
 import { StatsRepository } from './repository/stats/stats.repository';
+import { UserFeedbackRepository } from '../user/feedback/feedback.repository';
+import { UserFeedbackService } from '../user/feedback/feedback.service';
 
 @Module({
   imports: [PrismaModule],
@@ -23,6 +25,8 @@ import { StatsRepository } from './repository/stats/stats.repository';
     CacheLogService,
     StatsService,
     StatsRepository,
+    UserFeedbackRepository,
+    UserFeedbackService,
   ],
   exports: [
     UserSessionActivityService,
