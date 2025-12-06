@@ -54,8 +54,12 @@ export class UserFeedbackService {
     }
   }
 
-  async getUserFeedbacks(telegramId: bigint) {
-    return this.feedbackRepo.getUserFeedbacks(telegramId);
+  async getUserFeedbacks(
+    telegramId: bigint,
+    page: number = 1,
+    limit: number = 10,
+  ) {
+    return this.feedbackRepo.getUserFeedbacks(telegramId, page, limit);
   }
 
   async getUserFeedbacksCount(telegramId: bigint) {

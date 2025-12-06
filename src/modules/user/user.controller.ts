@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Get,
   Param,
+  Query,
 } from '@nestjs/common';
 import { UserRegistrationService } from './registration/user-registration.service';
 import { UserFeedbackService } from './feedback/feedback.service';
@@ -97,10 +98,19 @@ export class UserController {
   }
 
   @Get(':userId/feedbacks')
-  async getUserFeedbacks(@Param('userId') userId: string) {
+  async getUserFeedbacks(
+    @Param('userId') userId: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    const pageNumber = page ? parseInt(page, 10) : 1;
+    const limitNumber = limit ? parseInt(limit, 10) : 10;
+
     try {
       return await this.userFeedbackService.getUserFeedbacks(
         BigInt(userId.toString()),
+        pageNumber,
+        limitNumber,
       );
     } catch (error) {
       const errorMessage =
