@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
+import { getPaginationLimits } from '../../../common/utils/getPaginationLimits';
+import { getPaginationObject } from '../../../common/utils/getPaginationObject';
 
 @Injectable()
 export class SearchLogRepository {
@@ -276,11 +278,7 @@ export class SearchLogRepository {
         `User with telegramId ${telegramId} not found`,
       );
 
-    // Ensure page is a valid number and at least 1
-    const pageNumber = Math.max(1, Number(page) || 1);
-    // Ensure limit is a valid number, at least 1 and at most 100
-    const pageSize = Math.min(Math.max(1, Number(limit) || 10), 100);
-    const skip = (pageNumber - 1) * pageSize;
+    const { pageNumber, pageSize, skip } = getPaginationLimits(page, limit);
 
     const [data, total] = await Promise.all([
       this.prisma.searchLog.findMany({
@@ -295,21 +293,11 @@ export class SearchLogRepository {
       }),
     ]);
 
-    const totalPages = Math.ceil(total / pageSize);
-    const hasNextPage = pageNumber < totalPages;
-    const hasPreviousPage = pageNumber > 1;
-
+    const pagination = getPaginationObject(total, pageSize, pageNumber);
     return {
       username: user.username,
       data,
-      pagination: {
-        page: pageNumber,
-        limit: pageSize,
-        total,
-        totalPages,
-        hasNextPage,
-        hasPreviousPage,
-      },
+      pagination,
     };
   }
 
