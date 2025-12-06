@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { BooksModule } from './modules/books/books.module';
 import { RedisModule } from './modules/redis/redis.module';
@@ -17,9 +15,7 @@ import { APP_GUARD } from '@nestjs/core/constants';
     RedisModule,
     UserModule,
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: KeyAuthGuard,
