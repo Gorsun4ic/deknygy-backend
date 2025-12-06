@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { FeedbackType } from '@prisma/client';
+import { getPaginationLimits } from '../../common/utils/getPaginationLimits';
+import { getPaginationObject } from '../../common/utils/getPaginationObject';
 
 @Injectable()
 export class UserFeedbackRepository {
@@ -46,24 +48,33 @@ export class UserFeedbackRepository {
     });
   }
 
-  async getUserFeedbacks(userId: bigint) {
+  async getUserFeedbacks(userId: bigint, page: number = 1, limit: number = 10) {
     const user = await this.prisma.user.findUnique({
       where: { telegramId: userId },
     });
     if (!user) {
       throw new Error(`User with telegramId ${userId} not found`);
     }
-    const feedbacks = await this.prisma.feedback.findMany({
-      where: { userId: user.id },
-      include: { category: true },
-      orderBy: { createdAt: 'desc' },
-    });
-    return feedbacks.map((feedback) => {
-      return {
-        ...feedback,
-        username: user.username,
-      };
-    });
+    const { pageNumber, pageSize, skip } = getPaginationLimits(page, limit);
+    const [data, total] = await Promise.all([
+      this.prisma.feedback.findMany({
+        where: { userId: user.id },
+        include: { category: true },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: pageSize,
+      }),
+      this.prisma.feedback.count({
+        where: { userId: user.id },
+      }),
+    ]);
+
+    const pagination = getPaginationObject(total, pageSize, pageNumber);
+    return {
+      username: user.username,
+      data,
+      pagination,
+    };
   }
 
   async getUserFeedbacksCount(userId: bigint) {
