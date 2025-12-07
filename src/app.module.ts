@@ -6,6 +6,7 @@ import { RedisModule } from './modules/redis/redis.module';
 import { KeyAuthGuard } from './modules/auth/key-auth.guard';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { APP_GUARD } from '@nestjs/core/constants';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -14,8 +15,18 @@ import { APP_GUARD } from '@nestjs/core/constants';
     BooksModule,
     RedisModule,
     UserModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
   ],
   providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
     {
       provide: APP_GUARD,
       useClass: KeyAuthGuard,

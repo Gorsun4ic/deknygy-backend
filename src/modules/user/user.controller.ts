@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UserRegistrationService } from './registration/user-registration.service';
 import { UserFeedbackService } from './feedback/feedback.service';
-
+import { Throttle } from '@nestjs/throttler';
 import type { IUser } from './interfaces/user.interface';
 import { CreateCustomFeedbackDto } from './feedback/dto/create-custom-feedback.dto';
 import { CreateStructuredFeedbackDto } from './feedback/dto/create-structured-feedback.dto';
@@ -37,6 +37,7 @@ export class UserController {
     }
   }
 
+  @Throttle({ default: { limit: 1, ttl: 60000 } })
   @Post('feedback/custom')
   async submitCustomFeedback(@Body() dto: CreateCustomFeedbackDto) {
     try {
@@ -57,6 +58,7 @@ export class UserController {
     }
   }
 
+  @Throttle({ default: { limit: 1, ttl: 60000 } })
   @Post('feedback/structured')
   async submitStructuredFeedback(@Body() dto: CreateStructuredFeedbackDto) {
     try {
@@ -77,6 +79,7 @@ export class UserController {
     }
   }
 
+  @Throttle({ default: { limit: 1, ttl: 60000 } })
   @Post('feedback/bot')
   async submitBotFeedback(@Body() dto: BotQuestionFeedbackDto) {
     try {
