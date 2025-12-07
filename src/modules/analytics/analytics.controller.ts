@@ -3,7 +3,8 @@ import { UserSessionActivityService } from './services/user/session.service';
 import { SearchLogService } from './services/user/search-log.service';
 import { CacheLogService } from '../analytics/services/user/cache-log.service';
 import { StatsService } from './services/stats/stats.service';
-
+import { SkipThrottle } from '@nestjs/throttler';
+@SkipThrottle()
 @Controller('analytics')
 export class AnalyticsController {
   constructor(

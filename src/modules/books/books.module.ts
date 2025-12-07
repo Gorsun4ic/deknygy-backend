@@ -23,6 +23,7 @@ import { SearchLogRepository } from '../analytics/repository/user/search-log.rep
 import { CacheLogRepository } from '../analytics/repository/user/cache-log.repository';
 import { CacheLogService } from '../analytics/services/user/cache-log.service';
 import { AnalyticsModule } from '../analytics/analytics.module';
+
 @Module({
   imports: [
     YakabooApiModule,
