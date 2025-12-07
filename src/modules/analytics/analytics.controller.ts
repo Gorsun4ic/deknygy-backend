@@ -31,6 +31,11 @@ export class AnalyticsController {
     return this.searchLogService.getUserSearchLogs(BigInt(telegramId));
   }
 
+  @Get('hourly-stats')
+  getHourlyStats() {
+    return this.statsService.getHourlyStats();
+  }
+
   @Get('search-count/:telegramId')
   getUserSearchCount(@Param('telegramId') telegramId: string) {
     return this.searchLogService.getUserSearchCount(BigInt(telegramId));
@@ -78,6 +83,17 @@ export class AnalyticsController {
   @Get('stats/today')
   getTotalStatsForToday() {
     return this.statsService.getTotalStatsForADay(new Date(Date.now()));
+  }
+
+  @Get('stats/monthly')
+  getMonthlyReport(
+    @Query('year') year?: string,
+    @Query('month') month?: string,
+  ) {
+    return this.statsService.getMonthlyReport(
+      year ? parseInt(year, 10) : undefined,
+      month ? parseInt(month, 10) : undefined,
+    );
   }
 
   @Get('last-queries/:n')

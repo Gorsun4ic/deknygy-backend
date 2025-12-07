@@ -6,6 +6,7 @@ import { RedisModule } from './modules/redis/redis.module';
 import { KeyAuthGuard } from './modules/auth/key-auth.guard';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { APP_GUARD } from '@nestjs/core/constants';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { APP_GUARD } from '@nestjs/core/constants';
     BooksModule,
     RedisModule,
     UserModule,
+    ScheduleModule.forRoot(),
   ],
   providers: [
     {

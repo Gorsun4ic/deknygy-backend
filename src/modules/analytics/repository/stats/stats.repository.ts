@@ -228,6 +228,113 @@ export class StatsRepository {
     };
   }
 
+  async getTotalSearchesForTheLastHour() {
+    return this.prisma.searchLog.count({
+      where: {
+        searchedAt: {
+          gte: new Date(Date.now() - this.ONE_HOUR),
+        },
+      },
+    });
+  }
+  async getTotalFeedbacksForTheLastHour() {
+    return this.prisma.feedback.count({
+      where: {
+        createdAt: {
+          gte: new Date(Date.now() - this.ONE_HOUR),
+        },
+      },
+    });
+  }
+  async getTotalUsersRegisteredForTheLastHour() {
+    return this.prisma.user.count({
+      where: {
+        firstSeen: {
+          gte: new Date(Date.now() - this.ONE_HOUR),
+        },
+      },
+    });
+  }
+  async getStatsForTheLastHour() {
+    const searches = await this.getTotalSearchesForTheLastHour();
+    const feedbacks = await this.getTotalFeedbacksForTheLastHour();
+    const newUsers = await this.getTotalUsersRegisteredForTheLastHour();
+    return {
+      searches,
+      feedbacks,
+      newUsers,
+    };
+  }
+
+  async getTotalSearchesForAMonth(startOfMonth: Date, endOfMonth: Date) {
+    return this.prisma.searchLog.count({
+      where: {
+        searchedAt: {
+          gte: startOfMonth,
+          lt: endOfMonth,
+        },
+      },
+    });
+  }
+  async getTotalFeedbacksForAMonth(startOfMonth: Date, endOfMonth: Date) {
+    return this.prisma.feedback.count({
+      where: {
+        createdAt: {
+          gte: startOfMonth,
+          lt: endOfMonth,
+        },
+      },
+    });
+  }
+  async getTotalUsersRegisteredForAMonth(startOfMonth: Date, endOfMonth: Date) {
+    return this.prisma.user.count({
+      where: {
+        firstSeen: {
+          gte: startOfMonth,
+          lt: endOfMonth,
+        },
+      },
+    });
+  }
+
+  /**
+   * Calculates monthly stats for a specified calendar month.
+   * @param targetYear The year (e.g., 2025).
+   * @param targetMonth The month index (0 for Jan, 11 for Dec).
+   */
+  async getMonthlyReport(targetYear: number, targetMonth: number) {
+    // 1. Calculate the START of the target month
+    // Setting day to 1 ensures it starts at 00:00:00.000 on the 1st.
+    const startOfMonth = new Date(targetYear, targetMonth, 1);
+
+    // 2. Calculate the END of the target month
+    // To get the last millisecond of the month, we find the 1st day of the
+    // *next* month and subtract one millisecond.
+    // The month index 'targetMonth + 1' correctly rolls over the year if targetMonth is 11 (December).
+    const startOfNextMonth = new Date(targetYear, targetMonth + 1, 1);
+    const endOfMonth = new Date(startOfNextMonth.getTime() - 1);
+
+    // 3. Use the calculated start and end dates
+    const searches = await this.getTotalSearchesForAMonth(
+      startOfMonth,
+      endOfMonth,
+    );
+    const feedbacks = await this.getTotalFeedbacksForAMonth(
+      startOfMonth,
+      endOfMonth,
+    );
+    const newUsers = await this.getTotalUsersRegisteredForAMonth(
+      startOfMonth,
+      endOfMonth,
+    );
+
+    return {
+      searches,
+      feedbacks,
+      newUsers,
+    };
+  }
+  
   async getTopUsersBySearches(n: number) {
     return this.prisma.user.findMany({
       orderBy: { searchLogs: { _count: 'desc' } },

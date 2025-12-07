@@ -21,6 +21,10 @@ export class StatsService {
     return await this.statsRepository.getTotalUsersWithNoRequests();
   }
 
+  async getHourlyStats() {
+    return await this.statsRepository.getStatsForTheLastHour();
+  }
+
   async getTotalUsersWithMultipleRequests() {
     return await this.statsRepository.getTotalUsersWithMultipleRequests();
   }
@@ -95,6 +99,16 @@ export class StatsService {
 
   async getLastNFeedbacks(n: number) {
     return await this.statsRepository.getLastNFeedbacks(n);
+  }
+
+  async getMonthlyReport(targetYear?: number, targetMonth?: number) {
+    if (!targetYear) {
+      targetYear = new Date().getFullYear();
+    }
+    if (!targetMonth) {
+      targetMonth = new Date().getMonth();
+    }
+    return await this.statsRepository.getMonthlyReport(targetYear, targetMonth);
   }
 
   async getTopUsersBySearches(n: number) {
