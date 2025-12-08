@@ -5,6 +5,10 @@ import { StatsRepository } from '../../repository/stats/stats.repository';
 export class StatsService {
   constructor(private readonly statsRepository: StatsRepository) {}
 
+  async getTotalQueriesFromUniqueUsers() {
+    return await this.statsRepository.getTotalQueriesFromUniqueUsers();
+  }
+
   async getTotalUsers() {
     return await this.statsRepository.getTotalUsers();
   }
@@ -52,6 +56,8 @@ export class StatsService {
       await this.getTotalUsersWithMultipleRequests();
     const totalSearches = await this.getTotalSearches();
     const totalFeedbacks = await this.getTotalFeedbacks();
+    const totalQueriesFromUniqueUsers =
+      await this.getTotalQueriesFromUniqueUsers();
     return {
       totalUsers,
       totalUsersWithMultipleSessions,
@@ -60,7 +66,14 @@ export class StatsService {
       totalUsersWithMultipleRequests,
       totalSearches,
       totalFeedbacks,
+      totalQueriesFromUniqueUsers,
     };
+  }
+
+  async getTotalQueriesFromUniqueUsersForADay(date: Date) {
+    return await this.statsRepository.getTotalQueriesFromUniqueUsersForADay(
+      date,
+    );
   }
 
   async getTotalSearchesForADay(date: Date) {
@@ -87,12 +100,15 @@ export class StatsService {
     const newUsers = await this.getTotalUsersRegisteredForADayCount(date);
     const searches = await this.getTotalSearchesForADay(date);
     const feedbacks = await this.getTotalFeedbacksForADay(date);
+    const totalQueriesFromUniqueUsers =
+      await this.getTotalQueriesFromUniqueUsersForADay(date);
     const newUsersWhoMadeAQuery =
       await this.getDailyNewUsersWhoMadeAQuery(date);
     return {
       newUsers,
       searches,
       feedbacks,
+      totalQueriesFromUniqueUsers,
       newUsersWhoMadeAQuery,
     };
   }

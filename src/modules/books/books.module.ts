@@ -23,6 +23,8 @@ import { SearchLogRepository } from '../analytics/repository/user/search-log.rep
 import { CacheLogRepository } from '../analytics/repository/user/cache-log.repository';
 import { CacheLogService } from '../analytics/services/user/cache-log.service';
 import { AnalyticsModule } from '../analytics/analytics.module';
+import { UserModule } from '../user/user.module';
+
 @Module({
   imports: [
     YakabooApiModule,
@@ -42,6 +44,7 @@ import { AnalyticsModule } from '../analytics/analytics.module';
     RedisModule,
     PrismaModule,
     AnalyticsModule,
+    UserModule,
   ],
   controllers: [BooksController],
   providers: [
