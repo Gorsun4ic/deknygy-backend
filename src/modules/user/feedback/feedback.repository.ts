@@ -89,12 +89,6 @@ export class UserFeedbackRepository {
       where: { userId: user.id },
     });
 
-    // Also check all feedbacks for this user to debug
-    const allFeedbacks = await this.prisma.feedback.findMany({
-      where: { userId: user.id },
-      select: { id: true, userId: true, type: true, createdAt: true },
-    });
-
     return count;
   }
 }
