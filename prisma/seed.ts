@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { seedCoreData } from './seed-core';
 import { seedDependentData } from './seed-dependences';
+import { seedFeedbackCategories } from './feedback-categories';
 import { NUM_USERS, NUM_QUERIES, NUM_BOOKS, NUM_SEARCH_LOGS } from './constats';
 const prisma = new PrismaClient();
 
@@ -13,6 +14,9 @@ async function main() {
 
   await seedDependentData(coreIds);
   console.log(`Created ${NUM_BOOKS} books and ${NUM_SEARCH_LOGS} search logs.`);
+
+  await seedFeedbackCategories();
+  console.log('✨ Feedback categories seeded.');
 
   console.log('✨ Seeding complete.');
 }
