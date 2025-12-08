@@ -7,22 +7,26 @@ import {
   Get,
   Param,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserRegistrationService } from './registration/user-registration.service';
 import { UserFeedbackService } from './feedback/feedback.service';
-
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 import type { IUser } from './interfaces/user.interface';
 import { CreateCustomFeedbackDto } from './feedback/dto/create-custom-feedback.dto';
 import { CreateStructuredFeedbackDto } from './feedback/dto/create-structured-feedback.dto';
 import { BotQuestionFeedbackDto } from './feedback/dto/bot-question-feedback.dto';
-
+import { UserSyncService } from './sync/sync.service';
+import { UserSyncInterceptor } from 'src/common/interceptors/usersync.interceptor';
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userRegistrationService: UserRegistrationService,
     private readonly userFeedbackService: UserFeedbackService,
+    private readonly userSyncService: UserSyncService,
   ) {}
 
+  @UseInterceptors(UserSyncInterceptor)
   @Post('register')
   async registerUser(@Body() user: IUser): Promise<any> {
     try {
@@ -37,6 +41,8 @@ export class UserController {
     }
   }
 
+  @UseInterceptors(UserSyncInterceptor)
+  @Throttle({ default: { limit: 1, ttl: 60000 } })
   @Post('feedback/custom')
   async submitCustomFeedback(@Body() dto: CreateCustomFeedbackDto) {
     try {
@@ -57,6 +63,8 @@ export class UserController {
     }
   }
 
+  @UseInterceptors(UserSyncInterceptor)
+  @Throttle({ default: { limit: 1, ttl: 60000 } })
   @Post('feedback/structured')
   async submitStructuredFeedback(@Body() dto: CreateStructuredFeedbackDto) {
     try {
@@ -77,6 +85,8 @@ export class UserController {
     }
   }
 
+  @UseInterceptors(UserSyncInterceptor)
+  @Throttle({ default: { limit: 1, ttl: 60000 } })
   @Post('feedback/bot')
   async submitBotFeedback(@Body() dto: BotQuestionFeedbackDto) {
     try {
@@ -138,5 +148,11 @@ export class UserController {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  @SkipThrottle()
+  @Post('sync')
+  async syncUser(@Body() dto: { telegramId: bigint; username: string }) {
+    return await this.userSyncService.syncUser(dto.telegramId, dto.username);
   }
 }

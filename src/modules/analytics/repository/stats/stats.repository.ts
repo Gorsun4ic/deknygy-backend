@@ -52,6 +52,27 @@ export class StatsRepository {
     });
   }
 
+  async getTotalQueriesFromUniqueUsers() {
+    const uniqueUsers = await this.prisma.searchLog.groupBy({
+      by: ['userId'],
+    });
+
+    // 2. The count of the array is the count of unique users.
+    return uniqueUsers.length;
+  }
+
+  async getTotalQueriesFromUniqueUsersForADay(date: Date) {
+    const uniqueUsers = await this.prisma.searchLog.groupBy({
+      by: ['userId'],
+      where: {
+        searchedAt: {
+          gte: date,
+        },
+      },
+    });
+    return uniqueUsers.length;
+  }
+
   async getTotalUsersWithMultipleRequests() {
     // Group search logs by userId and count them
     const userSearchCounts = await this.prisma.searchLog.groupBy({

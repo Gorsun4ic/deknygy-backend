@@ -101,4 +101,24 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
     return Math.max(0, limit - count);
   }
+
+  async getJson<T>(key: string): Promise<T | null> {
+    const data = await this.client.get(key);
+    return data ? (JSON.parse(data) as T) : null;
+  }
+
+  async setJson(
+    key: string,
+    value: object,
+    ttlSeconds?: number,
+  ): Promise<void> {
+    const stringValue = JSON.stringify(value, (key, val) =>
+      typeof val === 'bigint' ? val.toString() : (val as unknown as string),
+    );
+    if (ttlSeconds) {
+      await this.client.set(key, stringValue, 'EX', ttlSeconds);
+    } else {
+      await this.client.set(key, stringValue);
+    }
+  }
 }
