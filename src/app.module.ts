@@ -5,6 +5,7 @@ import { BooksModule } from './modules/books/books.module';
 import { RedisModule } from './modules/redis/redis.module';
 import { KeyAuthGuard } from './modules/auth/key-auth.guard';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { ScheduleModule } from '@nestjs/schedule';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core/constants';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { UserSyncInterceptor } from './common/interceptors/usersync.interceptor';
@@ -16,6 +17,7 @@ import { UserSyncInterceptor } from './common/interceptors/usersync.interceptor'
     BooksModule,
     RedisModule,
     UserModule,
+    ScheduleModule.forRoot(),
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
