@@ -355,7 +355,7 @@ export class StatsRepository {
       newUsers,
     };
   }
-  
+
   async getTopUsersBySearches(n: number) {
     return this.prisma.user.findMany({
       orderBy: { searchLogs: { _count: 'desc' } },
