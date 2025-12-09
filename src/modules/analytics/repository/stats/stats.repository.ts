@@ -15,6 +15,16 @@ export class StatsRepository {
   private readonly ONE_MONTH = 30 * 24 * 60 * 60 * 1000;
   private readonly TODAY = new Date(Date.now() - this.ONE_DAY);
 
+  private getPreviousHourWindow() {
+    const end = new Date();
+    end.setMinutes(0, 0, 0); // Example: 17:00:00
+
+    const start = new Date(end);
+    start.setHours(start.getHours() - 1); // Example: 16:00:00
+
+    return { start, end };
+  }
+
   async getTotalUsers() {
     return this.prisma.user.count();
   }
@@ -62,11 +72,50 @@ export class StatsRepository {
   }
 
   async getTotalQueriesFromUniqueUsersForADay(date: Date) {
+    // 1. Force the start of the day (00:00:00)
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    // 2. Calculate the start of the NEXT day
+    const startOfNextDay = new Date(startOfDay);
+    startOfNextDay.setDate(startOfNextDay.getDate() + 1);
+
     const uniqueUsers = await this.prisma.searchLog.groupBy({
       by: ['userId'],
       where: {
         searchedAt: {
-          gte: date,
+          gte: startOfDay, // From 00:00:00
+          lt: startOfNextDay, // To 00:00:00 tomorrow (exclusive)
+        },
+      },
+    });
+    return uniqueUsers.length;
+  }
+  async getTotalQueriesFromUniqueUsersForTheLastHour() {
+    const { start, end } = this.getPreviousHourWindow();
+
+    const uniqueUsers = await this.prisma.searchLog.groupBy({
+      by: ['userId'],
+      where: {
+        searchedAt: {
+          gte: start,
+          lt: end,
+        },
+      },
+    });
+    return uniqueUsers.length;
+  }
+
+  async getTotalQueriesFromUniqueUsersForAMonth(
+    startOfMonth: Date,
+    endOfMonth: Date,
+  ) {
+    const uniqueUsers = await this.prisma.searchLog.groupBy({
+      by: ['userId'],
+      where: {
+        searchedAt: {
+          gte: startOfMonth,
+          lt: endOfMonth,
         },
       },
     });
@@ -239,6 +288,8 @@ export class StatsRepository {
     const newUsers = await this.getTotalUsersRegisteredForADayCount(date);
     const searches = await this.getTotalSearchesForADay(date);
     const feedbacks = await this.getTotalFeedbacksForADay(date);
+    const totalQueriesFromUniqueUsers =
+      await this.getTotalQueriesFromUniqueUsersForADay(date);
     const newUsersWhoMadeAQuery =
       await this.getDailyNewUsersWhoMadeAQuery(date);
     return {
@@ -246,32 +297,41 @@ export class StatsRepository {
       searches,
       feedbacks,
       newUsersWhoMadeAQuery,
+      totalQueriesFromUniqueUsers,
     };
   }
 
   async getTotalSearchesForTheLastHour() {
+    const { start, end } = this.getPreviousHourWindow();
+
     return this.prisma.searchLog.count({
       where: {
         searchedAt: {
-          gte: new Date(Date.now() - this.ONE_HOUR),
+          gte: start,
+          lt: end,
         },
       },
     });
   }
+
   async getTotalFeedbacksForTheLastHour() {
+    const { start, end } = this.getPreviousHourWindow();
     return this.prisma.feedback.count({
       where: {
         createdAt: {
-          gte: new Date(Date.now() - this.ONE_HOUR),
+          gte: start,
+          lt: end,
         },
       },
     });
   }
   async getTotalUsersRegisteredForTheLastHour() {
+    const { start, end } = this.getPreviousHourWindow();
     return this.prisma.user.count({
       where: {
         firstSeen: {
-          gte: new Date(Date.now() - this.ONE_HOUR),
+          gte: start,
+          lt: end,
         },
       },
     });
@@ -280,10 +340,16 @@ export class StatsRepository {
     const searches = await this.getTotalSearchesForTheLastHour();
     const feedbacks = await this.getTotalFeedbacksForTheLastHour();
     const newUsers = await this.getTotalUsersRegisteredForTheLastHour();
+    const newUsersWhoMadeAQuery =
+      await this.getTotalQueriesFromUniqueUsersForTheLastHour();
+    const totalQueriesFromUniqueUsers =
+      await this.getTotalQueriesFromUniqueUsersForTheLastHour();
     return {
       searches,
       feedbacks,
       newUsers,
+      newUsersWhoMadeAQuery,
+      totalQueriesFromUniqueUsers,
     };
   }
 
@@ -349,10 +415,17 @@ export class StatsRepository {
       endOfMonth,
     );
 
+    const newUsersWhoMadeAQuery =
+      await this.getTotalQueriesFromUniqueUsersForAMonth(
+        startOfMonth,
+        endOfMonth,
+      );
+
     return {
       searches,
       feedbacks,
       newUsers,
+      newUsersWhoMadeAQuery,
     };
   }
 

@@ -82,6 +82,7 @@ export class TasksService {
   // Hourly report
   @Cron(CronExpression.EVERY_HOUR, {
     name: 'sendHourlyReport',
+    timeZone: 'Europe/Kyiv',
   })
   async sendHourlyReport() {
     this.logger.log('Sending hourly report');
