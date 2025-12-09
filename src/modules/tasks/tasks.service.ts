@@ -106,10 +106,16 @@ export class TasksService {
     name: 'sendMonthlyReport',
   })
   async sendMonthlyReport() {
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth();
     this.logger.debug('Sending monthly report');
     try {
-      const stats = await this.statsService.getMonthlyReport();
-      this.logger.debug(stats);
+      const stats = await this.statsService.getMonthlyReport(year, month);
+      try {
+        await this.botReportsService.sendMonthlyReport(stats);
+      } catch (error) {
+        this.logger.error('Error sending monthly report to bot', error);
+      }
     } catch (error) {
       this.logger.error('Error sending monthly report', error);
     }
