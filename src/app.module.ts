@@ -9,6 +9,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core/constants';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { UserSyncInterceptor } from './common/interceptors/usersync.interceptor';
+import { TasksModule } from './modules/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserSyncInterceptor } from './common/interceptors/usersync.interceptor'
         limit: 10,
       },
     ]),
+    TasksModule,
   ],
   providers: [
     {
