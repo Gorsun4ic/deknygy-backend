@@ -14,4 +14,9 @@ export class TasksController {
   async sendHourlyReport() {
     return this.tasksService.sendHourlyReport();
   }
+
+  @Post('send-monthly-report')
+  async sendMonthlyReport() {
+    return this.tasksService.sendMonthlyReport();
+  }
 }
