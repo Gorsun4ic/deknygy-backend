@@ -19,11 +19,6 @@ export class TasksService {
 
   private async updateGoogleSheets(stats) {
     if (!this.SHEET_NAME || !this.JSON_KEYFILE || !this.SPREADSHEET_ID) {
-      this.logger.debug({
-        SHEET_NAME: this.SHEET_NAME,
-        JSON_KEYFILE: this.JSON_KEYFILE,
-        SPREADSHEET_ID: this.SPREADSHEET_ID,
-      });
       throw new Error('Google sheet credentials are not set');
     }
     await this.googleSheetsService.updateOrAddTableRow(
@@ -37,9 +32,10 @@ export class TasksService {
   // Daily report
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
     name: 'sendDailyReport',
+    timeZone: 'Europe/Kyiv',
   })
   async sendDailyReport() {
-    this.logger.debug('Sending daily report');
+    this.logger.log('Sending daily report');
     try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -59,6 +55,7 @@ export class TasksService {
       const stats: IDailyStats = await this.statsService.getTotalStatsForADay(
         new Date(formattedDateString),
       );
+      this.logger.log(stats);
       try {
         await this.botReportsService.sendDailyReport(stats);
       } catch (error) {
@@ -77,7 +74,6 @@ export class TasksService {
       } catch (error) {
         this.logger.error('Error updating Google sheets', error);
       }
-      this.logger.debug(stats);
     } catch (error) {
       this.logger.error('Error sending daily report', error);
     }
@@ -88,7 +84,7 @@ export class TasksService {
     name: 'sendHourlyReport',
   })
   async sendHourlyReport() {
-    this.logger.debug('Sending hourly report');
+    this.logger.log('Sending hourly report');
     try {
       const stats = await this.statsService.getHourlyStats();
       try {
@@ -104,11 +100,12 @@ export class TasksService {
   // Monthly report
   @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT, {
     name: 'sendMonthlyReport',
+    timeZone: 'Europe/Kyiv',
   })
   async sendMonthlyReport() {
     const year = new Date().getFullYear();
     const month = new Date().getMonth();
-    this.logger.debug('Sending monthly report');
+    this.logger.log('Sending monthly report');
     try {
       const stats = await this.statsService.getMonthlyReport(year, month);
       try {
