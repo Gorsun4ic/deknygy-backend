@@ -8,7 +8,7 @@ export class TasksService {
   private readonly logger = new Logger(TasksService.name);
   private readonly SHEET_NAME = process.env.GOOGLE_SHEET_NAME;
   private readonly JSON_KEYFILE = process.env.GOOGLE_SHEET_JSON_KEYFILE;
-  private readonly SPREADSHEET_ID = process.env.GOOGLE_SHEET_SPREADSHEET_ID;
+  private readonly SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID;
   constructor(
     private readonly statsService: StatsService,
     private readonly googleSheetsService: GoogleSheetsService,
@@ -16,6 +16,11 @@ export class TasksService {
 
   private async updateGoogleSheets(stats) {
     if (!this.SHEET_NAME || !this.JSON_KEYFILE || !this.SPREADSHEET_ID) {
+      this.logger.debug({
+        SHEET_NAME: this.SHEET_NAME,
+        JSON_KEYFILE: this.JSON_KEYFILE,
+        SPREADSHEET_ID: this.SPREADSHEET_ID,
+      });
       throw new Error('Google sheet credentials are not set');
     }
     await this.googleSheetsService.updateOrAddTableRow(
@@ -27,7 +32,9 @@ export class TasksService {
   }
 
   // Daily report
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
+    name: 'sendDailyReport',
+  })
   async sendDailyReport() {
     this.logger.debug('Sending daily report');
     try {
@@ -52,7 +59,9 @@ export class TasksService {
   }
 
   // Hourly report
-  @Cron(CronExpression.EVERY_HOUR)
+  @Cron(CronExpression.EVERY_HOUR, {
+    name: 'sendHourlyReport',
+  })
   async sendHourlyReport() {
     this.logger.debug('Sending hourly report');
     try {
@@ -64,7 +73,9 @@ export class TasksService {
   }
 
   // Monthly report
-  @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT, {
+    name: 'sendMonthlyReport',
+  })
   async sendMonthlyReport() {
     this.logger.debug('Sending monthly report');
     try {
