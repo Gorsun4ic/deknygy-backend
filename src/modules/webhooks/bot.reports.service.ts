@@ -1,34 +1,36 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { IDailyStats, IHourlyStats } from '../common/interfaces/api/stats';
-import {
-  BOT_WEBHOOK_BASE_URL,
-  BOT_WEBHOOK_DAILY_REPORT_URL,
-  BOT_WEBHOOK_HOURLY_REPORT_URL,
-  BOT_WEBHOOK_MONTHLY_REPORT_URL,
-  ADMIN_ID,
-} from './constants/bot.reports.url.constants';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class BotReportsService {
+  private readonly adminId: string;
+  private readonly botDailyReportUrl: string;
+  private readonly botHourlyReportUrl: string;
+  private readonly botMonthlyReportUrl: string;
+
+  // Constructor now only injects injectable classes (ConfigService and HttpService)
   constructor(
+    private readonly configService: ConfigService, // Inject ConfigService
     private readonly httpService: HttpService,
-    private readonly logger: Logger,
-    private readonly botBaseUrl: string,
-    private readonly botDailyReportUrl: string,
-    private readonly botHourlyReportUrl: string,
-    private readonly botMonthlyReportUrl: string,
-    private readonly adminId: string,
   ) {
-    this.botBaseUrl = BOT_WEBHOOK_BASE_URL || '';
+    // Retrieve values from ConfigService (or directly from process.env)
+    const botBaseUrl =
+      this.configService.get<string>('BOT_WEBHOOK_BASE_URL') || '';
+
+    // Assuming your constants are now environment variables or loaded by ConfigModule:
+    this.adminId = this.configService.get<string>('ADMIN_ID') || '';
     this.botDailyReportUrl =
-      this.botBaseUrl + BOT_WEBHOOK_DAILY_REPORT_URL || '';
+      botBaseUrl +
+        this.configService.get<string>('BOT_WEBHOOK_DAILY_REPORT_URL') || '';
     this.botHourlyReportUrl =
-      this.botBaseUrl + BOT_WEBHOOK_HOURLY_REPORT_URL || '';
+      botBaseUrl +
+        this.configService.get<string>('BOT_WEBHOOK_HOURLY_REPORT_URL') || '';
     this.botMonthlyReportUrl =
-      this.botBaseUrl + BOT_WEBHOOK_MONTHLY_REPORT_URL || '';
-    this.adminId = ADMIN_ID || '';
+      botBaseUrl +
+        this.configService.get<string>('BOT_WEBHOOK_MONTHLY_REPORT_URL') || '';
   }
 
   private async sendReport<T>(stats: T, url: string) {
