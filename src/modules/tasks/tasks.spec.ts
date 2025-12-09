@@ -1,10 +1,18 @@
 // src/modules/tasks/tasks.service.spec.ts (Top of File)
 
+process.env.GOOGLE_SHEET_NAME = 'mock-sheet';
+process.env.GOOGLE_SHEET_JSON_KEYFILE = 'mock-keyfile';
+process.env.GOOGLE_SHEET_SPREADSHEET_ID = 'mock-id';
+
 // 1. --- DEFINE MOCKS (Except Logger Instance) ---
 const mockStatsService = {
   getTotalStatsForADay: jest.fn(),
   getHourlyStats: jest.fn(),
   getMonthlyReport: jest.fn(),
+};
+
+const mockGoogleSheetsService = {
+  updateOrAddTableRow: jest.fn().mockResolvedValue(undefined), // Crucial: Must be mocked and successfully resolved
 };
 
 // 2. --- EXPOSE MUTABLE LOGGER REFERENCES ---
@@ -49,6 +57,7 @@ import { StatsService } from '../analytics/services/stats/stats.service';
 import { TasksService } from './tasks.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Logger } from '@nestjs/common';
+import { GoogleSheetsService } from '../analytics/services/stats/update_csv.service';
 // The import for Mock is not needed and can be removed.
 
 // ... rest of your file is correct ...
@@ -63,6 +72,7 @@ describe('TasksService', () => {
         TasksService,
         // Provide the mock services to the module
         { provide: StatsService, useValue: mockStatsService },
+        { provide: GoogleSheetsService, useValue: mockGoogleSheetsService },
       ],
     }).compile();
 
@@ -94,8 +104,19 @@ describe('TasksService', () => {
       expect(mockStatsService.getTotalStatsForADay).toHaveBeenCalledWith(
         expect.any(Date),
       );
-      expect(mockLogger.debug).toHaveBeenCalledWith('Sending daily report');
-      expect(mockLogger.debug).toHaveBeenCalledWith(mockDailyStats);
+      // 1. Assert that mockLogger.debug was called exactly twice.
+      expect(mockLogger.debug).toHaveBeenCalledTimes(2);
+
+      // 2. Assert the first call was with the string.
+      expect(mockLogger.debug).toHaveBeenNthCalledWith(
+        1,
+        'Sending daily report',
+      );
+
+      // 3. Assert the second call was with the stats object.
+      expect(mockLogger.debug).toHaveBeenNthCalledWith(2, mockDailyStats);
+
+      // Original assertion (still valid)
       expect(mockLogger.error).not.toHaveBeenCalled();
     });
 
