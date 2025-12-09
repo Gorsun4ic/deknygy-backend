@@ -9,4 +9,9 @@ export class TasksController {
   async sendDailyReport() {
     return this.tasksService.sendDailyReport();
   }
+
+  @Post('send-hourly-report')
+  async sendHourlyReport() {
+    return this.tasksService.sendHourlyReport();
+  }
 }

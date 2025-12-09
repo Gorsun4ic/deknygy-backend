@@ -2,6 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { StatsService } from '../analytics/services/stats/stats.service';
 import { GoogleSheetsService } from '../analytics/services/stats/update_csv.service';
+import { BotReportsService } from '../webhooks/bot.reports.service';
+import { IDailyStats } from '../common/interfaces/api/stats';
 
 @Injectable()
 export class TasksService {
@@ -12,6 +14,7 @@ export class TasksService {
   constructor(
     private readonly statsService: StatsService,
     private readonly googleSheetsService: GoogleSheetsService,
+    private readonly botReportsService: BotReportsService,
   ) {}
 
   private async updateGoogleSheets(stats) {
@@ -37,7 +40,7 @@ export class TasksService {
   })
   async sendDailyReport() {
     this.logger.debug('Sending daily report');
-    try { 
+    try {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       const yesterdayDateObject = new Date(today);
@@ -53,18 +56,27 @@ export class TasksService {
       const day = yesterdayDateObject.getDate().toString().padStart(2, '0');
 
       const formattedDateString = `${year}-${month}-${day}`;
-      const stats = await this.statsService.getTotalStatsForADay(
+      const stats: IDailyStats = await this.statsService.getTotalStatsForADay(
         new Date(formattedDateString),
       );
-      await this.updateGoogleSheets([
-        formattedDateString,
-        stats.newUsers,
-        stats.searches,
-        stats.newUsersWhoMadeAQuery,
-        0,
-        0,
-        stats.feedbacks,
-      ]);
+      try {
+        await this.botReportsService.sendDailyReport(stats);
+      } catch (error) {
+        this.logger.error('Error sending daily report to bot', error);
+      }
+      try {
+        await this.updateGoogleSheets([
+          formattedDateString,
+          stats.newUsers,
+          stats.searches,
+          stats.newUsersWhoMadeAQuery,
+          0,
+          0,
+          stats.feedbacks,
+        ]);
+      } catch (error) {
+        this.logger.error('Error updating Google sheets', error);
+      }
       this.logger.debug(stats);
     } catch (error) {
       this.logger.error('Error sending daily report', error);
@@ -79,7 +91,11 @@ export class TasksService {
     this.logger.debug('Sending hourly report');
     try {
       const stats = await this.statsService.getHourlyStats();
-      this.logger.debug(stats);
+      try {
+        await this.botReportsService.sendHourlyReport(stats);
+      } catch (error) {
+        this.logger.error('Error sending hourly report to bot', error);
+      }
     } catch (error) {
       this.logger.error('Error sending hourly report', error);
     }
