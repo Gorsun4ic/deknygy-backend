@@ -7,10 +7,13 @@ export const mergeGroups = (merges: [string, string][], tempMap: TempMap) => {
     const dst = tempMap[dstKey]; // Get the destination group
 
     if (!src || !dst) {
-      console.warn(
-        `Merge operation skipped: source or destination group not found: ${srcKey} -> ${dstKey}`,
-      );
       continue;
+    }
+
+    // If the group being merged (src) has a better match score than the
+    // destination (dst), update dst to use that higher score.
+    if (src.similarity > dst.similarity) {
+      dst.similarity = src.similarity;
     }
 
     // Consolidate formats and title variants with duplicate prevention

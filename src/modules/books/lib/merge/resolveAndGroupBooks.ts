@@ -28,12 +28,20 @@ export function resolveAndGroupBooks(
   for (const book of books) {
     // Create a single key for the book (using the full author string)
     const key = createGroupingKey(book);
+    const currentBookSimilarity = book._titleSimilarity ?? 0;
+
     if (!tempMap[key]) {
       tempMap[key] = {
         variants: new Map(),
         formats: { 1: [], 2: [], 3: [] },
-        similarity: book._titleSimilarity ?? 0,
+        similarity: currentBookSimilarity,
       };
+    } else {
+      // If the group exists, check if this new book is a better match.
+      // If this book has 1.0 and the group currently has 0.72, bump the group to 1.0.
+      if (currentBookSimilarity > tempMap[key].similarity) {
+        tempMap[key].similarity = currentBookSimilarity;
+      }
     }
     // Use format, defaulting to 1 (Print) if missing or invalid.
     let formatType: FormatType = book.format ?? 1;
@@ -63,7 +71,28 @@ export function resolveAndGroupBooks(
     });
   }
 
-  return result.sort(
-    (a, b) => Object.values(b)[0].similarity - Object.values(a)[0].similarity,
-  );
+  return result.sort((a, b) => {
+    const dataA = Object.values(a)[0];
+    const dataB = Object.values(b)[0];
+
+    // 1. Sort by Similarity (Descending)
+    const simDiff = dataB.similarity - dataA.similarity;
+    if (simDiff !== 0) {
+      return simDiff;
+    }
+
+    // 2. Calculate TOTAL books (sum of lengths of '1', '2', and '3')
+    // We use reduce to sum up lengths of all arrays inside the 'books' object
+    const countA = Object.values(dataA.books).reduce(
+      (sum, arr) => sum + arr.length,
+      0,
+    );
+    const countB = Object.values(dataB.books).reduce(
+      (sum, arr) => sum + arr.length,
+      0,
+    );
+
+    // 3. Sort by Total Count (Descending)
+    return countB - countA;
+  });
 }
