@@ -29,6 +29,7 @@ export const fuzzyMatching = (
   );
   const { title: queryTitle, author: queryAuthor } =
     splitQueryIntoTitleAndAuthor(query);
+
   // Fuse.js is used for initial quick filtering
 
   const fuse = new Fuse(normalizedBooks, {
