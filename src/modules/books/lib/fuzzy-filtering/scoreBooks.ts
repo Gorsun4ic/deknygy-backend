@@ -30,17 +30,22 @@ export const scoreBooks = (
   queryAuthor: string | null,
 ): IBookInfo[] => {
   const scored = results.map((r) => {
-    const bookTitleNorm = normalizeString(getCoreTitle(r.item.title));
+    const bookTitleNormSub = normalizeString(getCoreTitle(r.item.title));
+    const bookTitleNorm = normalizeString(r.item.title);
     const bookAuthorNorm = r.item.author ? normalizeString(r.item.author) : '';
     let finalScore = 0; // Renamed 'score' to 'finalScore' for clarity
 
     // --- 1. Base Title Similarity (always calculated) ---
     // Use queryTitle if split, otherwise use normalizedQuery (they are often the same)
     const titleToCompare = queryAuthor ? queryTitle : normalizedQuery;
+    const titleSubSimilarity = stringSimilarity(
+      titleToCompare,
+      bookTitleNormSub,
+    );
     const titleSimilarity = stringSimilarity(titleToCompare, bookTitleNorm);
 
     // Start the score with Title Similarity (base weight of 1.0)
-    finalScore += titleSimilarity;
+    finalScore += Math.max(titleSimilarity, titleSubSimilarity);
 
     // --- 2. Enhanced Scoring for Split Queries (Title + Author) ---
     if (queryAuthor) {
@@ -65,17 +70,20 @@ export const scoreBooks = (
       finalScore += effectiveAuthorScore * WEIGHT_AUTHOR_SIMILARITY;
 
       if (
-        titleSimilarity > THRESHOLD_TITLE_ONLY_TOP &&
+        (titleSimilarity > THRESHOLD_TITLE_ONLY_TOP ||
+          titleSubSimilarity > THRESHOLD_TITLE_ONLY_TOP) &&
         effectiveAuthorScore > THRESHOLD_TITLE_ONLY_TOP
       ) {
         finalScore += BONUS_STRONG_COMBINED;
       } else if (
-        titleSimilarity > THRESHOLD_TITLE_ONLY_FAIR &&
+        (titleSimilarity > THRESHOLD_TITLE_ONLY_FAIR ||
+          titleSubSimilarity > THRESHOLD_TITLE_ONLY_FAIR) &&
         effectiveAuthorScore > THRESHOLD_TITLE_ONLY_FAIR
       ) {
         finalScore += BONUS_MODERATE_COMBINED;
       } else if (
-        titleSimilarity > THRESHOLD_TITLE_ONLY_LOW &&
+        (titleSimilarity > THRESHOLD_TITLE_ONLY_LOW ||
+          titleSubSimilarity > THRESHOLD_TITLE_ONLY_LOW) &&
         effectiveAuthorScore > THRESHOLD_TITLE_ONLY_LOW
       ) {
         finalScore += BONUS_SMALL_COMBINED;
@@ -86,6 +94,7 @@ export const scoreBooks = (
       // Reward exact matches/high similarity more reliably
       if (
         titleSimilarity > THRESHOLD_TITLE_ONLY_EXTRA_HIGH ||
+        titleSubSimilarity > THRESHOLD_TITLE_ONLY_EXTRA_HIGH ||
         bookTitleNorm === normalizedQuery
       ) {
         // Use high similarity instead of includes() for robustness
@@ -96,7 +105,7 @@ export const scoreBooks = (
     return {
       ...r.item,
       score: finalScore,
-      _titleSimilarity: titleSimilarity, // Store for threshold adjustment
+      _titleSimilarity: Math.max(titleSimilarity, titleSubSimilarity), // Store for threshold adjustment
     } as IBookInfo & { score: number; _titleSimilarity: number };
   });
 
@@ -111,6 +120,7 @@ export const scoreBooks = (
   const highMatch = scored.filter((b) => {
     const score = b.score;
     const titleSim = b._titleSimilarity;
+    console.log(b);
 
     // If title similarity is very high (>0.7), be more lenient with threshold
     // This accounts for cases where books have same title but different/missing authors
