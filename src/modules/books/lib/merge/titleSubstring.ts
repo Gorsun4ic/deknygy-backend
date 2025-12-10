@@ -101,7 +101,6 @@ export const mergeTitleSubstring = (
       }
     }
   }
-
   // Step 3: Execute all accumulated merges
   mergeGroups(merges, tempMap);
   return merges; // Return for testing purposes
