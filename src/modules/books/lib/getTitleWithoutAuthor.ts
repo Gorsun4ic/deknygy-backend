@@ -40,7 +40,6 @@ export const getTitleWithoutAuthor = (
     .replace(authorRegex, ' ')
     .replace(/\s{2,}/g, ' ')
     .trim();
-
   return {
     title: cleanedTitle,
     matchResult,
