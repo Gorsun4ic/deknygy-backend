@@ -26,20 +26,20 @@ export const findFuzzyAuthorMatch = (
     const authorWords = potentialAuthor
       .split(/\s+/)
       .filter((w) => w.length > 0);
-    const totalAuthorWords = authorWords.length;
-
     // matchResults: [matchedTitleWords[], matchedAuthorWords[]]
     const matchResults = compare2ArraysItemsSimilarity(
       titleWords,
       authorWords,
-      AUTHOR_WORD_SIMILARITY_THRESHOLD,
+      threshold,
     );
-
     if (matchResults) {
       const [matchedTitleWords, matchedAuthorWords] = matchResults;
-      const matchRatio = matchedAuthorWords.length / totalAuthorWords;
+      const matchRatio = compare2ArraysItemsSimilarity(
+        matchedTitleWords,
+        matchedAuthorWords,
+      );
 
-      if (matchRatio >= threshold) {
+      if (matchRatio) {
         // Return the correct author name along with the actual words found in the title
         return {
           author: potentialAuthor,
