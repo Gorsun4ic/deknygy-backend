@@ -34,14 +34,34 @@ export class BotReportsService {
   }
 
   private async sendReport<T>(stats: T, url: string) {
-    await firstValueFrom(
-      this.httpService.post(url, {
-        chat_id: this.adminId,
-        value: stats,
-      }),
-    );
+    try {
+      await firstValueFrom(
+        this.httpService.post(url, {
+          chat_id: this.adminId,
+          value: stats,
+        }),
+      );
 
-    return { status: 'Request forwarded to bot' };
+      return { status: 'Request forwarded to bot' };
+    } catch (error: any) {
+      // This logs the ACTUAL error (404, 500, etc)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (error.response) {
+        console.error(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          `Bot API returned error ${error.response.status}:`,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          error.response.data,
+        );
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        console.error(`Could not reach Bot API at ${url}:`, error.message);
+      }
+
+      // Return a clean object instead of crashing
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      return { status: 'Failed', error: error.message };
+    }
   }
 
   async sendDailyReport(stats: IDailyStats) {
