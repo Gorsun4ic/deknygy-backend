@@ -1,4 +1,15 @@
--- 1. CREATE NEW TABLES
+-- 1. CLEANUP
+DROP TABLE IF EXISTS "Book" CASCADE;
+DROP TABLE IF EXISTS "User" CASCADE;
+DROP TABLE IF EXISTS "Store" CASCADE;
+DROP TABLE IF EXISTS "Format" CASCADE;
+DROP TABLE IF EXISTS "Query" CASCADE;
+DROP TABLE IF EXISTS "SearchLog" CASCADE;
+DROP TABLE IF EXISTS "Feedback" CASCADE;
+DROP TABLE IF EXISTS "BookPrice" CASCADE;
+DROP TABLE IF EXISTS "FeedbackCategory" CASCADE;
+
+-- 2. CREATE NEW TABLES
 CREATE TABLE "User" (
     "id" BIGSERIAL NOT NULL,
     "telegramId" BIGINT NOT NULL,
@@ -76,21 +87,21 @@ CREATE TABLE "SearchLog" (
     CONSTRAINT "SearchLog_pkey" PRIMARY KEY ("id")
 );
 
--- (Add other tables like WeeklyBroadcast, SentMessage, StoreStatistic, UnsuccessfulSearch, ViewedBook, CacheLog here if needed from your schema)
--- ... (Assuming standard creation for them)
+-- 3. DATA MIGRATION
 
--- 2. DATA MIGRATION
-
--- Migrate USERS
+-- Migrate USERS (Deduplicate by Telegram ID)
 INSERT INTO "User" ("telegramId", "firstSeen", "lastActive", "sessionCount", "lastWeeklyTop")
-SELECT user_id, COALESCE(first_seen, NOW()), COALESCE(last_active, NOW()), COALESCE(session_count, 1), last_weekly_top 
-FROM users;
+SELECT DISTINCT ON (user_id) user_id, COALESCE(first_seen, NOW()), COALESCE(last_active, NOW()), COALESCE(session_count, 1), last_weekly_top 
+FROM users
+ORDER BY user_id, first_seen DESC;
 CREATE UNIQUE INDEX "User_telegramId_key" ON "User"("telegramId");
 
--- Migrate QUERIES
-INSERT INTO "Query" ("id", "query", "firstSeen")
-SELECT id, query, searched_at FROM queries;
-SELECT setval(pg_get_serial_sequence('"Query"', 'id'), coalesce(max(id)+1, 1), false) FROM "Query";
+-- Migrate QUERIES (FIX: Deduplicate Queries by text)
+-- We do NOT copy the old ID because we are merging duplicates. New IDs will be generated.
+INSERT INTO "Query" ("query", "firstSeen")
+SELECT DISTINCT ON (query) query, searched_at 
+FROM queries
+ORDER BY query, searched_at DESC;
 
 -- Migrate STORES
 INSERT INTO "Store" ("title") SELECT DISTINCT store FROM books;
@@ -100,16 +111,29 @@ CREATE UNIQUE INDEX "Store_title_key" ON "Store"("title");
 INSERT INTO "Format" ("title") SELECT DISTINCT format FROM books;
 CREATE UNIQUE INDEX "Format_title_key" ON "Format"("title");
 
--- Migrate BOOKS
+-- Migrate BOOKS (FIX: Deduplicate Links AND Map new Query IDs)
 INSERT INTO "Book" ("id", "title", "link", "available", "queryId", "storeId", "formatId")
-SELECT b.id, b.title, b.link, COALESCE(b.available, false), b.query_id, s.id, f.id
+SELECT DISTINCT ON (b.link) 
+    b.id, 
+    b.title, 
+    b.link, 
+    COALESCE(b.available, false), 
+    new_q.id, -- Use the NEW Query ID derived from the text match
+    s.id, 
+    f.id
 FROM books b
 JOIN "Store" s ON b.store = s.title
-JOIN "Format" f ON b.format = f.title;
+JOIN "Format" f ON b.format = f.title
+LEFT JOIN queries old_q ON b.query_id = old_q.id     -- 1. Find the old query text
+LEFT JOIN "Query" new_q ON old_q.query = new_q.query -- 2. Find the new Query ID based on text
+ORDER BY b.link, b.id DESC;
 
 -- Migrate PRICES
 INSERT INTO "BookPrice" ("bookId", "price", "recordedAt")
-SELECT id, CAST(price AS DOUBLE PRECISION), NOW() FROM books;
+SELECT b.id, CAST(b.price AS DOUBLE PRECISION), NOW() 
+FROM books b
+JOIN "Book" new_b ON new_b.id = b.id; -- Only for books that survived deduplication
+
 SELECT setval(pg_get_serial_sequence('"Book"', 'id'), coalesce(max(id)+1, 1), false) FROM "Book";
 
 -- Migrate FEEDBACKS
@@ -120,14 +144,14 @@ JOIN "User" u ON u."telegramId" = f.user_id;
 
 -- Migrate SEARCH LOGS
 INSERT INTO "SearchLog" ("queryId", "userId", "searchedAt")
-SELECT q.id, u.id, COALESCE(sl.timestamp, NOW())
+SELECT new_q.id, u.id, COALESCE(sl.timestamp, NOW())
 FROM search_logs sl
-JOIN "Query" q ON sl.query = q.query
+JOIN "Query" new_q ON sl.query = new_q.query -- Match by Text because IDs changed
 CROSS JOIN LATERAL unnest(sl.users_id) as old_tid
 JOIN "User" u ON u."telegramId" = old_tid;
 
 
--- 3. DROP OLD TABLES
+-- 4. DROP OLD TABLES
 DROP TABLE IF EXISTS books CASCADE;
 DROP TABLE IF EXISTS feedbacks CASCADE;
 DROP TABLE IF EXISTS queries CASCADE;
@@ -139,7 +163,7 @@ DROP TABLE IF EXISTS user_searches CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS weekly_broadcasts CASCADE;
 
--- 4. ADD CONSTRAINTS
+-- 5. ADD CONSTRAINTS
 CREATE UNIQUE INDEX "Book_link_key" ON "Book"("link");
 CREATE INDEX "Book_storeId_idx" ON "Book"("storeId");
 CREATE INDEX "Book_formatId_idx" ON "Book"("formatId");
