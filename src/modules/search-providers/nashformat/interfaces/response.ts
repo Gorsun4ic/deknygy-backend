@@ -4,6 +4,8 @@ export enum NashformatItemTypes {
   NOT_FOUND = 'not_found',
 }
 
+export const NOT_PRODUCT_TYPE = 0;
+
 export interface INashformatBook {
   data: {
     name: string;

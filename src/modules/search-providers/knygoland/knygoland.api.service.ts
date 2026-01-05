@@ -11,7 +11,7 @@ import {
   API_LIMIT,
 } from './constants/api.params';
 import { firstValueFrom, map } from 'rxjs';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { formatKnygolandResponse } from './lib/formatApiResponse';
 
 @Injectable()

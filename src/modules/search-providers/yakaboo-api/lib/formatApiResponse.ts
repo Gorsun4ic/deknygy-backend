@@ -1,6 +1,6 @@
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../../common/interfaces/api/book.info';
 import { YakabooBookSourceDto, YakabooHitDto } from '../dto/reponse.dto';
-import { clearIsbn } from 'src/modules/common/utils/clearIsbn';
+import { clearIsbn } from '../../../common/utils/clearIsbn';
 import { FormatType } from '../interfaces/format.types';
 import { BASE_URL } from '../constants/api.params';
 
@@ -25,14 +25,14 @@ function formatYakabooResponse(book: YakabooBookSourceDto): IBookInfo {
       ? clearIsbn(book.book_isbn_label[0].label)
       : undefined;
 
-  const available = book.stock && book.stock.some((s) => s.isInStock);
+  const available = book.stock && book.stock.some((s) => s.is_in_stock);
 
   const optionId =
     book.book_publication_label && book.book_publication_label.length > 0
       ? (book.book_publication_label[0].option_id as unknown as FormatType)
       : undefined;
 
-  let format: 1 | 2 | 3 | undefined;
+  let format: 1 | 2 | 3;
 
   switch (optionId) {
     case FormatType.PHYSICAL:
@@ -45,10 +45,10 @@ function formatYakabooResponse(book: YakabooBookSourceDto): IBookInfo {
       format = 3;
       break;
     default:
-      format = undefined;
+      format = 1;
   }
 
-  const link = `${BASE_URL}${book.slug}.html`;
+  const link = `${BASE_URL}/${book.slug}.html`;
 
   return {
     title: book.title,

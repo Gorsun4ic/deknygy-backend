@@ -1,5 +1,5 @@
 import { RidnamovaBookDto } from '../dto/ridnamova.dto';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../../common/interfaces/api/book.info';
 import { STORE_NAME } from '../constants/api.params';
 
 export function formatRidnamovaResponse(
