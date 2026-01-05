@@ -245,11 +245,15 @@ export class SearchLogRepository {
   }
 
   async getLastNQueries(n: number) {
-    return await this.prisma.searchLog.findMany({
-      include: { query: true },
+    const query = await this.prisma.searchLog.findMany({
+      include: { query: true, user: true },
       orderBy: { searchedAt: 'desc' },
       take: n,
     });
+    return query.map((log) => ({
+      telegramId: log.user.telegramId,
+      ...log,
+    }));
   }
 
   async getTopQueries(n: number) {
