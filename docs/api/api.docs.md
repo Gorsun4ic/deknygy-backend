@@ -19,7 +19,10 @@ Format may be 1 | 2 | 3.
 2 - E-book
 3 - Audio
 
-DeKnygy API for searching books can be reached by going to `http://localhost:3000/book?querh=`
+DeKnygy API for searching books can be reached by going to `http://localhost:3000/book?query=` 
+Or the remote url is `https://deknygy-backend-production.up.railway.app/book`
+
+In terms of making a request, you need to provide in this request's header key `x-api-key`. If you don't - you will get 401 error.
 
 Some APIs have all of mentioned info, some less. Optional (that not all APIs have) parameters are marked with question character.
 

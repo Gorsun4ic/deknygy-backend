@@ -4,7 +4,7 @@ import { LaboratoryResponseDto } from './dto/response.dto';
 import { API_URL } from './constants/api.params';
 import { firstValueFrom, map } from 'rxjs';
 import { formatLaboratoryResponse } from './lib/formatApiResponse';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 
 @Injectable()
 export class LaboratoryService {
