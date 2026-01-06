@@ -38,6 +38,57 @@ export class StatsRepository {
       },
     });
   }
+  async getRetainedUsers() {
+    const users = await this.prisma.user.findMany({
+      select: {
+        firstSeen: true,
+        searchLogs: {
+          select: {
+            searchedAt: true,
+          },
+          take: 1, // We only need to find ONE log that fits the criteria
+          orderBy: { searchedAt: 'desc' },
+        },
+      },
+    });
+
+    const retainedUsers = users.filter((user) => {
+      if (user.searchLogs.length === 0) return false;
+
+      const firstSeen = user.firstSeen.getTime();
+      const lastSearch = user.searchLogs[0].searchedAt.getTime();
+
+      return lastSearch - firstSeen >= this.ONE_DAY;
+    });
+
+    return retainedUsers.length;
+  }
+
+  async getOneTimeUsers() {
+    const users = await this.prisma.user.findMany({
+      select: {
+        firstSeen: true,
+        searchLogs: {
+          select: {
+            searchedAt: true,
+          },
+          take: 1, // We only need to find ONE log that fits the criteria
+          orderBy: { searchedAt: 'desc' },
+        },
+      },
+    });
+
+    const oneTimeUsers = users.filter((user) => {
+      if (user.searchLogs.length === 0) return true;
+
+      const firstSeen = user.firstSeen.getTime();
+      const lastSearch = user.searchLogs[0].searchedAt.getTime();
+
+      return lastSearch - firstSeen < this.ONE_DAY;
+    });
+
+    return oneTimeUsers.length;
+  }
 
   async getTotalUsersWithOnlyOneRequest() {
     // Group search logs by userId and count them
