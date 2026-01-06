@@ -17,6 +17,10 @@ export class StatsService {
     return await this.statsRepository.getTotalUsersWithMultipleSessions();
   }
 
+  async getRetainedUsers() {
+    return await this.statsRepository.getRetainedUsers();
+  }
+
   async getTotalUsersWithOnlyOneRequest() {
     return await this.statsRepository.getTotalUsersWithOnlyOneRequest();
   }
@@ -45,12 +49,16 @@ export class StatsService {
     return await this.statsRepository.getUserStats(telegramId);
   }
 
+  async getOneTimeUsers() {
+    return await this.statsRepository.getOneTimeUsers();
+  }
+
   async getTotalStats() {
     const totalUsers = await this.getTotalUsers();
-    const totalUsersWithMultipleSessions =
-      await this.getTotalUsersWithMultipleSessions();
+    const totalRetainedUsers = await this.getRetainedUsers();
     const totalUsersWithOnlyOneRequest =
       await this.getTotalUsersWithOnlyOneRequest();
+    const totalOneTimeUsers = await this.getOneTimeUsers();
     const totalUsersWithNoRequests = await this.getTotalUsersWithNoRequests();
     const totalUsersWithMultipleRequests =
       await this.getTotalUsersWithMultipleRequests();
@@ -60,7 +68,8 @@ export class StatsService {
       await this.getTotalQueriesFromUniqueUsers();
     return {
       totalUsers,
-      totalUsersWithMultipleSessions,
+      totalOneTimeUsers,
+      totalRetainedUsers,
       totalUsersWithOnlyOneRequest,
       totalUsersWithNoRequests,
       totalUsersWithMultipleRequests,
