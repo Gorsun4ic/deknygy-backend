@@ -1,10 +1,15 @@
-import { PrismaClient } from '@prisma/client';
+import 'dotenv/config';
+import { PrismaClient } from './generated/prisma/client.js';
+import { PrismaPg } from '@prisma/adapter-pg';
+
 import { faker } from '@faker-js/faker';
 // FIX: Corrected typo 'constats' to 'constants' (cSpell)
 import { NUM_BOOKS, NUM_SEARCH_LOGS } from './constats';
 import { randomItem } from './random-item';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+});
 
 // FIX: Changed string[] to number[] for Int IDs to match Prisma schema
 export async function seedDependentData(ids: {
