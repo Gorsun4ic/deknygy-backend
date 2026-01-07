@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { IBookInfo } from '../common/interfaces/api/book.info';
 import { Logger } from '@nestjs/common';
-import { Book } from '../../../prisma/generated/prisma/client.js';
+import { Book } from '@db';
 
 @Injectable()
 export class BooksRepository {
