@@ -1,11 +1,12 @@
 generator client {
-  provider      = "prisma-client-js"
+  provider = "prisma-client"
   binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+  output   = "./generated/prisma"
+  moduleFormat = "cjs"    
 }
 
 datasource db {
   provider = "postgresql" // or "mysql" depending on your DB
-  url      = env("DATABASE_URL")
 }
 
 model Book {
