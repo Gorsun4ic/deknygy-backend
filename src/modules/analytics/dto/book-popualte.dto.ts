@@ -6,7 +6,7 @@ import {
   Store,
   Format,
   BookPrice,
-} from '@prisma/client';
+} from '../../../../prisma/generated/prisma/client.js';
 import { resolveAndGroupBooks } from '../../books/lib/merge/resolveAndGroupBooks';
 type SearchLogWithRelations = SearchLog & {
   query: {
