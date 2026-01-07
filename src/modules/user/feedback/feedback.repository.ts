@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { FeedbackType } from '@db';
+import { FeedbackType } from '@prisma/client';
 import { getPaginationLimits } from '../../common/utils/getPaginationLimits';
 import { getPaginationObject } from '../../common/utils/getPaginationObject';
 

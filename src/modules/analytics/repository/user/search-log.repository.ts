@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { getPaginationLimits } from '../../../common/utils/getPaginationLimits';
 import { getPaginationObject } from '../../../common/utils/getPaginationObject';
-import { Prisma } from '@db';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class SearchLogRepository {
