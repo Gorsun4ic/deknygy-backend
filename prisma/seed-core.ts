@@ -1,8 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import 'dotenv/config';
+import { PrismaClient } from './generated/prisma/client.js';
+import { PrismaPg } from '@prisma/adapter-pg';
+
 import { faker } from '@faker-js/faker';
 import { NUM_USERS, NUM_QUERIES } from './constats';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+});
 
 export async function seedCoreData() {
   // 1. FORMATS (Fixed small set)

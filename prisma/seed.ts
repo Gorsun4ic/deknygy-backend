@@ -1,9 +1,14 @@
-import { PrismaClient } from '@prisma/client';
-// import { seedCoreData } from './seed-core';
-// import { seedDependentData } from './seed-dependences';
-import { seedFeedbackCategories } from './feedback-categories';
-// import { NUM_USERS, NUM_QUERIES, NUM_BOOKS, NUM_SEARCH_LOGS } from './constats';
-const prisma = new PrismaClient();
+import 'dotenv/config';
+import { PrismaClient } from './generated/prisma/client.js';
+import { PrismaPg } from '@prisma/adapter-pg';
+
+// import { seedCoreData } from './seed-core.js';
+// import { seedDependentData } from './seed-dependences.js';
+import { seedFeedbackCategories } from './feedback-categories.js';
+// import { NUM_USERS, NUM_QUERIES, NUM_BOOKS, NUM_SEARCH_LOGS } from './constats.js';
+const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+});
 
 async function main() {
   await prisma.$executeRaw`TRUNCATE TABLE "Book", "Format", "Store", "Feedback", "FeedbackCategory", "SearchLog", "SentMessage", "StoreStatistic", "UnsuccessfulSearch", "User", "Query", "WeeklyBroadcast", "BookPrice", "CacheLog", "ViewedBook" RESTART IDENTITY CASCADE;`;
