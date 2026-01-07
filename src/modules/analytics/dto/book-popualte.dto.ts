@@ -1,5 +1,12 @@
 import { upFirstLetter } from '../../common/utils/upFirstLetter';
-import { SearchLog, ViewedBook, Book, Store, Format, BookPrice } from '@db';
+import {
+  SearchLog,
+  ViewedBook,
+  Book,
+  Store,
+  Format,
+  BookPrice,
+} from '@prisma/client';
 import { resolveAndGroupBooks } from '../../books/lib/merge/resolveAndGroupBooks';
 type SearchLogWithRelations = SearchLog & {
   query: {

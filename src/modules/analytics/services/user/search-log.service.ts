@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { SearchLogRepository } from '../../repository/user/search-log.repository';
 import { upFirstLetter } from '../../../common/utils/upFirstLetter';
 import { resolveAndGroupBooks } from '../../../books/lib/merge/resolveAndGroupBooks';
-import { Prisma } from '@db';
+import { Prisma } from '@prisma/client';
 
 import {
   FormatType,
