@@ -2,10 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { SearchLogRepository } from '../../repository/user/search-log.repository';
 import { upFirstLetter } from '../../../common/utils/upFirstLetter';
 import { resolveAndGroupBooks } from '../../../books/lib/merge/resolveAndGroupBooks';
+import { Prisma } from '@db';
+
 import {
   FormatType,
   IBookInfo,
 } from 'src/modules/common/interfaces/api/book.info';
+
+type SearchLogWithRelations = Prisma.SearchLogGetPayload<{
+  include: {
+    query: true;
+    viewedBooks: {
+      include: {
+        book: { include: { store: true; format: true; prices: true } };
+      };
+    };
+  };
+}>;
 
 @Injectable()
 export class SearchLogService {
@@ -137,12 +150,15 @@ export class SearchLogService {
    */
   async getViewedBooksBySearchLogId(searchLogId: number) {
     const searchLog =
-      await this.searchLogRepository.getViewedBooksBySearchLogId(searchLogId);
+      (await this.searchLogRepository.getViewedBooksBySearchLogId(
+        searchLogId,
+      )) as unknown as SearchLogWithRelations;
 
     // If we have stored grouped results, return them directly
     if (searchLog.groupedResults) {
       return {
         id: searchLog.id,
+        // Now .query.query is accessible!
         query: upFirstLetter(searchLog.query.query),
         searchedAt: searchLog.searchedAt,
         groupedBooks: searchLog.groupedResults,
