@@ -22,6 +22,9 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@prisma/client": ["./prisma/generated/prisma"] // <--- ADD THIS if using custom output
+      "@prisma/client": ["src/generated/prisma"]
     },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist", "prisma", "test"],
+  }
 }
