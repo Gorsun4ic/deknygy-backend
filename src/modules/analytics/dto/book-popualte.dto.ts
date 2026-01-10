@@ -1,29 +1,25 @@
 import { upFirstLetter } from '../../common/utils/upFirstLetter';
-import {
-  SearchLog,
-  ViewedBook,
-  Book,
-  Store,
-  Format,
-  BookPrice,
-} from '@prisma/client';
-import { resolveAndGroupBooks } from '../../books/lib/merge/resolveAndGroupBooks';
-type SearchLogWithRelations = SearchLog & {
-  query: {
-    query: string;
-  };
-  viewedBooks: Array<
-    ViewedBook & {
-      book:
-        | (Book & {
-            store: Store;
-            format: Format;
-            prices: BookPrice[];
-          })
-        | null;
-    }
-  >;
-};
+import { Prisma } from '../../../generated/prisma/client';
+
+export const searchLogWithRelationsInclude = {
+  query: { select: { query: true } },
+  viewedBooks: {
+    include: {
+      book: {
+        include: {
+          store: true,
+          format: true,
+          prices: true,
+        },
+      },
+    },
+  },
+} satisfies Prisma.SearchLogInclude;
+
+// 2. Extract the type from that inclusion
+export type SearchLogWithRelations = Prisma.SearchLogGetPayload<{
+  include: typeof searchLogWithRelationsInclude;
+}>;
 
 export const bookPopulateDto = (searchLog: SearchLogWithRelations) => {
   const { id, query, searchedAt, viewedBooks } = searchLog;

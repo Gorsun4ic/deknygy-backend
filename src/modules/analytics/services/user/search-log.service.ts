@@ -2,12 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { SearchLogRepository } from '../../repository/user/search-log.repository';
 import { upFirstLetter } from '../../../common/utils/upFirstLetter';
 import { resolveAndGroupBooks } from '../../../books/lib/merge/resolveAndGroupBooks';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../../../../generated/prisma/client';
 
-import {
-  FormatType,
-  IBookInfo,
-} from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
 
 type SearchLogWithRelations = Prisma.SearchLogGetPayload<{
   include: {

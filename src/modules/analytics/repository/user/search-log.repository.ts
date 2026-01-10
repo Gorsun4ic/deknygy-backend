@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { getPaginationLimits } from '../../../common/utils/getPaginationLimits';
 import { getPaginationObject } from '../../../common/utils/getPaginationObject';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../../../../generated/prisma/client';
 
 @Injectable()
 export class SearchLogRepository {
@@ -54,8 +54,7 @@ export class SearchLogRepository {
       data: {
         user: { connect: { id: user.id } },
         query: { connect: { id: existingQuery.id } },
-        groupedResults:
-          (groupedResults as Prisma.InputJsonValue) || Prisma.JsonNull,
+        groupedResults: groupedResults || Prisma.JsonNull,
         viewedBooks: {
           create: books.map((book) => {
             const bookId = bookLinkToIdMap.get(book.link);
