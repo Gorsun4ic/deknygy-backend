@@ -2,9 +2,10 @@
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
-  "outDir": "./dist",
   "compilerOptions": {
+    "outDir": "dist",
     "deleteOutDir": true,
-    "manualRestart": true
+    "manualRestart": true,
+    "builder": "tsc"
   }
 }
