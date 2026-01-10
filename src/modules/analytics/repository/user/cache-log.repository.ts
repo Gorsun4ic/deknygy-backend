@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../../../generated/prisma/client';
 
 /*
 This repository is used to log each time the API searches for a book.
