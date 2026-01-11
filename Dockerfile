@@ -1,26 +1,29 @@
 FROM node:22-alpine
 
-# 1. Install system dependencies required by Prisma on Alpine
+# 1. Install necessary libraries for Prisma 7 on Alpine
 RUN apk add --no-cache libc6-compat openssl
 
 WORKDIR /app
 
-# 2. Install dependencies
+# 2. Copy dependency files
 COPY package*.json ./
+
+# 3. Install ALL dependencies
 RUN npm install
 
-# 3. Copy source code
+# 4. Copy everything else
 COPY . .
 
-# 4. Generate Prisma Client (Use dummy URL to satisfy Prisma 7 config)
-# We generate to the standard location to avoid alias hell
+# 5. Generate Prisma Client (Ignore errors about DATABASE_URL during build)
 RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
 
-# 5. Build the application
-# If this fails, the Docker build will STOP here and tell us WHY (The 89 errors)
+# 6. Build the app (This creates the /app/dist folder)
 RUN npm run build
+
+# 7. Check where main.js actually is (This will show in Railway build logs)
+RUN find dist -name "main.js"
 
 EXPOSE 3000
 
-# 6. Use the fail-safe start script
+# 8. Fail-safe start command
 CMD ["npm", "run", "start:prod"]
