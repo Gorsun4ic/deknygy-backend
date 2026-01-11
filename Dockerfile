@@ -1,22 +1,26 @@
 FROM node:22-alpine
 
+# 1. Install system dependencies required by Prisma on Alpine
+RUN apk add --no-cache libc6-compat openssl
+
 WORKDIR /app
 
-# 1. Install dependencies
+# 2. Install dependencies
 COPY package*.json ./
 RUN npm install
 
-# 2. Copy source code
+# 3. Copy source code
 COPY . .
 
-# 3. Generate Prisma Client 
-# We provide a dummy DATABASE_URL just to satisfy the config loader during build
+# 4. Generate Prisma Client (Use dummy URL to satisfy Prisma 7 config)
+# We generate to the standard location to avoid alias hell
 RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
 
-# 4. Build the NestJS application
+# 5. Build the application
+# If this fails, the Docker build will STOP here and tell us WHY (The 89 errors)
 RUN npm run build
 
 EXPOSE 3000
 
-# 5. Run migrations and start (This will use the REAL Railway DATABASE_URL)
+# 6. Use the fail-safe start script
 CMD ["npm", "run", "start:prod"]
