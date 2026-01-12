@@ -1,0 +1,180 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql" // or "mysql" depending on your DB
+}
+
+model Book {
+  id          Int          @id @default(autoincrement())
+  title       String
+  link        String       @unique
+  available   Boolean      @default(false)
+  query       Query?       @relation(fields: [queryId], references: [id])
+  queryId     Int?
+  store       Store        @relation(fields: [storeId], references: [id])
+  storeId     Int
+  format      Format       @relation(fields: [formatId], references: [id])
+  formatId    Int
+  prices      BookPrice[]
+  cacheLogs   CacheLog[]
+  viewedBooks ViewedBook[]
+
+  @@index([storeId])
+  @@index([formatId])
+}
+
+model Format {
+  id    Int    @id @default(autoincrement())
+  title String @unique
+  books Book[]
+}
+
+model Store {
+  id         Int             @id @default(autoincrement())
+  title      String          @unique
+  books      Book[]
+  statistics StoreStatistic?
+}
+
+model Feedback {
+  id         Int               @id @default(autoincrement())
+  user       User              @relation(fields: [userId], references: [id])
+  userId     BigInt
+  type       FeedbackType      @default(CUSTOM) // custom or structured
+  message    String? // for custom free text
+  category   FeedbackCategory? @relation(fields: [categoryId], references: [id])
+  categoryId Int? // only used if type = STRUCTURED
+  createdAt  DateTime          @default(now())
+}
+
+model FeedbackCategory {
+  id          Int        @id @default(autoincrement())
+  key         String     @unique // "positive", "book_not_found", "price_wrong"
+  description String // human readable label
+  feedbacks   Feedback[]
+}
+
+enum FeedbackType {
+  CUSTOM
+  STRUCTURED
+}
+
+model SearchLog {
+  id             Int          @id @default(autoincrement())
+  query          Query        @relation(fields: [queryId], references: [id])
+  queryId        Int
+  user           User         @relation(fields: [userId], references: [id])
+  userId         BigInt
+  searchedAt     DateTime     @default(now())
+  viewedBooks    ViewedBook[]
+  groupedResults Json? // Store the exact grouped results shown to user
+
+  @@index([queryId])
+  @@index([userId])
+  @@index([userId, queryId])
+}
+
+model SentMessage {
+  id      Int      @id @default(autoincrement())
+  user    User     @relation(fields: [userId], references: [id])
+  userId  BigInt
+  sentAt  DateTime @default(now())
+  groupId String
+
+  @@index([userId])
+}
+
+model StoreStatistic {
+  id            Int      @id @default(autoincrement())
+  store         Store    @relation(fields: [storeId], references: [id])
+  storeId       Int      @unique
+  booksFound    Int      @default(0)
+  lastScrapedAt DateTime @default(now())
+}
+
+model UnsuccessfulSearch {
+  id         Int      @id @default(autoincrement())
+  query      Query    @relation(fields: [queryId], references: [id])
+  queryId    Int
+  user       User     @relation(fields: [userId], references: [id])
+  userId     BigInt
+  searchedAt DateTime @default(now())
+
+  @@index([queryId])
+  @@index([userId])
+  @@index([userId, queryId])
+}
+
+model User {
+  id                   BigInt               @id @default(autoincrement())
+  telegramId           BigInt               @unique
+  username             String?
+  firstSeen            DateTime             @default(now())
+  lastActive           DateTime             @default(now())
+  sessionCount         Int                  @default(1)
+  lastWeeklyTop        DateTime?
+  feedbacks            Feedback[]
+  searchLogs           SearchLog[]
+  sentMessages         SentMessage[]
+  weeklyBroadcasts     WeeklyBroadcast[]
+  unsuccessfulSearches UnsuccessfulSearch[]
+}
+
+model Query {
+  id                   Int                  @id @default(autoincrement())
+  query                String               @unique
+  firstSeen            DateTime             @default(now())
+  books                Book[]
+  searchLogs           SearchLog[]
+  unsuccessfulSearches UnsuccessfulSearch[]
+  cacheLogs            CacheLog[]
+}
+
+model WeeklyBroadcast {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    BigInt
+  groupName String
+  sentAt    DateTime @default(now())
+
+  @@unique([userId, groupName])
+}
+
+model BookPrice {
+  id         Int      @id @default(autoincrement())
+  book       Book     @relation(fields: [bookId], references: [id])
+  bookId     Int
+  price      Float
+  recordedAt DateTime @default(now())
+}
+
+model CacheLog {
+  id        Int      @id @default(autoincrement())
+  book      Book?    @relation(fields: [bookId], references: [id])
+  bookId    Int?
+  query     Query?   @relation(fields: [queryId], references: [id])
+  queryId   Int
+  createdAt DateTime @default(now())
+
+  @@unique([bookId, queryId])
+  @@index([queryId])
+  @@index([bookId])
+}
+
+model ViewedBook {
+  id          Int       @id @default(autoincrement())
+  searchLog   SearchLog @relation(fields: [searchLogId], references: [id], onDelete: Cascade)
+  searchLogId Int
+  book        Book?     @relation(fields: [bookId], references: [id])
+  bookId      Int?
+  bookLink    String // Store the link to identify the book even if not in DB yet
+  viewedAt    DateTime  @default(now())
+  similarity  Float
+
+  @@index([searchLogId])
+  @@index([bookId])
+  @@index([bookLink])
+}
