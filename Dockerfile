@@ -18,7 +18,7 @@ COPY . .
 RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
 
 # 6. Build the app (This creates the /app/dist folder)
-RUN npm run build
+RUN rm -f tsconfig.build.tsbuildinfo && rm -rf dist && npm run build
 
 # 7. Check where main.js actually is (This will show in Railway build logs)
 RUN find dist -name "main.js"
