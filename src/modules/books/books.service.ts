@@ -101,22 +101,6 @@ export class BooksService {
   ) {
     const savedBooks = await this.booksRepository.saveBooks(books, queryId);
 
-    // Log each saved book to CacheLog for technical/caching tracking
-    // This is done in parallel and errors are caught to not break the search flow
-    await Promise.allSettled(
-      savedBooks.map(async (book) => {
-        try {
-          await this.cacheLogService.logCacheLog(queryId, book.id);
-        } catch (error) {
-          this.logger.error(
-            `Failed to log cache entry for book ${book.id} and query ${queryId}: ${
-              error instanceof Error ? error.message : String(error)
-            }`,
-          );
-        }
-      }),
-    );
-
     const cacheValue = resolveAndGroupBooks(books);
     await this.redisService.set(
       cacheKey,
