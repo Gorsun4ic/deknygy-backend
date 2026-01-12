@@ -25,18 +25,23 @@ export class CacheLogRepository {
    * @param queryId The ID of the original query.
    */
   async logBookResultForCache(bookId: number, queryId: number) {
-    const existing = await this.prisma.cacheLog.findFirst({
-      where: { bookId, queryId },
+    await this.prisma.cacheLog.upsert({
+      where: {
+        // This key comes from the @@unique([bookId, queryId]) index you defined
+        bookId_queryId: {
+          bookId: bookId,
+          queryId: queryId,
+        },
+      },
+      update: {
+        // When updating (i.e., it already exists), you might want to refresh the timestamp
+        createdAt: new Date(),
+      },
+      create: {
+        book: { connect: { id: bookId } },
+        query: { connect: { id: queryId } },
+      },
     });
-
-    if (existing) {
-      await this.prisma.cacheLog.update({
-        where: { id: existing.id },
-        data: { updatedAt: new Date() },
-      });
-    } else {
-      await this.prisma.cacheLog.create({ data: { bookId, queryId } });
-    }
   }
 
   async getCacheLogsByQueryId(queryId: number) {
