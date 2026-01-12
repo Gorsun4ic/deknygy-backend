@@ -113,7 +113,7 @@ export class SearchLogService {
       page,
       limit,
     );
-    const formatedUserHistory = userHistory.data.map((searchLog) => {
+    const formattedUserHistory = userHistory.data.map((searchLog) => {
       return {
         ...searchLog,
         query: upFirstLetter(searchLog.query.query),
@@ -121,7 +121,7 @@ export class SearchLogService {
     });
     return {
       ...userHistory,
-      data: formatedUserHistory,
+      data: formattedUserHistory,
     };
   }
 
