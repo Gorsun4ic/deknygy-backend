@@ -1,5 +1,5 @@
 import { upFirstLetter } from '../../common/utils/upFirstLetter';
-import { Prisma } from '../../../generated/prisma/client';
+import { Prisma } from '@prisma/client';
 
 export const searchLogWithRelationsInclude = {
   query: { select: { query: true } },
