@@ -37,24 +37,12 @@ export class TasksService {
   async sendDailyReport() {
     this.logger.log('Sending daily report');
     try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const yesterdayDateObject = new Date(today);
-      yesterdayDateObject.setDate(yesterdayDateObject.getDate() - 1);
+      const yesterday = new Date();
+      yesterday.setHours(0, 0, 0, 0); // Start of today
+      yesterday.setDate(yesterday.getDate() - 1);
 
-      // 2. Format it to YYYY-MM-DD string using local methods
-      const year = yesterdayDateObject.getFullYear();
-      // month is 0-indexed, so add 1 and pad with '0'
-      const month = (yesterdayDateObject.getMonth() + 1)
-        .toString()
-        .padStart(2, '0');
-      // date is 1-indexed, pad with '0'
-      const day = yesterdayDateObject.getDate().toString().padStart(2, '0');
-
-      const formattedDateString = `${year}-${month}-${day}`;
-      const stats: IDailyStats = await this.statsService.getTotalStatsForADay(
-        new Date(formattedDateString),
-      );
+      const stats: IDailyStats =
+        await this.statsService.getTotalStatsForADay(yesterday);
       this.logger.log(stats);
       try {
         await this.botReportsService.sendDailyReport(stats);
@@ -63,7 +51,7 @@ export class TasksService {
       }
       try {
         await this.updateGoogleSheets([
-          formattedDateString,
+          yesterday,
           stats.newUsers,
           stats.searches,
           stats.newUsersWhoMadeAQuery,
