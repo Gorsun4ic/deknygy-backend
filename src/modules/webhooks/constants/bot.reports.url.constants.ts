@@ -1,0 +1,8 @@
+export const BOT_WEBHOOK_BASE_URL = process.env.BOT_WEBHOOK_BASE_URL;
+export const BOT_WEBHOOK_HOURLY_REPORT_URL =
+  process.env.BOT_WEBHOOK_HOURLY_REPORT_URL;
+export const BOT_WEBHOOK_DAILY_REPORT_URL =
+  process.env.BOT_WEBHOOK_DAILY_REPORT_URL;
+export const BOT_WEBHOOK_MONTHLY_REPORT_URL =
+  process.env.BOT_WEBHOOK_MONTHLY_REPORT_URL;
+export const ADMIN_ID = process.env.ADMIN_IDS;

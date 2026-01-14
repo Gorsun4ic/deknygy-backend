@@ -6,7 +6,7 @@ import {
   StaryLevResponseDto,
   StaryLevSpecificResponseDto,
 } from './dto/response.dto';
-// import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+// import { IBookInfo } from '../../../common/interfaces/api/book.info';
 import { AxiosError } from 'axios';
 import { IStaryLevResponse } from './interfaces/response';
 import { formatStaryLevResponse } from './lib/formatApiResponse';
@@ -56,8 +56,8 @@ export class StaryLevApiService {
       const result = formatStaryLevResponse(detailedResponse);
 
       return result;
-    } catch (error) {
-      this.logger.error('Stary Lev API Error:', error);
+    } catch (error: any) {
+      this.logger.error('Stary Lev API Error:', error?.statusMessage);
 
       if (error instanceof AxiosError) {
         throw new HttpException(

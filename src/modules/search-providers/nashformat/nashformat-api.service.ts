@@ -3,9 +3,13 @@ import { HttpService } from '@nestjs/axios';
 import { API_URL } from './constants/api.params';
 import { firstValueFrom, map } from 'rxjs';
 import { NashformatProductDto } from './dto/response.dto';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { mapNashformatResponseToBookInfo } from './lib/formatApiResponse';
-import { INashformatBook, NashformatItemTypes } from './interfaces/response';
+import {
+  INashformatBook,
+  NashformatItemTypes,
+  NOT_PRODUCT_TYPE,
+} from './interfaces/response';
 
 @Injectable()
 export class NashformatApiService {
@@ -23,15 +27,15 @@ export class NashformatApiService {
           .pipe(
             map((res) => {
               return res.data.filter(
-                (item) => item.type === NashformatItemTypes.PRODUCT,
+                (item) =>
+                  item.type === NashformatItemTypes.PRODUCT &&
+                  item.data.type !== NOT_PRODUCT_TYPE,
               );
             }),
           ),
       );
-
-      return mapNashformatResponseToBookInfo(
-        NashformatProductDto.fromPlainArray(response),
-      );
+      const apiResponse = NashformatProductDto.fromPlainArray(response);
+      return mapNashformatResponseToBookInfo(apiResponse);
     } catch (error) {
       throw new Error(`Failed to search in Nashformat API: ${error}`);
     }

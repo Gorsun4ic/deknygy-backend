@@ -3,7 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { API_URL, API_LIMIT } from './contants/api.params';
 import { MegogoResponseDto } from './dto/response.dto';
 import { firstValueFrom, map } from 'rxjs';
-import { IBookInfo } from 'src/modules/common/interfaces/api/book.info';
+import { IBookInfo } from '../../common/interfaces/api/book.info';
 import { formatMegogoResponse } from './lib/formatMegogoResponse';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class MegogoApiService {
       );
       return formatMegogoResponse(apiResponse);
     } catch (error) {
-      this.logger.error(`Error searching Megogo API: ${error}`);
+      this.logger.error(`Error searching Megogo API: ${error?.statusMessage}`);
       throw error;
     }
   }

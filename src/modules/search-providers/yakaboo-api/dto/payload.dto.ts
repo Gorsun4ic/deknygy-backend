@@ -4,12 +4,74 @@ import {
   IsArray,
   IsBoolean,
   ValidateNested,
+  IsOptional,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
+// --- DTO for boost object inside match_phrase ---
+class QueryBoostDto {
+  @IsString()
+  query: string;
+
+  @IsNumber()
+  boost: number;
+}
+
+// --- DTO for "match_phrase" object ---
+class MatchPhraseDto {
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => QueryBoostDto)
+  sku?: QueryBoostDto;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => QueryBoostDto)
+  ['configurable_children.sku']?: QueryBoostDto;
+}
+
+// --- DTO for "terms" object inside the should array's bool query ---
+class ConfigurableTermsDto {
+  @IsArray()
+  @IsString({ each: true })
+  ['configurable_children.sku']: string[];
+}
+
+// --- DTO for an item in the nested "should" array (inside multi_match) ---
+class NestedBoolShouldItemDto {
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => ConfigurableTermsDto)
+  terms?: ConfigurableTermsDto;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => MatchPhraseDto)
+  match_phrase?: MatchPhraseDto;
+}
+
+// --- DTO for the nested "bool" object inside "function_score" -> "query" -> "should" ---
+class NestedBoolDto {
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => NestedBoolShouldItemDto)
+  should: NestedBoolShouldItemDto[];
+}
+
+// --- DTO for the object inside the "should" array (main part) ---
+class BoolShouldDto {
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => MultiMatchDto)
+  multi_match?: MultiMatchDto;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => NestedBoolDto)
+  bool?: NestedBoolDto; // For the inner bool query
+}
+
 // --- DTO for the "multi_match" object ---
-// Fixes: Corrected the `fields` decorator to use `{ each: true }`
-// with @IsString(), not @ValidateNested(). Also fixed typo in property name.
 class MultiMatchDto {
   @IsArray()
   @IsString({ each: true })
@@ -23,13 +85,21 @@ class MultiMatchDto {
 
   @IsString()
   minimum_should_match: string;
-}
 
-// --- DTO for the object inside the "should" array ---
-class BoolShouldDto {
-  @ValidateNested()
-  @Type(() => MultiMatchDto)
-  multi_match: MultiMatchDto;
+  @IsString()
+  operator: string;
+
+  @IsNumber()
+  cutoff_frequency: number;
+
+  @IsNumber()
+  max_expansions: number;
+
+  @IsNumber()
+  prefix_length: number;
+
+  @IsNumber()
+  tie_breaker: string;
 }
 
 // --- DTO for the nested "bool" object inside "function_score" -> "query" ---
@@ -47,6 +117,48 @@ class FunctionScoreQueryDto {
   bool: FunctionScoreQueryBoolDto;
 }
 
+// --- DTO for the "match" object inside "filter" in "functions" array ---
+class MatchDto {
+  @IsOptional()
+  @IsString()
+  attribute_code?: string;
+
+  @IsOptional()
+  @IsString()
+  ['stock.is_in_stock']?: string;
+}
+
+// --- DTO for the "filter" object inside "functions" array ---
+class FunctionFilterDto {
+  @ValidateNested()
+  @Type(() => MatchDto)
+  match: MatchDto;
+}
+
+// --- DTO for the "params" object inside "script" (FIXED THE PARSING ERROR HERE) ---
+class ScriptParamsDto {
+  @IsArray()
+  @IsString({ each: true })
+  sortArray: string[];
+}
+
+// --- DTO for the "script" object inside "script_score" ---
+class ScriptDto {
+  @ValidateNested()
+  @Type(() => ScriptParamsDto) // Use the new DTO for params
+  params: ScriptParamsDto;
+
+  @IsString()
+  source: string;
+}
+
+// --- DTO for the "script_score" object ---
+class ScriptScoreDto {
+  @ValidateNested()
+  @Type(() => ScriptDto)
+  script: ScriptDto;
+}
+
 // --- DTO for the "field_value_factor" object ---
 class FieldValueFactorDto {
   @IsString()
@@ -59,11 +171,26 @@ class FieldValueFactorDto {
   missing: number;
 }
 
-// --- DTO for an item in the "functions" array ---
+// --- DTO for an item in the "functions" array (Handles all three types) ---
 class FunctionScoreFunctionDto {
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => FunctionFilterDto)
+  filter?: FunctionFilterDto;
+
+  @IsOptional()
+  @IsNumber()
+  weight?: number;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => ScriptScoreDto)
+  script_score?: ScriptScoreDto;
+
+  @IsOptional()
   @ValidateNested()
   @Type(() => FieldValueFactorDto)
-  field_value_factor: FieldValueFactorDto;
+  field_value_factor?: FieldValueFactorDto;
 }
 
 // --- DTO for the "function_score" object ---
@@ -84,16 +211,14 @@ class FunctionScoreDto {
   score_mode: string;
 }
 
-// --- DTO for the "terms" object inside the "filter" array ---
-// Fixes: Replaced `@ValidateNested({ each: true })` with the correct
-// `@IsNumber({ each: true })` for arrays of numbers.
+// --- DTO for the "terms" object inside the "filter" array (FIXED ISNUMBER) ---
 class TermsDto {
   @IsArray()
-  @IsNumber()
+  @IsNumber({}, { each: true }) // Corrected IsNumber array usage
   visibility?: number[];
 
   @IsArray()
-  @IsNumber()
+  @IsNumber({}, { each: true }) // Corrected IsNumber array usage
   status?: number[];
 }
 
@@ -113,8 +238,6 @@ class FilterBoolDto {
 }
 
 // --- DTO for the "bool" object that contains "must" and "filter" ---
-// Fixes: This class correctly separates "must" and "filter" into two distinct
-// properties, matching the JSON structure.
 class QueryBoolDto {
   @ValidateNested()
   @Type(() => FunctionScoreDto)
@@ -141,6 +264,11 @@ export class YakabooSearchPayloadDto {
   @IsBoolean()
   track_total_hits: boolean;
 
+  @IsOptional()
   @IsNumber()
-  size: number;
+  min_score?: number;
+
+  @IsOptional()
+  @IsNumber()
+  size?: number;
 }

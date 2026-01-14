@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "bookresearch-454613",
+    "private_key_id": "57954ff561f2be466cd720218ac12a1c5e3d1b0d",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQDA4PdBWMvBGvZA\nkFAKV58qKmbLoFakU4rlqdEekto2Ygclhu1jz5hRRAVItptY+926eGR/qkrXs70F\nPtUzdNx9Weu8+POtlAqH5gQVpbzcLv9pDjlnIf7WJgoyyxgVFFmsi3/aUb2ksYS5\n6USFE88QTqWy+s9hycQzAGbXdocJv2g4SfuFaPu023meDunAxaURS5r7ViUwIwSx\nbIWhQdKcF7D2Qu/N+av6tqMTblxJrh9GcjfjEY0qf3ToIUszLy+uYjsuFPXgcbZB\nJ1oEydC91anJA+89rCMZGIfFXQ0EmUrdmDjK8+Tk4q7rd51sNnIe2zjf6PSEwuFd\n+8n+bn//AgMBAAECggEASqSlO35UOBKpmxneR+pZ9/T53DLcZPLJzZB3E/hsB2DP\neDfr1dUoksaaruWwX/L0/62I4xkxpqFx9L44vxWqIL60aukDULj6jFY5XXFLEgEE\nKhFtqJpw50pIZxjO5JWAELTZ0VER7dMfVN1P/ZpJZ3uwR4Al0qfFTKGKqza9Esl5\ntqBaodia+ZzTL5htc5X0JkevD6C7tI0UngTU/P/AUpmkWn/B6QugffvzzwhVE1HH\nCIhL0Epg4GKLy6tHMDGTwhlQeJqFSQFtcYGWm53Z8hoJCaE7WD6WfT0wOJ0390/R\nWMMRIKUkZ+jziIMErm9wleqxOu6G9rdYF5Aa3YOIAQKBgQD5X3qmaWVfRiQBJi0I\nWOf6bUZO76FqnSgsFiTduNmhF1KqGwDw+whvfQ0O53mZvDeK8QJmynf0nXgioTH6\nGaIwIo/IfhE8almi1TZXO1vYpQS1MVILSTlnMypSMsMtU+BRMxqK9rRzzJj9slCU\nruLbHj9pPXe4Gy4kw3otTugYAQKBgQDGASYBAyGBVDAEFE1oV6qiwqBU+wIT/F1d\nCL2s/JTvb+LhExWo9Zk1kg/uL9xkkGl6t85cRXq7n6bzVYjXsE/Q6/+kPj01eLYR\nLniJfU3BMCCwUpImuDHikEi+nbRmKZ3Fc2VJ8gBLob1OMJpGvsnz5pG8c0hAdmrB\nENzDbxaX/wJ/faifJTv22Qt/GRUjnBEw1AA8bYpSzGZk19JQwWlkQMh/3ze8QbI9\njfB1pA0AOXeehWTs0N81kw3Ge6y+gkhocdj4mw7roIX2pRbLSymeHo0I0kUIEqfT\nRS2DJehucWjSoBggR+YJCFEQxsYT1NhLeB7F1UIkEaGgnuXhqvMYAQKBgD8a6JjT\n/Z6xTShPrCgAILME4oKTCSODf+IBwinaykDRYPao1XNm6vBm38ri2BP47pUc9Zj0\nz9vyUwwki5tqZtXIEU6wQ2PCWAx7yhDPrbNPemuXtVq/w65Ym8acjn0s8EqYr4R0\nq2FvZ9z+ony/m6+vIW11NGbPFtD3ZdSnmATTAoGBALojyssKRA+FaNsW+Rhf6G1h\neVEfi6ptr2KXuaNQHrlUqQcNdfC5bd9iaIYlyQk/aMkOF/ZEMnFSbAi4W+sKhN7y\nPBWmOejEGyBibM7wPD9HMlTONZIiyM7Kk2O8ArdS/zPHyLltt+GGRy4nqhFGX8FI\nEViZPp6qgJNYyMzJgzjr\n-----END PRIVATE KEY-----\n",
+    "client_email": "bookresearch@bookresearch-454613.iam.gserviceaccount.com",
+    "client_id": "113493359626698910941",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bookresearch%40bookresearch-454613.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
