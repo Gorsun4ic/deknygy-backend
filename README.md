@@ -1,98 +1,87 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+<div align="center">
+  
+<h2> Project Name: Декниги </h2>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![](https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<img src ="./assets/1.png" width="80%">
 
-## Description
+</div>
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# 📚 DeKnyhy (ДеКниги) — Telegram Book Search Engine
 
-## Project setup
+**DeKnyhy** is a high-performance Telegram bot designed to aggregate, compare, and track book prices across all major Ukrainian bookstores. 
 
-```bash
-$ npm install
+Originally launched as a student project, it went viral on Ukrainian Twitter, hitting 20x the expected traffic overnight. This led to a complete re-engineering of the project from a monolithic prototype into a scalable **NestJS API** with a custom search-scoring engine.
+
+> [!TIP]
+> This is the **Backend API** repository. The telegram bot's part is a private Aiogram-based Telegram bot
+
+---
+
+## 🚀 The Backstory: Scaling Under Pressure
+After the initial launch, the bot's sudden popularity created a "good problem to have": the original architecture couldn't handle the concurrency. I performed a full system rewrite to **NestJS**, moving away from "push-to-main" deployments to a professional API architecture. This transition solved critical uptime issues and allowed for the implementation of complex search logic.
+
+### 📈 Real-World Impact (To Date):
+- **Users:** 10,000+ registered users.
+- **Data:** Indexed 60,000+ unique book entries.
+- **Traffic:** Successfully served 20,000+ search requests with high uptime.
+
+---
+
+## ✨ Features
+
+- **🎯 Intent-Aware Search:** Implemented a custom query parser that detects author names within search strings. The engine isolates titles to reduce "noise" while applying a weighted score boost to results matching the identified author.
+- **⚖️ Custom Relevance Scoring:** Developed a proprietary ranking algorithm that sorts results based on availability, price, and query proximity—mimicking the behavior of a specialized search engine.
+- **📊 Real-time Data Aggregation:** A resilient pipeline that parses and normalizes data from 10+ major Ukrainian retailers (Yakaboo, Vivat, Є-книгарня, KSD, etc.) into a unified schema.
+- **📉 Price History Infrastructure:** The PostgreSQL schema is pre-optimized for time-series data, ready to support upcoming "Price Drop" notifications and historical price trend visualization.
+- **🛡️ Production Resilience:** Advanced error-handling to manage inconsistent upstream site structures and rate-limiting, ensuring the bot remains stable even when source websites change.
+- **⚡ Performance Optimized:** Modular NestJS architecture ensures sub-second response times even during high-concurrency periods.
+
+## 🏗 System Architecture
+
+The API follows a modular architecture designed for high availability and data integrity.
+
+```mermaid
+graph TD
+    A[User] <--> B[Telegram Bot Repo]
+    B <--> C[NestJS API Repo]
+    C --> D[PostgreSQL DB]
+    C --> E[Scraper Engine]
+    E --> F[Bookstore A]
+    E --> G[Bookstore B]
+    C -- Webhooks --> H[Admin Status Reports]
 ```
 
-## Compile and run the project
+## 📡 Webhooks & Reporting
+The API isn't just a passive data store. It features an outbound Webhook Service that pushes daily/hourly usage statistics.
 
-```bash
-# development
-$ npm run start
+---
 
-# watch mode
-$ npm run start:dev
+## 🛠 Tech Stack
 
-# production mode
-$ npm run start:prod
-```
+- **Framework:** [NestJS](https://nestjs.com/) (Node.js)
+- **Database:** [PostgreSQL](https://www.postgresql.org/) with [Prisma](https://www.prisma.io/)
+- **Bot Engine:** [Aiogram](https://aiogram.dev/) (Telegram Bot API)
+- **Architecture:** Modular API-first design
+- **Language:** TypeScript
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## 📈 Roadmap
 
-# e2e tests
-$ npm run test:e2e
+- [x] Full NestJS rewrite for scalability.
+- [x] Advanced search scoring & author detection logic.
+- [ ] **Price Drop Alerts:** Real-time notifications when a tracked book hits a target price.
+- [ ] **Market Analytics:** Visualizing price trends across the Ukrainian book market.
 
-# test coverage
-$ npm run test:cov
-```
+---
 
-## Deployment
+## 👨‍💻 Author
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+**Yehor** – Backend Developer
+*Focused on building scalable, data-driven solutions.*
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
