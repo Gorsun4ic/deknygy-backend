@@ -6,20 +6,25 @@
 ![](https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
 ![](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
-<img src ="./assets/1.png" width="80%">
-
 </div>
 
 # 📚 DeKnyhy (ДеКниги) — Telegram Book Search Engine
 
 **DeKnyhy** is a high-performance Telegram bot designed to aggregate, compare, and track book prices across all major Ukrainian bookstores. 
 
-Originally launched as a student project, it went viral on Ukrainian Twitter, hitting 20x the expected traffic overnight. This led to a complete re-engineering of the project from a monolithic prototype into a scalable **NestJS API** with a custom search-scoring engine.
+Originally launched as a student project, it went viral on Ukrainian Twitter, hitting 20x the expected traffic overnight. This led to a complete re-engineering of the 
+project from a monolithic prototype into a scalable **NestJS API** with a custom search-scoring engine.
+
+🎬[DEMO](https://t.me/deknigi_bot)
+
+<img src ="./assets/1.png" width="80%">
 
 > [!TIP]
 > This is the **Backend API** repository. The telegram bot's part is a private Aiogram-based Telegram bot
 
 ---
+
+
 
 ## 🚀 The Backstory: Scaling Under Pressure
 After the initial launch, the bot's sudden popularity created a "good problem to have": the original architecture couldn't handle the concurrency. I performed a full system rewrite to **NestJS**, moving away from "push-to-main" deployments to a professional API architecture. This transition solved critical uptime issues and allowed for the implementation of complex search logic.
